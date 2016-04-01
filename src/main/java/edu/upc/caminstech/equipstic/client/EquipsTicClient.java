@@ -14,6 +14,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -23,6 +24,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.upc.caminstech.equipstic.Ambit;
 import edu.upc.caminstech.equipstic.Campus;
+import edu.upc.caminstech.equipstic.Categoria;
+import edu.upc.caminstech.equipstic.Edifici;
 
 /**
  * Aquesta és la classe que implementa el client.
@@ -132,11 +135,46 @@ public class EquipsTicClient {
     }
 
     /**
+     * Retorna totes les categories existents.
+     */
+    public List<Categoria> getCategories() {
+        List<Categoria> categories = get("/categoria", new ParameterizedTypeReference<Response<List<Categoria>>>() {
+        });
+        return (categories != null) ? categories : new ArrayList<Categoria>();
+    }
+
+    public Categoria getCategoriaById(long idCategoria) {
+        return get("/categoria/{id}", new ParameterizedTypeReference<Response<Categoria>>() {
+        }, idCategoria);
+    }
+
+    public List<Edifici> getEdificis() {
+        List<Edifici> edificis = get("/edifici", new ParameterizedTypeReference<Response<List<Edifici>>>() {
+        });
+        return (edificis != null) ? edificis : new ArrayList<Edifici>();
+    }
+
+    public Edifici getEdificiById(long idEdifici) {
+        return get("/edifici/{id}", new ParameterizedTypeReference<Response<Edifici>>() {
+        }, idEdifici);
+    }
+
+    public Edifici getEdificiByCodiAndCodiCampus(String codiEdifici, String codiCampus) {
+        return get("/edifici/cerca/codi/{codi}/codicampus/{codiCampus}",
+                new ParameterizedTypeReference<Response<Edifici>>() {
+                }, codiEdifici, codiCampus);
+    }
+
+    /**
      * Mètode auxiliar que encapsula crides GET a la API, via
      * {@link RestTemplate}.
      */
-    private <T> T get(String url, ParameterizedTypeReference<Response<T>> typeReference, Object... x) {
-        Response<T> response = restTemplate.exchange(baseUri + url, HttpMethod.GET, null, typeReference, x).getBody();
+    private <T> T get(String url, ParameterizedTypeReference<Response<T>> typeReference, Object... urlParams) {
+        String uri = baseUri + url;
+        ResponseEntity<Response<T>> entity = restTemplate.exchange(uri, HttpMethod.GET, null, typeReference, urlParams);
+        Response<T> response = entity.getBody();
+
         return (response != null) ? response.getData() : null;
     }
+
 }
