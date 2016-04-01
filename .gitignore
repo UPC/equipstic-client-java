@@ -12,6 +12,9 @@
 hs_err_pid*
 
 target/
+
+# Eclipse (Spring Tool Suite) related files
 .classpath
 .project
 .settings/
+.springBeans
