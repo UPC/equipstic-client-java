@@ -61,4 +61,24 @@ public class Edifici {
         return campus;
     }
 
+    @Override
+    public String toString() {
+        return String.format(
+                "[Edifici idEdifici: %s, nom: %s, codi: %s, adreca: %s, ciutat: %s, codiPostal: %s, campus: %s]",
+                idEdifici, nom, codi, adreca, ciutat, codiPostal, campus);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Edifici)) {
+            return false;
+        }
+        return this.idEdifici == ((Edifici) obj).idEdifici;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.valueOf(idEdifici).hashCode();
+    }
+
 }

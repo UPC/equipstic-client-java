@@ -24,6 +24,22 @@ public class Ambit {
 
     @Override
     public String toString() {
-        return String.format("[idAmbit: %s, nom: %s]", idAmbit, nom);
+        return String.format("[Ambit idAmbit: %s, nom: %s]", idAmbit, nom);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Ambit)) {
+            return false;
+        }
+        return this.idAmbit == ((Ambit) obj).idAmbit;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.valueOf(idAmbit).hashCode();
     }
 }

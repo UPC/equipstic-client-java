@@ -31,6 +31,22 @@ public class Campus {
 
     @Override
     public String toString() {
-        return String.format("[idCampus: %s, nom: %s, codi: %s]", idCampus, nom, codi);
+        return String.format("[Campus idCampus: %s, nom: %s, codi: %s]", idCampus, nom, codi);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Campus)) {
+            return false;
+        }
+        return this.idCampus == ((Campus) obj).idCampus;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.valueOf(idCampus).hashCode();
     }
 }

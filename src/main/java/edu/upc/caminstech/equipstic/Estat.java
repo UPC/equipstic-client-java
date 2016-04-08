@@ -50,4 +50,22 @@ public class Estat {
         return requereixValidacio;
     }
 
+    @Override
+    public String toString() {
+        return String.format("[Estat idEstat: %s, nom: %s, tipusEstat: %s, codi: %s, requereixValidacio: %s]", idEstat,
+                nom, tipusEstat, codi, requereixValidacio);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Estat)) {
+            return false;
+        }
+        return this.idEstat == ((Estat) obj).idEstat;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.valueOf(idEstat).hashCode();
+    }
 }
