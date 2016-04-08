@@ -26,6 +26,7 @@ import edu.upc.caminstech.equipstic.Ambit;
 import edu.upc.caminstech.equipstic.Campus;
 import edu.upc.caminstech.equipstic.Categoria;
 import edu.upc.caminstech.equipstic.Edifici;
+import edu.upc.caminstech.equipstic.Estat;
 
 /**
  * Aquesta és la classe que implementa el client.
@@ -163,6 +164,28 @@ public class EquipsTicClient {
         return get("/edifici/cerca/codi/{codi}/codicampus/{codiCampus}",
                 new ParameterizedTypeReference<Response<Edifici>>() {
                 }, codiEdifici, codiCampus);
+    }
+
+    public List<Estat> getEstats() {
+        List<Estat> estats = get("/estat", new ParameterizedTypeReference<Response<List<Estat>>>() {
+        });
+        return (estats != null) ? estats : new ArrayList<Estat>();
+    }
+
+    public Estat getEstatByCodi(String codiEstat) {
+        return get("/estat/cerca/codi/{codi}", new ParameterizedTypeReference<Response<Estat>>() {
+        }, codiEstat);
+    }
+
+    public List<Estat> getEstatsByNom(String nomEstat) {
+        List<Estat> estats = get("/estat/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Estat>>>() {
+        }, nomEstat);
+        return (estats != null) ? estats : new ArrayList<Estat>();
+    }
+
+    public Estat getEstatById(long idEstat) {
+        return get("/estat/{id}", new ParameterizedTypeReference<Response<Estat>>() {
+        }, idEstat);
     }
 
     /**
