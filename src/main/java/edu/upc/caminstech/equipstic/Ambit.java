@@ -29,9 +29,6 @@ public class Ambit {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
         if (!(obj instanceof Ambit)) {
             return false;
         }
