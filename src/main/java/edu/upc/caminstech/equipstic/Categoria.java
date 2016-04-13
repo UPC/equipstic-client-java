@@ -44,6 +44,6 @@ public class Categoria {
 
     @Override
     public int hashCode() {
-        return Long.valueOf(idCategoria).hashCode();
+        return Long.hashCode(idCategoria);
     }
 }

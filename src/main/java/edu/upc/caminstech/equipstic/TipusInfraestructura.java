@@ -62,6 +62,6 @@ public class TipusInfraestructura {
 
     @Override
     public int hashCode() {
-        return Long.valueOf(idTipus).hashCode();
+        return Long.hashCode(idTipus);
     }
 }

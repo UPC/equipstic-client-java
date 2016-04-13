@@ -40,7 +40,7 @@ public class Marca {
 
     @Override
     public int hashCode() {
-        return Long.valueOf(idMarca).hashCode();
+        return Long.hashCode(idMarca);
     }
 
 }

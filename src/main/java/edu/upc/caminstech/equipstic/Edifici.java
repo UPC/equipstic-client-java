@@ -78,7 +78,7 @@ public class Edifici {
 
     @Override
     public int hashCode() {
-        return Long.valueOf(idEdifici).hashCode();
+        return Long.hashCode(idEdifici);
     }
 
 }

@@ -45,7 +45,7 @@ public class TipusUs {
 
     @Override
     public int hashCode() {
-        return Long.valueOf(idTipusUs).hashCode();
+        return Long.hashCode(idTipusUs);
     }
 
 }

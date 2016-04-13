@@ -55,6 +55,6 @@ public class Unitat {
 
     @Override
     public int hashCode() {
-        return Long.valueOf(idUnitat).hashCode();
+        return Long.hashCode(idUnitat);
     }
 }
