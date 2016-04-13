@@ -73,6 +73,14 @@ public class EquipsTicClient {
         restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory(httpClient));
 
         List<HttpMessageConverter<?>> converters = restTemplate.getMessageConverters();
+
+        /*
+         * El següent fragment de codi força que el
+         * MappingJackson2HttpMessageConverter processi respostes "text/plain" a
+         * més de "application/json" (perquè el servidor SOA retorna erròniament
+         * la capçalera Content-Type a la resposta, indicant el valor
+         * "text/plain" quan hauria de ser "application/json").
+         */
         for (HttpMessageConverter<?> converter : converters) {
             if (converter instanceof MappingJackson2HttpMessageConverter) {
                 MappingJackson2HttpMessageConverter jsonConverter = (MappingJackson2HttpMessageConverter) converter;
