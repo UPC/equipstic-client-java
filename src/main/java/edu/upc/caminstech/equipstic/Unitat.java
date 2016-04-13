@@ -41,7 +41,7 @@ public class Unitat {
 
     @Override
     public String toString() {
-        return String.format("[Unitat idUnitat: %s, codiUnitat: %s, identificador: %s, nom:%s]", idUnitat, codiUnitat,
+        return String.format("[Unitat idUnitat: %s, codiUnitat: %s, identificador: %s, nom: %s]", idUnitat, codiUnitat,
                 identificador, nom);
     }
 
