@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -202,10 +203,21 @@ public class EquipsTicClient {
      */
     private <T> T get(String url, ParameterizedTypeReference<Response<T>> typeReference, Object... urlParams) {
         String uri = baseUri + url;
-        ResponseEntity<Response<T>> entity = restTemplate.exchange(uri, HttpMethod.GET, null, typeReference, urlParams);
-        Response<T> response = entity.getBody();
+        try {
+            ResponseEntity<Response<T>> entity = restTemplate.exchange(uri, HttpMethod.GET, null, typeReference,
+                    urlParams);
+            Response<T> response = entity.getBody();
+            return (response != null) ? response.getData() : null;
 
-        return (response != null) ? response.getData() : null;
+        } catch (HttpServerErrorException e) {
+            if (e.getStatusCode().is5xxServerError()) {
+                String msg = String.format("El servidor SOA ha retornat l'error '%s %s'", e.getStatusCode(),
+                        e.getStatusText());
+                throw new RuntimeException(msg, e);
+            } else {
+                throw new RuntimeException("Error en fer la petició al servidor", e);
+            }
+        }
     }
 
 }
