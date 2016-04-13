@@ -49,7 +49,7 @@ public class TipusInfraestructura {
     public String toString() {
         return String.format(
                 "[TipusInfraestructura idTipus: %s, nom: %s, codi: %s, requereixCampsExtra: %s, categoriaInfraestructura: %s]",
-                idTipus, nom, codi, requereixCampsExtra, categoriaInfraestructura.toString());
+                idTipus, nom, codi, requereixCampsExtra, categoriaInfraestructura);
     }
 
     @Override
