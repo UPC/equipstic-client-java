@@ -3,6 +3,14 @@ package edu.upc.caminstech.equipstic;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Representa una Unitat Estructural de la UPC.
+ * <p>
+ * <strong>NOTA:</strong> la versió 1 de l'API REST d'EquipsTIC defineix per a
+ * aquesta classe un atribut {@link #identificador}, de tipus {@code String},
+ * que conté les sigles de la unitat, i que no s'ha de confondre amb l'atribut
+ * {@link #idUnitat}, de tipus {@code long}.
+ */
 public class Unitat {
 
     private final long idUnitat;
@@ -31,6 +39,9 @@ public class Unitat {
         return codiUnitat;
     }
 
+    /**
+     * Retorna les sigles de la unitat.
+     */
     public String getIdentificador() {
         return identificador;
     }
