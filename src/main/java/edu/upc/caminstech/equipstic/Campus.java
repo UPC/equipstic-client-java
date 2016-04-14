@@ -47,6 +47,6 @@ public class Campus {
 
     @Override
     public int hashCode() {
-        return Long.valueOf(idCampus).hashCode();
+        return Long.hashCode(idCampus);
     }
 }

@@ -37,6 +37,6 @@ public class Ambit {
 
     @Override
     public int hashCode() {
-        return Long.valueOf(idAmbit).hashCode();
+        return Long.hashCode(idAmbit);
     }
 }

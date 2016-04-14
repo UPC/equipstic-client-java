@@ -3,24 +3,25 @@ package edu.upc.caminstech.equipstic;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CategoriaInfraestructura {
+public class TipusXarxa {
 
-    private final long idCategoria;
+    private final long idTipusXarxa;
     private final String nom;
     private final String codi;
 
     @JsonCreator
-    public CategoriaInfraestructura(//
-            @JsonProperty("idCategoria") long idCategoria, //
+    public TipusXarxa( //
+            @JsonProperty("idTipusXarxa") long idTipusXarxa, //
             @JsonProperty("nom") String nom, //
             @JsonProperty("codi") String codi) {
-        this.idCategoria = idCategoria;
+
+        this.idTipusXarxa = idTipusXarxa;
         this.nom = nom;
         this.codi = codi;
     }
 
-    public long getIdCategoria() {
-        return idCategoria;
+    public long getIdTipusXarxa() {
+        return idTipusXarxa;
     }
 
     public String getNom() {
@@ -33,19 +34,19 @@ public class CategoriaInfraestructura {
 
     @Override
     public String toString() {
-        return String.format("[CategoriaInfraestructura idCategoria: %s, nom: %s, codi: %s]", idCategoria, nom, codi);
+        return String.format("[TipusXarxa idTipusXarxa: %s, nom: %s, codi: %s]", idTipusXarxa, nom, codi);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof CategoriaInfraestructura)) {
+        if (!(obj instanceof TipusXarxa)) {
             return false;
         }
-        return this.idCategoria == ((CategoriaInfraestructura) obj).idCategoria;
+        return this.idTipusXarxa == ((TipusXarxa) obj).idTipusXarxa;
     }
 
     @Override
     public int hashCode() {
-        return Long.hashCode(idCategoria);
+        return Long.hashCode(idTipusXarxa);
     }
 }

@@ -66,6 +66,6 @@ public class Estat {
 
     @Override
     public int hashCode() {
-        return Long.valueOf(idEstat).hashCode();
+        return Long.hashCode(idEstat);
     }
 }
