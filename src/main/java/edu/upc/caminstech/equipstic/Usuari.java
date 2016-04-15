@@ -22,20 +22,28 @@ public class Usuari {
     private final String telefon;
     private final Usuari usuariDarreraModificacio;
 
+    /**
+     * Crea un nou usuari.
+     * <p>
+     * Aquest constructor no és gaire còmode pel gran nombre de paràmetres, però
+     * cal tenir en compte que la API no permet crear ni modificar usuaris, per
+     * tant normalment no hauríeu de cridariem de cridar aquest constructor des
+     * de les vostres aplicacions.
+     */
     @JsonCreator
     public Usuari(@JsonProperty("idUsuari") long idUsuari, //
-            @JsonProperty("nomUsuari") String nomUsuari, //
-            @JsonProperty("nom") String nom, //
-            @JsonProperty("cognom1") String cognom1, //
-            @JsonProperty("cognom2") String cognom2, //
-            @JsonProperty("email") String email, //
-            @JsonProperty("telefon") String telefon, //
-            @JsonProperty("mobil") String mobil, //
-            @JsonProperty("adreca") String adreca, //
-            @JsonProperty("carrec") String carrec, //
-            @JsonProperty("dataCreacio") Date dataCreacio, //
-            @JsonProperty("dataDarreraModificacio") Date dataDarreraModificacio, //
-            @JsonProperty("observacions") String observacions, //
+            @JsonProperty(value = "nomUsuari", required = false) String nomUsuari, //
+            @JsonProperty(value = "nom", required = false) String nom, //
+            @JsonProperty(value = "cognom1", required = false) String cognom1, //
+            @JsonProperty(value = "cognom2", required = false) String cognom2, //
+            @JsonProperty(value = "email", required = false) String email, //
+            @JsonProperty(value = "telefon", required = false) String telefon, //
+            @JsonProperty(value = "mobil", required = false) String mobil, //
+            @JsonProperty(value = "adreca", required = false) String adreca, //
+            @JsonProperty(value = "carrec", required = false) String carrec, //
+            @JsonProperty(value = "dataCreacio", required = false) Date dataCreacio, //
+            @JsonProperty(value = "dataDarreraModificacio", required = false) Date dataDarreraModificacio, //
+            @JsonProperty(value = "observacions", required = false) String observacions, //
             @JsonProperty(value = "usuariDarreraModificacio", required = false) Usuari usuariDarreraModificacio) {
 
         this.idUsuari = idUsuari;
