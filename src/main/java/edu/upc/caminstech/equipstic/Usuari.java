@@ -27,7 +27,7 @@ public class Usuari {
      * <p>
      * Aquest constructor no és gaire còmode pel gran nombre de paràmetres, però
      * cal tenir en compte que la API no permet crear ni modificar usuaris, per
-     * tant normalment no hauríeu de cridariem de cridar aquest constructor des
+     * tant normalment no hauríeu de cridar directament aquest constructor des
      * de les vostres aplicacions.
      */
     @JsonCreator
