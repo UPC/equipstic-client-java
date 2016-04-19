@@ -263,32 +263,35 @@ public class InfraestructuraTests {
 
     @Test
     public void testGetCausaCanviWorkflow() {
-        fail("Not yet implemented");
+        infra.setCausaCanviWorkflow("causa");
+        assertEquals("causa", infra.getCausaCanviWorkflow());
     }
 
     @Test
     public void testGetDataCanviWorkflow() {
-        fail("Not yet implemented");
+        infra.setDataCanviWorkflow(data);
+        assertEquals(data, infra.getDataCanviWorkflow());
     }
 
     @Test
     public void testGetEstatAnteriorWorkflow() {
-        fail("Not yet implemented");
+        Estat estat = new Estat(1, "ESTAT", TipusEstat.VALIDACIO, "E", true);
+        infra.setEstatAnteriorWorkflow(estat);
+        assertEquals(estat, infra.getEstatAnteriorWorkflow());
     }
 
     @Test
-    public void testToString() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testEqualsObject() {
-        fail("Not yet implemented");
+    public void testEquals() {
+        Infraestructura copia = new Infraestructura();
+        copia.setIdentificador(infra.getIdentificador());
+        assertEquals(copia.hashCode(), infra.hashCode());
     }
 
     @Test
     public void testHashCode() {
-        fail("Not yet implemented");
+        Infraestructura copia = new Infraestructura();
+        copia.setIdentificador(infra.getIdentificador());
+        assertEquals(copia.hashCode(), infra.hashCode());
     }
 
 }
