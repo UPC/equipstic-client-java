@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -29,6 +30,7 @@ import edu.upc.caminstech.equipstic.Campus;
 import edu.upc.caminstech.equipstic.Categoria;
 import edu.upc.caminstech.equipstic.Edifici;
 import edu.upc.caminstech.equipstic.Estat;
+import edu.upc.caminstech.equipstic.Infraestructura;
 import edu.upc.caminstech.equipstic.Marca;
 import edu.upc.caminstech.equipstic.TipusInfraestructura;
 import edu.upc.caminstech.equipstic.TipusUs;
@@ -404,6 +406,18 @@ public class EquipsTicClient {
         }, idUnitat);
     }
 
+    public Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(String idMarca, String sn) {
+        return get("/infraestructura/cerca/marca/{idMarca}/sn/{sn}",
+                new ParameterizedTypeReference<Response<Infraestructura>>() {
+                }, idMarca, sn);
+    }
+
+    public Infraestructura getInfraestructuraById(long id) {
+        return get("/infraestructura/{id}", new ParameterizedTypeReference<Response<Infraestructura>>() {
+        }, id);
+
+    }
+
     /**
      * Mètode auxiliar que encapsula crides GET a la API, via
      * {@link RestTemplate}.
@@ -413,7 +427,9 @@ public class EquipsTicClient {
         try {
             ResponseEntity<Response<T>> entity = restTemplate.exchange(uri, HttpMethod.GET, null, typeReference,
                     urlParams);
+
             Response<T> response = entity.getBody();
+            RecursNoTrobatException.throwIf(isResourceNotFound(response), response.getMessage());
             return (response != null) ? response.getData() : null;
 
         } catch (HttpServerErrorException e) {
@@ -427,4 +443,14 @@ public class EquipsTicClient {
         }
     }
 
+    /**
+     * Comprova si la {@link Response} està indicant que no s'ha trobat el
+     * recurs. Això és un <em>workaround</em> ja que la API d'EquipsTIC no
+     * retorna 404 en cas que el recurs no existeixi (retorna un 200, i indica
+     * l'error al estat i al missatge, dins el body).
+     */
+    private <T> boolean isResourceNotFound(Response<T> response) {
+        return (response != null) && "fail".equals(response.getStatus())
+                && StringUtils.containsIgnoreCase(response.getMessage(), "no existeix");
+    }
 }

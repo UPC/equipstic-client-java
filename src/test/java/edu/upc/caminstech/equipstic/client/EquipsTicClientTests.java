@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import edu.upc.caminstech.equipstic.Campus;
 import edu.upc.caminstech.equipstic.Edifici;
 import edu.upc.caminstech.equipstic.Estat;
+import edu.upc.caminstech.equipstic.Infraestructura;
 import edu.upc.caminstech.equipstic.Marca;
 import edu.upc.caminstech.equipstic.TipusInfraestructura;
 import edu.upc.caminstech.equipstic.TipusUs;
@@ -36,7 +37,7 @@ public class EquipsTicClientTests {
     private static EquipsTicClient client;
 
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() throws RecursNoTrobatException {
         /*
          * Els tests d'aquesta classe només s'executaran en cas que estiguin
          * definides les variables d'entorn necessàries per a la configuració
@@ -272,4 +273,23 @@ public class EquipsTicClientTests {
         }
     }
 
+    @Test
+    public void getInfraestructuraById() {
+        long id = 16137;
+        Infraestructura infraestructura = client.getInfraestructuraById(id);
+        assertNotNull(infraestructura);
+    }
+
+    @Test(expected = RecursNoTrobatException.class)
+    public void getInfraestructuraByIdNotFound() {
+        client.getInfraestructuraById(123);
+    }
+
+    @Test
+    public void getInfraestructuraByMarcaAndNumeroDeSerie() {
+        String idMarca = "2";
+        String sn = "7MQ48Z1";
+        Infraestructura infraestructura = client.getInfraestructuraByMarcaAndNumeroDeSerie(idMarca, sn);
+        assertNotNull(infraestructura);
+    }
 }
