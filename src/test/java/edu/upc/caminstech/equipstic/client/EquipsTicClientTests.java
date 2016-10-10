@@ -26,9 +26,9 @@ public class EquipsTicClientTests {
 
     // environment variable names
 
-    private static final String ENV_API_URL = "SOA_URL";
-    private static final String ENV_USERNAME_VAR = "SOA_USERNAME";
-    private static final String ENV_PASSWORD_VAR = "SOA_PASSWORD";
+    private static final String ENV_API_URL = "EQUIPSTIC_SOA_URL";
+    private static final String ENV_USERNAME_VAR = "EQUIPSTIC_SOA_USERNAME";
+    private static final String ENV_PASSWORD_VAR = "EQUIPSTIC_SOA_PASSWORD";
 
     private static final String envApiUrl = System.getenv(ENV_API_URL);
     private static final String envUsername = System.getenv(ENV_USERNAME_VAR);
