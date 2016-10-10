@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import edu.upc.caminstech.equipstic.Campus;
 import edu.upc.caminstech.equipstic.Edifici;
 import edu.upc.caminstech.equipstic.Estat;
+import edu.upc.caminstech.equipstic.Infraestructura;
 import edu.upc.caminstech.equipstic.Marca;
 import edu.upc.caminstech.equipstic.TipusInfraestructura;
 import edu.upc.caminstech.equipstic.TipusUs;
@@ -25,9 +26,9 @@ public class EquipsTicClientTests {
 
     // environment variable names
 
-    private static final String ENV_API_URL = "SOA_URL";
-    private static final String ENV_USERNAME_VAR = "SOA_USERNAME";
-    private static final String ENV_PASSWORD_VAR = "SOA_PASSWORD";
+    private static final String ENV_API_URL = "EQUIPSTIC_SOA_URL";
+    private static final String ENV_USERNAME_VAR = "EQUIPSTIC_SOA_USERNAME";
+    private static final String ENV_PASSWORD_VAR = "EQUIPSTIC_SOA_PASSWORD";
 
     private static final String envApiUrl = System.getenv(ENV_API_URL);
     private static final String envUsername = System.getenv(ENV_USERNAME_VAR);
@@ -36,7 +37,7 @@ public class EquipsTicClientTests {
     private static EquipsTicClient client;
 
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() throws RecursNoTrobatException {
         /*
          * Els tests d'aquesta classe només s'executaran en cas que estiguin
          * definides les variables d'entorn necessàries per a la configuració
@@ -272,4 +273,23 @@ public class EquipsTicClientTests {
         }
     }
 
+    @Test
+    public void getInfraestructuraById() {
+        long id = 16137;
+        Infraestructura infraestructura = client.getInfraestructuraById(id);
+        assertNotNull(infraestructura);
+    }
+
+    @Test(expected = RecursNoTrobatException.class)
+    public void getInfraestructuraByIdNotFound() {
+        client.getInfraestructuraById(123);
+    }
+
+    @Test
+    public void getInfraestructuraByMarcaAndNumeroDeSerie() {
+        long idMarca = 2;
+        String sn = "7MQ48Z1";
+        Infraestructura infraestructura = client.getInfraestructuraByMarcaAndNumeroDeSerie(idMarca, sn);
+        assertNotNull(infraestructura);
+    }
 }
