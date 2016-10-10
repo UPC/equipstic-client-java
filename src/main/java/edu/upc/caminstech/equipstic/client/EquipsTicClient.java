@@ -406,7 +406,7 @@ public class EquipsTicClient {
         }, idUnitat);
     }
 
-    public Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(String idMarca, String sn) {
+    public Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn) {
         return get("/infraestructura/cerca/marca/{idMarca}/sn/{sn}",
                 new ParameterizedTypeReference<Response<Infraestructura>>() {
                 }, idMarca, sn);

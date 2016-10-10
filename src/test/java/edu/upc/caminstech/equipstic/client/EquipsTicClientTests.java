@@ -287,7 +287,7 @@ public class EquipsTicClientTests {
 
     @Test
     public void getInfraestructuraByMarcaAndNumeroDeSerie() {
-        String idMarca = "2";
+        long idMarca = 2;
         String sn = "7MQ48Z1";
         Infraestructura infraestructura = client.getInfraestructuraByMarcaAndNumeroDeSerie(idMarca, sn);
         assertNotNull(infraestructura);
