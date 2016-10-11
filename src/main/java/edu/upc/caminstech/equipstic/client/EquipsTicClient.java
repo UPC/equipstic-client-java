@@ -369,11 +369,12 @@ public class EquipsTicClient {
     }
 
     /**
-     * Retorna una unitat a partir de l'identificador.
+     * Retorna una unitat a partir de l'identificador (sigles UPC).
      * <p>
      * No s'ha de confondre amb el mètode {@link #getUnitatById(long)}. Aquest
      * mètode cerca a partir de l'atribut "identificador" de la classe
-     * {@link Unitat}.
+     * {@link Unitat}, que correspón a les sigles de la unitat, per exemple
+     * "ETSECCPB".
      *
      * @see {@link Unitat#getIdentificador()}
      */
@@ -392,7 +393,7 @@ public class EquipsTicClient {
     }
 
     /**
-     * Cerca d'unitats a partir del nom.
+     * Cerca d'unitats a partir del nom, l'identificador i el codi.
      */
     public List<Unitat> getUnitatsByNomAndIdentificadorAndCodi(String nom, String identificador, String codiUnitat) {
         List<Unitat> result = get("/unitat/cerca/nom/{nom}/identificador/{identificador}/codi/{codi}",
@@ -401,21 +402,65 @@ public class EquipsTicClient {
         return (result != null) ? result : new ArrayList<Unitat>();
     }
 
+    /**
+     * Retorna una unitat a partir de l'identificador intern EquipsTIC.
+     * 
+     * @param idUnitat
+     *            l'identificador intern d'unitat (ull: no és el mateix que el
+     *            codi d'unitat que fa servir la UPC).
+     */
     public Unitat getUnitatById(long idUnitat) {
         return get("/unitat/{id}", new ParameterizedTypeReference<Response<Unitat>>() {
         }, idUnitat);
     }
 
+    /**
+     * Retorna una infraestructura a partir de la marca i el número de sèrie.
+     * 
+     * @param idMarca
+     *            l'identificador de la marca.
+     * @param sn
+     *            el número de sèrie.
+     */
     public Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn) {
-        return get("/infraestructura/cerca/marca/{idMarca}/sn/{sn}",
+        Infraestructura i = get("/infraestructura/cerca/marca/{idMarca}/sn/{sn}",
                 new ParameterizedTypeReference<Response<Infraestructura>>() {
                 }, idMarca, sn);
+        ompleCampsNoInicialitzatsInfraestructura(i);
+        return i;
     }
 
     public Infraestructura getInfraestructuraById(long id) {
-        return get("/infraestructura/{id}", new ParameterizedTypeReference<Response<Infraestructura>>() {
+        Infraestructura i = get("/infraestructura/{id}", new ParameterizedTypeReference<Response<Infraestructura>>() {
         }, id);
+        ompleCampsNoInicialitzatsInfraestructura(i);
+        return i;
+    }
 
+    /**
+     * Inicialitza els atributs d'una infraestructura que corresponen a objectes
+     * JSON que només tenen inicialitzat l'identificador.
+     * 
+     * @param infra
+     *            la infraestructura
+     */
+    private void ompleCampsNoInicialitzatsInfraestructura(Infraestructura infra) {
+        Marca marca = getMarcaById(infra.getMarca().getIdMarca());
+        TipusInfraestructura tipusInfraestructura = getTipusInfraestructuraById(
+                infra.getTipusInfraestructura().getIdTipus());
+        Estat estat = getEstatById(infra.getEstat().getIdEstat());
+        Unitat unitat = getUnitatById(infra.getUnitat().getIdUnitat());
+        Edifici edifici = getEdificiById(infra.getEdifici().getIdEdifici());
+        Estat estatValidacio = getEstatById(infra.getEstatValidacio().getIdEstat());
+        Unitat unitatGestora = getUnitatById(infra.getUnitatGestora().getIdUnitat());
+
+        infra.setMarca(marca);
+        infra.setTipusInfraestructura(tipusInfraestructura);
+        infra.setEstat(estat);
+        infra.setUnitat(unitat);
+        infra.setEdifici(edifici);
+        infra.setEstatValidacio(estatValidacio);
+        infra.setUnitatGestora(unitatGestora);
     }
 
     /**
