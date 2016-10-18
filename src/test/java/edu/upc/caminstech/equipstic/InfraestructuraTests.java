@@ -122,7 +122,7 @@ public class InfraestructuraTests {
     @Test
     public void testGetNumeroCpus() {
         infra.setNumeroCpus(4);
-        assertEquals(4, infra.getNumeroCpus());
+        assertEquals(Integer.valueOf(4), infra.getNumeroCpus());
     }
 
     @Test

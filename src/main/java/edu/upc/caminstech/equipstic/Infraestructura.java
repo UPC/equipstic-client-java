@@ -58,7 +58,7 @@ public class Infraestructura {
     // atributs obligatoris (només per a alguns TipusInfraestructura)
 
     private String modelCpu;
-    private int numeroCpus;
+    private Integer numeroCpus;
     private String discs;
     private String capacitatTotalGb;
 
@@ -190,11 +190,11 @@ public class Infraestructura {
         this.numeroAd = numeroAd;
     }
 
-    public int getNumeroCpus() {
+    public Integer getNumeroCpus() {
         return numeroCpus;
     }
 
-    public void setNumeroCpus(int numeroCpus) {
+    public void setNumeroCpus(Integer numeroCpus) {
         this.numeroCpus = numeroCpus;
     }
 
