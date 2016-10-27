@@ -133,6 +133,9 @@ public class EquipsTicClient {
      */
     @Cacheable("ambits")
     public List<Ambit> getAmbitsByNom(String nomAmbit) {
+        if (nomAmbit == null) {
+            throw new IllegalArgumentException("El nom de l'àmbit no pot ser null");
+        }
         List<Ambit> result = get("/ambit/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Ambit>>>() {
         }, nomAmbit);
         return (result != null) ? result : new ArrayList<Ambit>();
@@ -162,6 +165,9 @@ public class EquipsTicClient {
      */
     @Cacheable("campus")
     public Campus getCampusByCodi(String codiCampus) {
+        if (codiCampus == null) {
+            throw new IllegalArgumentException("El codi del campus no pot ser null");
+        }
         return get("/campus/cerca/codi/{codi}", new ParameterizedTypeReference<Response<Campus>>() {
         }, codiCampus);
     }
@@ -218,6 +224,12 @@ public class EquipsTicClient {
      */
     @Cacheable("edificis")
     public Edifici getEdificiByCodiAndCodiCampus(String codiEdifici, String codiCampus) {
+        if (codiEdifici == null) {
+            throw new IllegalArgumentException("El codi de l'edifici no pot ser null");
+        }
+        if (codiCampus == null) {
+            throw new IllegalArgumentException("El codi del campus no pot ser null");
+        }
         return get("/edifici/cerca/codi/{codi}/codicampus/{codiCampus}",
                 new ParameterizedTypeReference<Response<Edifici>>() {
                 }, codiEdifici, codiCampus);
@@ -238,6 +250,9 @@ public class EquipsTicClient {
      */
     @Cacheable("estats")
     public Estat getEstatByCodi(String codiEstat) {
+        if (codiEstat == null) {
+            throw new IllegalArgumentException("El codi de l'estat no pot ser null");
+        }
         return get("/estat/cerca/codi/{codi}", new ParameterizedTypeReference<Response<Estat>>() {
         }, codiEstat);
     }
@@ -247,6 +262,9 @@ public class EquipsTicClient {
      */
     @Cacheable("estats")
     public List<Estat> getEstatsByNom(String nomEstat) {
+        if (nomEstat == null) {
+            throw new IllegalArgumentException("El nom de l'estat no pot ser null");
+        }
         List<Estat> result = get("/estat/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Estat>>>() {
         }, nomEstat);
         return (result != null) ? result : new ArrayList<Estat>();
@@ -276,6 +294,9 @@ public class EquipsTicClient {
      */
     @Cacheable("marques")
     public List<Marca> getMarquesByNom(String nom) {
+        if (nom == null) {
+            throw new IllegalArgumentException("El nom de la marca no pot ser null");
+        }
         List<Marca> result = get("/marca/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Marca>>>() {
         }, nom);
         return (result != null) ? result : new ArrayList<Marca>();
@@ -347,6 +368,9 @@ public class EquipsTicClient {
      */
     @Cacheable("tipusInfraestructura")
     public TipusInfraestructura getTipusInfraestructuraBycodi(String codi) {
+        if (codi == null) {
+            throw new IllegalArgumentException("El codi del tipus no pot ser null");
+        }
         return get("/tipusInfraestructura/cerca/codi/{codi}",
                 new ParameterizedTypeReference<Response<TipusInfraestructura>>() {
                 }, codi);
@@ -357,6 +381,9 @@ public class EquipsTicClient {
      */
     @Cacheable("tipusInfraestructura")
     public List<TipusInfraestructura> getTipusInfraestructuraByNom(String nom) {
+        if (nom == null) {
+            throw new IllegalArgumentException("El nom del tipus no pot ser null");
+        }
         List<TipusInfraestructura> result = get("/tipusInfraestructura/cerca/nom/{nom}",
                 new ParameterizedTypeReference<Response<List<TipusInfraestructura>>>() {
                 }, nom);
@@ -413,6 +440,10 @@ public class EquipsTicClient {
      */
     @Cacheable("unitats")
     public Unitat getUnitatByIdentificador(String identificador) {
+        if (identificador == null) {
+            throw new IllegalArgumentException("L'identificador de la unitat no pot ser null");
+        }
+
         return get("/unitat/cerca/identificador/{identificador}", new ParameterizedTypeReference<Response<Unitat>>() {
         }, identificador);
     }
@@ -422,6 +453,9 @@ public class EquipsTicClient {
      */
     @Cacheable("unitats")
     public List<Unitat> getUnitatsByNom(String nom) {
+        if (nom == null) {
+            throw new IllegalArgumentException("El nom de la unitat no pot ser null");
+        }
         List<Unitat> result = get("/unitat/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Unitat>>>() {
         }, nom);
         return (result != null) ? result : new ArrayList<Unitat>();
@@ -432,6 +466,16 @@ public class EquipsTicClient {
      */
     @Cacheable("unitats")
     public List<Unitat> getUnitatsByNomAndIdentificadorAndCodi(String nom, String identificador, String codiUnitat) {
+        if (nom == null) {
+            throw new IllegalArgumentException("El nom de la unitat no pot ser null");
+        }
+        if (identificador == null) {
+            throw new IllegalArgumentException("L'identificador de la unitat no pot ser null");
+        }
+        if (codiUnitat == null) {
+            throw new IllegalArgumentException("El codi de la unitat no pot ser null");
+        }
+
         List<Unitat> result = get("/unitat/cerca/nom/{nom}/identificador/{identificador}/codi/{codi}",
                 new ParameterizedTypeReference<Response<List<Unitat>>>() {
                 }, nom, identificador, codiUnitat);
@@ -460,6 +504,9 @@ public class EquipsTicClient {
      *            el número de sèrie.
      */
     public Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn) {
+        if (sn == null) {
+            throw new IllegalArgumentException("El número de sèrie no pot ser null");
+        }
         Infraestructura i = get("/infraestructura/cerca/marca/{idMarca}/sn/{sn}",
                 new ParameterizedTypeReference<Response<Infraestructura>>() {
                 }, idMarca, sn);
