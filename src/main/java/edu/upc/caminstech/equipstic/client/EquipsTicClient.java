@@ -13,6 +13,7 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -55,6 +56,9 @@ import edu.upc.caminstech.equipstic.Unitat;
  * EquipsTicClient client = new EquipsTicClient(uri, "soa_user", "soa_password")); <br>
  * List&lt;Campus&gt; campus = client.getCampus();
  * </code>
+ * <p>
+ * Les operacions poden llançar una excepció {@link HttpServerErrorException} en
+ * cas de problemes en intentar accedir al servidor SOA.
  */
 public class EquipsTicClient {
 
@@ -117,6 +121,7 @@ public class EquipsTicClient {
     /**
      * Retorna els àmbits existents.
      */
+    @Cacheable("ambits")
     public List<Ambit> getAmbits() {
         List<Ambit> result = get("/ambit", new ParameterizedTypeReference<Response<List<Ambit>>>() {
         });
@@ -126,6 +131,7 @@ public class EquipsTicClient {
     /**
      * Cerca d'àmbits per nom.
      */
+    @Cacheable("ambits")
     public List<Ambit> getAmbitsByNom(String nomAmbit) {
         List<Ambit> result = get("/ambit/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Ambit>>>() {
         }, nomAmbit);
@@ -135,6 +141,7 @@ public class EquipsTicClient {
     /**
      * Retorna l'àmbit amb l'identificador donat.
      */
+    @Cacheable("ambits")
     public Ambit getAmbitById(long idAmbit) {
         return get("/ambit/{id}", new ParameterizedTypeReference<Response<Ambit>>() {
         }, idAmbit);
@@ -143,6 +150,7 @@ public class EquipsTicClient {
     /**
      * Retorna tots els campus existents.
      */
+    @Cacheable("campus")
     public List<Campus> getCampus() {
         List<Campus> result = get("/campus", new ParameterizedTypeReference<Response<List<Campus>>>() {
         });
@@ -152,6 +160,7 @@ public class EquipsTicClient {
     /**
      * Retorna el campus amb el codi donat.
      */
+    @Cacheable("campus")
     public Campus getCampusByCodi(String codiCampus) {
         return get("/campus/cerca/codi/{codi}", new ParameterizedTypeReference<Response<Campus>>() {
         }, codiCampus);
@@ -160,6 +169,7 @@ public class EquipsTicClient {
     /**
      * Retorna el campus amb l'identificador donat.
      */
+    @Cacheable("campus")
     public Campus getCampusById(long idCampus) {
         return get("/campus/{id}", new ParameterizedTypeReference<Response<Campus>>() {
         }, idCampus);
@@ -168,6 +178,7 @@ public class EquipsTicClient {
     /**
      * Retorna totes les categories existents.
      */
+    @Cacheable("categories")
     public List<Categoria> getCategories() {
         List<Categoria> result = get("/categoria", new ParameterizedTypeReference<Response<List<Categoria>>>() {
         });
@@ -177,6 +188,7 @@ public class EquipsTicClient {
     /**
      * Retorna una categoria a partir del seu identificador.
      */
+    @Cacheable("categories")
     public Categoria getCategoriaById(long idCategoria) {
         return get("/categoria/{id}", new ParameterizedTypeReference<Response<Categoria>>() {
         }, idCategoria);
@@ -185,6 +197,7 @@ public class EquipsTicClient {
     /**
      * Retorna tots els edificis existents.
      */
+    @Cacheable("edificis")
     public List<Edifici> getEdificis() {
         List<Edifici> result = get("/edifici", new ParameterizedTypeReference<Response<List<Edifici>>>() {
         });
@@ -194,6 +207,7 @@ public class EquipsTicClient {
     /**
      * Retorna un edifici a partir del seu identificador.
      */
+    @Cacheable("edificis")
     public Edifici getEdificiById(long idEdifici) {
         return get("/edifici/{id}", new ParameterizedTypeReference<Response<Edifici>>() {
         }, idEdifici);
@@ -202,6 +216,7 @@ public class EquipsTicClient {
     /**
      * Retorna un edifici a partir d'un codi d'edifici i un codi de campus.
      */
+    @Cacheable("edificis")
     public Edifici getEdificiByCodiAndCodiCampus(String codiEdifici, String codiCampus) {
         return get("/edifici/cerca/codi/{codi}/codicampus/{codiCampus}",
                 new ParameterizedTypeReference<Response<Edifici>>() {
@@ -211,6 +226,7 @@ public class EquipsTicClient {
     /**
      * Retorna tots els estats existents.
      */
+    @Cacheable("estats")
     public List<Estat> getEstats() {
         List<Estat> result = get("/estat", new ParameterizedTypeReference<Response<List<Estat>>>() {
         });
@@ -220,6 +236,7 @@ public class EquipsTicClient {
     /**
      * Retorna un estat a partir del seu codi.
      */
+    @Cacheable("estats")
     public Estat getEstatByCodi(String codiEstat) {
         return get("/estat/cerca/codi/{codi}", new ParameterizedTypeReference<Response<Estat>>() {
         }, codiEstat);
@@ -228,6 +245,7 @@ public class EquipsTicClient {
     /**
      * Cerca d'estats a partir d'un nom.
      */
+    @Cacheable("estats")
     public List<Estat> getEstatsByNom(String nomEstat) {
         List<Estat> result = get("/estat/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Estat>>>() {
         }, nomEstat);
@@ -237,6 +255,7 @@ public class EquipsTicClient {
     /**
      * Retorna un estat a partir del seu identificador.
      */
+    @Cacheable("estats")
     public Estat getEstatById(long idEstat) {
         return get("/estat/{id}", new ParameterizedTypeReference<Response<Estat>>() {
         }, idEstat);
@@ -245,6 +264,7 @@ public class EquipsTicClient {
     /**
      * Retorna totes les marques existents.
      */
+    @Cacheable("marques")
     public List<Marca> getMarques() {
         List<Marca> result = get("/marca", new ParameterizedTypeReference<Response<List<Marca>>>() {
         });
@@ -254,6 +274,7 @@ public class EquipsTicClient {
     /**
      * Cerca de marques pel nom.
      */
+    @Cacheable("marques")
     public List<Marca> getMarquesByNom(String nom) {
         List<Marca> result = get("/marca/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Marca>>>() {
         }, nom);
@@ -263,6 +284,7 @@ public class EquipsTicClient {
     /**
      * Retorna una marca a partir del seu identificador.
      */
+    @Cacheable("marques")
     public Marca getMarcaById(long idMarca) {
         return get("/marca/{id}", new ParameterizedTypeReference<Response<Marca>>() {
         }, idMarca);
@@ -271,6 +293,7 @@ public class EquipsTicClient {
     /**
      * Retorna tots els tipus d'ús existents.
      */
+    @Cacheable("tipusUs")
     public List<TipusUs> getTipusUs() {
         List<TipusUs> result = get("/tipusUs", new ParameterizedTypeReference<Response<List<TipusUs>>>() {
         });
@@ -280,6 +303,7 @@ public class EquipsTicClient {
     /**
      * Cerca tipus d'ús a partir d'una unitat.
      */
+    @Cacheable("tipusUs")
     public List<TipusUs> getTipusUsByUnitat(long idUnitat) {
         List<TipusUs> result = get("/tipusUs/cerca/unitat/{idUnitat}",
                 new ParameterizedTypeReference<Response<List<TipusUs>>>() {
@@ -290,6 +314,7 @@ public class EquipsTicClient {
     /**
      * Retorna un tipus d'ús a partir del seu identificador.
      */
+    @Cacheable("tipusUs")
     public TipusUs getTipusUsById(long idTipusUs) {
         return get("/tipusUs/{idTipusUs}", new ParameterizedTypeReference<Response<TipusUs>>() {
         }, idTipusUs);
@@ -298,6 +323,7 @@ public class EquipsTicClient {
     /**
      * Retorna tots els tipus d'infraestructura existents.
      */
+    @Cacheable("tipusInfraestructura")
     public List<TipusInfraestructura> getTipusInfraestructura() {
         List<TipusInfraestructura> result = get("/tipusInfraestructura",
                 new ParameterizedTypeReference<Response<List<TipusInfraestructura>>>() {
@@ -308,6 +334,7 @@ public class EquipsTicClient {
     /**
      * Cerca de tipus d'infraestructura per categoria.
      */
+    @Cacheable("tipusInfraestructura")
     public List<TipusInfraestructura> getTipusInfraestructuraBycategoria(long idCategoria) {
         List<TipusInfraestructura> result = get("/tipusInfraestructura/cerca/categoria/{idCategoria}",
                 new ParameterizedTypeReference<Response<List<TipusInfraestructura>>>() {
@@ -318,6 +345,7 @@ public class EquipsTicClient {
     /**
      * Retorna un tipus d'infraestructura a partir del seu codi.
      */
+    @Cacheable("tipusInfraestructura")
     public TipusInfraestructura getTipusInfraestructuraBycodi(String codi) {
         return get("/tipusInfraestructura/cerca/codi/{codi}",
                 new ParameterizedTypeReference<Response<TipusInfraestructura>>() {
@@ -327,6 +355,7 @@ public class EquipsTicClient {
     /**
      * Cerca de tipus d'infraestructura a partir del seu nom.
      */
+    @Cacheable("tipusInfraestructura")
     public List<TipusInfraestructura> getTipusInfraestructuraByNom(String nom) {
         List<TipusInfraestructura> result = get("/tipusInfraestructura/cerca/nom/{nom}",
                 new ParameterizedTypeReference<Response<List<TipusInfraestructura>>>() {
@@ -337,6 +366,7 @@ public class EquipsTicClient {
     /**
      * Retorna un tipus d'infraestructura a partir del seu identificador.
      */
+    @Cacheable("tipusInfraestructura")
     public TipusInfraestructura getTipusInfraestructuraById(long idTipus) {
         return get("/tipusInfraestructura/{id}", new ParameterizedTypeReference<Response<TipusInfraestructura>>() {
         }, idTipus);
@@ -345,6 +375,7 @@ public class EquipsTicClient {
     /**
      * Retorna tots els tipus de xarxa existents.
      */
+    @Cacheable("tipusXarxa")
     public List<TipusXarxa> getTipusXarxa() {
         List<TipusXarxa> result = get("/tipusXarxa", new ParameterizedTypeReference<Response<List<TipusXarxa>>>() {
         });
@@ -354,6 +385,7 @@ public class EquipsTicClient {
     /**
      * Retorna un tipus de xarxa a partir del seu identificador.
      */
+    @Cacheable("tipusXarxa")
     public TipusXarxa getTipusXarxaById(long idTipusXarxa) {
         return get("/tipusXarxa/{id}", new ParameterizedTypeReference<Response<TipusXarxa>>() {
         }, idTipusXarxa);
@@ -362,6 +394,7 @@ public class EquipsTicClient {
     /**
      * Retorna totes les unitats existents.
      */
+    @Cacheable("unitats")
     public List<Unitat> getUnitats() {
         List<Unitat> result = get("/unitat", new ParameterizedTypeReference<Response<List<Unitat>>>() {
         });
@@ -378,6 +411,7 @@ public class EquipsTicClient {
      *
      * @see {@link Unitat#getIdentificador()}
      */
+    @Cacheable("unitats")
     public Unitat getUnitatByIdentificador(String identificador) {
         return get("/unitat/cerca/identificador/{identificador}", new ParameterizedTypeReference<Response<Unitat>>() {
         }, identificador);
@@ -386,6 +420,7 @@ public class EquipsTicClient {
     /**
      * Cerca d'unitats a partir del nom.
      */
+    @Cacheable("unitats")
     public List<Unitat> getUnitatsByNom(String nom) {
         List<Unitat> result = get("/unitat/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Unitat>>>() {
         }, nom);
@@ -395,6 +430,7 @@ public class EquipsTicClient {
     /**
      * Cerca d'unitats a partir del nom, l'identificador i el codi.
      */
+    @Cacheable("unitats")
     public List<Unitat> getUnitatsByNomAndIdentificadorAndCodi(String nom, String identificador, String codiUnitat) {
         List<Unitat> result = get("/unitat/cerca/nom/{nom}/identificador/{identificador}/codi/{codi}",
                 new ParameterizedTypeReference<Response<List<Unitat>>>() {
@@ -409,6 +445,7 @@ public class EquipsTicClient {
      *            l'identificador intern d'unitat (ull: no és el mateix que el
      *            codi d'unitat que fa servir la UPC).
      */
+    @Cacheable("unitats")
     public Unitat getUnitatById(long idUnitat) {
         return get("/unitat/{id}", new ParameterizedTypeReference<Response<Unitat>>() {
         }, idUnitat);
@@ -469,23 +506,11 @@ public class EquipsTicClient {
      */
     private <T> T get(String url, ParameterizedTypeReference<Response<T>> typeReference, Object... urlParams) {
         String uri = baseUri + url;
-        try {
-            ResponseEntity<Response<T>> entity = restTemplate.exchange(uri, HttpMethod.GET, null, typeReference,
-                    urlParams);
+        ResponseEntity<Response<T>> entity = restTemplate.exchange(uri, HttpMethod.GET, null, typeReference, urlParams);
 
-            Response<T> response = entity.getBody();
-            RecursNoTrobatException.throwIf(isResourceNotFound(response), response.getMessage());
-            return (response != null) ? response.getData() : null;
-
-        } catch (HttpServerErrorException e) {
-            if (e.getStatusCode().is5xxServerError()) {
-                String msg = String.format("El servidor SOA ha retornat l'error '%s %s'", e.getStatusCode(),
-                        e.getStatusText());
-                throw new RuntimeException(msg, e);
-            } else {
-                throw new RuntimeException("Error en fer la petició al servidor", e);
-            }
-        }
+        Response<T> response = entity.getBody();
+        RecursNoTrobatException.throwIf(isResourceNotFound(response), response.getMessage());
+        return (response != null) ? response.getData() : null;
     }
 
     /**
