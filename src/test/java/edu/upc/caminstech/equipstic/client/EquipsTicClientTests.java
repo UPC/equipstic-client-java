@@ -17,6 +17,7 @@ import edu.upc.caminstech.equipstic.Infraestructura;
 import edu.upc.caminstech.equipstic.Marca;
 import edu.upc.caminstech.equipstic.TipusInfraestructura;
 import edu.upc.caminstech.equipstic.TipusUs;
+import edu.upc.caminstech.equipstic.TipusXarxa;
 import edu.upc.caminstech.equipstic.Unitat;
 
 /**
@@ -33,6 +34,25 @@ public class EquipsTicClientTests {
     private static final String envApiUrl = System.getenv(ENV_API_URL);
     private static final String envUsername = System.getenv(ENV_USERNAME_VAR);
     private static final String envPassword = System.getenv(ENV_PASSWORD_VAR);
+
+    private static final long ID_CATEGORIA_SERVIDOR = 1;
+    private static final long ID_ESTAT_EN_GARANTIA_CENTRALITZAT = 1;
+    private static final long ID_TIPUS_IMPRESSORA = 6;
+    private static final long ID_TIPUS_XARXA_TRONCAL = 1;
+    private static final long ID_TIPUS_US_DOCENCIA = 34;
+    private static final long ID_CAMPUS_NORD = 1;
+    private static final long ID_MARCA_IBM = 45;
+    private static final long ID_UNITAT_UTGAC = 79;
+    private static final String CODI_CAMPUS_NORD = "ND";
+    private static final String NOM_TIPUS_IMPRESSORA = "Impressora";
+    private static final String CODI_TIPUS_IMPRESSORA = "IMPRESSORA";
+    private static final String NOM_MARCA_IBM = "IBM";
+    private static final String NOM_ESTAT_BAIXA = "Baixa";
+    private static final String CODI_ESTAT_BAIXA = "BAIXA";
+    private static final String CODI_EDIFICI_VERTEX = "VX";
+    private static final String CODI_UNITAT_UTGAC = "171";
+    private static final String NOM_UNITAT_UTGAC = "Utg de l'Àmbit de Camins";
+    private static final String IDENTIFICADOR_UNITAT_UTGAC = "UTGAC";
 
     private static EquipsTicClient client;
 
@@ -71,15 +91,14 @@ public class EquipsTicClientTests {
 
     @Test
     public void getCampusByCodi() {
-        String codiCampus = "ND"; // campus nord
-        Campus campus = client.getCampusByCodi(codiCampus);
-        assertEquals(codiCampus, campus.getCodi());
+        Campus campus = client.getCampusByCodi(CODI_CAMPUS_NORD);
+        assertEquals(CODI_CAMPUS_NORD, campus.getCodi());
     }
 
     @Test
     public void getCampusById() {
-        Campus campus = client.getCampusById(1);
-        assertEquals(1, campus.getIdCampus());
+        Campus campus = client.getCampusById(ID_CAMPUS_NORD);
+        assertEquals(ID_CAMPUS_NORD, campus.getIdCampus());
     }
 
     @Test
@@ -109,8 +128,8 @@ public class EquipsTicClientTests {
 
     @Test
     public void getEdificiByCodiAndCodiCampus() {
-        String codiEdifici = "VX"; // codi edifici Vertex
-        String codiCampus = "ND"; // codi Campus Nord
+        String codiEdifici = CODI_EDIFICI_VERTEX;
+        String codiCampus = CODI_CAMPUS_NORD;
         Edifici edifici = client.getEdificiByCodiAndCodiCampus(codiEdifici, codiCampus);
 
         assertNotNull(edifici);
@@ -126,7 +145,7 @@ public class EquipsTicClientTests {
 
     @Test
     public void getEstatByCodi() {
-        String codi = "BAIXA";
+        String codi = CODI_ESTAT_BAIXA;
         Estat estat = client.getEstatByCodi(codi);
         assertNotNull(estat);
         assertEquals(codi, estat.getCodi());
@@ -134,13 +153,13 @@ public class EquipsTicClientTests {
 
     @Test
     public void getEstatsByNom() {
-        List<Estat> estats = client.getEstatsByNom("Baixa");
+        List<Estat> estats = client.getEstatsByNom(NOM_ESTAT_BAIXA);
         assertNotNull(estats);
     }
 
     @Test
     public void getEstatById() {
-        long idEstat = 1; // estat "en garantia centralitzat"
+        long idEstat = ID_ESTAT_EN_GARANTIA_CENTRALITZAT;
         Estat estat = client.getEstatById(idEstat);
         assertNotNull(estat);
         assertEquals(idEstat, estat.getIdEstat());
@@ -153,19 +172,17 @@ public class EquipsTicClientTests {
 
     @Test
     public void getMarquesByNom() {
-        String nom = "IBM";
-        List<Marca> marques = client.getMarquesByNom(nom);
+        List<Marca> marques = client.getMarquesByNom(NOM_MARCA_IBM);
         assertFalse(marques.isEmpty());
         for (Marca m : marques) {
-            assertEquals(nom, m.getNom());
+            assertEquals(NOM_MARCA_IBM, m.getNom());
         }
     }
 
     @Test
     public void getMarcaById() {
-        long id = 45; // marca IBM
-        Marca marca = client.getMarcaById(id);
-        assertEquals(id, marca.getIdMarca());
+        Marca marca = client.getMarcaById(ID_MARCA_IBM);
+        assertEquals(ID_MARCA_IBM, marca.getIdMarca());
     }
 
     @Test
@@ -174,29 +191,28 @@ public class EquipsTicClientTests {
         TipusInfraestructura t = tipus.get(0);
 
         assertFalse(tipus.isEmpty());
-        System.out.println(t);
         assertNotNull(t.getCategoriaInfraestructura());
     }
 
     @Test
     public void getTipusInfraestructuraByCategoria() {
-        long idCategoria = 1; // categoria Servidor
+        long idCategoria = ID_CATEGORIA_SERVIDOR;
         assertFalse(client.getTipusInfraestructuraBycategoria(idCategoria).isEmpty());
     }
 
     @Test
     public void getTipusInfraestructuraByCodi() {
-        assertEquals("IMPRESSORA", client.getTipusInfraestructuraBycodi("IMPRESSORA").getCodi());
+        assertEquals(CODI_TIPUS_IMPRESSORA, client.getTipusInfraestructuraBycodi(CODI_TIPUS_IMPRESSORA).getCodi());
     }
 
     @Test
     public void getTipusInfraestructuraByNom() {
-        assertFalse(client.getTipusInfraestructuraByNom("Impressora").isEmpty());
+        assertFalse(client.getTipusInfraestructuraByNom(NOM_TIPUS_IMPRESSORA).isEmpty());
     }
 
     @Test
     public void getTipusInfraestructuraById() {
-        long id = 6; // tipus Impressora
+        long id = ID_TIPUS_IMPRESSORA;
         assertEquals(id, client.getTipusInfraestructuraById(id).getIdTipus());
     }
 
@@ -207,7 +223,7 @@ public class EquipsTicClientTests {
 
     @Test
     public void getTipusUsByUnitat() {
-        Unitat unitat = new Unitat(79, "171", "UTGAC", "Utg de l'Àmbit de Camins");
+        Unitat unitat = new Unitat(ID_UNITAT_UTGAC, CODI_UNITAT_UTGAC, IDENTIFICADOR_UNITAT_UTGAC, NOM_UNITAT_UTGAC);
         List<TipusUs> tipus = client.getTipusUsByUnitat(unitat.getIdUnitat());
         for (TipusUs t : tipus) {
             assertEquals(unitat, t.getUnitat());
@@ -216,9 +232,8 @@ public class EquipsTicClientTests {
 
     @Test
     public void getTipusUsById() {
-        long id = 34; // tipus us "docència"
-        TipusUs tipus = client.getTipusUsById(id);
-        assertEquals(id, tipus.getIdTipusUs());
+        TipusUs tipus = client.getTipusUsById(ID_TIPUS_US_DOCENCIA);
+        assertEquals(ID_TIPUS_US_DOCENCIA, tipus.getIdTipusUs());
     }
 
     @Test
@@ -228,8 +243,8 @@ public class EquipsTicClientTests {
 
     @Test
     public void getTipusXarxaById() {
-        long idTipus = 1; // tipus xarxa "troncal"
-        assertEquals(idTipus, client.getTipusXarxaById(idTipus).getIdTipusXarxa());
+        TipusXarxa tipus = client.getTipusXarxaById(ID_TIPUS_XARXA_TRONCAL);
+        assertEquals(ID_TIPUS_XARXA_TRONCAL, tipus.getIdTipusXarxa());
     }
 
     @Test
@@ -239,31 +254,30 @@ public class EquipsTicClientTests {
 
     @Test
     public void getUnitatByIdentificador() {
-        String identificador = "UTGAC";
+        String identificador = IDENTIFICADOR_UNITAT_UTGAC;
         assertEquals(identificador, client.getUnitatByIdentificador(identificador).getIdentificador());
     }
 
     @Test
     public void getUnitatsByNom() {
-        String nom = "Utg de l'Àmbit de Camins";
-        List<Unitat> unitats = client.getUnitatsByNom(nom);
+        List<Unitat> unitats = client.getUnitatsByNom(NOM_UNITAT_UTGAC);
         assertFalse(unitats.isEmpty());
         for (Unitat u : unitats) {
-            assertEquals(nom, u.getNom());
+            assertEquals(NOM_UNITAT_UTGAC, u.getNom());
         }
     }
 
     @Test
     public void getUnitatById() {
-        long id = 79; // UTGAC
+        long id = ID_UNITAT_UTGAC;
         assertEquals(id, client.getUnitatById(id).getIdUnitat());
     }
 
     @Test
     public void getUnitatsByNomAndIdentificadorAndCodi() {
-        String nom = "Utg de l'Àmbit de Camins";
-        String identificador = "UTGAC";
-        String codi = "171";
+        String nom = NOM_UNITAT_UTGAC;
+        String identificador = IDENTIFICADOR_UNITAT_UTGAC;
+        String codi = CODI_UNITAT_UTGAC;
         List<Unitat> unitats = client.getUnitatsByNomAndIdentificadorAndCodi(nom, identificador, codi);
         assertFalse(unitats.isEmpty());
         for (Unitat u : unitats) {
@@ -291,5 +305,20 @@ public class EquipsTicClientTests {
         String sn = "7MQ48Z1";
         Infraestructura infraestructura = client.getInfraestructuraByMarcaAndNumeroDeSerie(idMarca, sn);
         assertNotNull(infraestructura);
+    }
+
+    @Test
+    public void altaInfraestructura() {
+        Infraestructura i = infraestructuraFixture();
+        client.altaInfraestructura(i);
+    }
+
+    public Infraestructura infraestructuraFixture() {
+        Infraestructura i = new Infraestructura();
+        i.setMarca(client.getMarcaById(ID_MARCA_IBM));
+        i.setNumeroSerie("1234-test");
+        i.setTipusInfraestructura(client.getTipusInfraestructuraBycodi(CODI_TIPUS_IMPRESSORA));
+        i.setEstat(client.getEstatById(ID_ESTAT_EN_GARANTIA_CENTRALITZAT));
+        return i;
     }
 }
