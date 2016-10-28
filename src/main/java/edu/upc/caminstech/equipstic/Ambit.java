@@ -7,11 +7,17 @@ public class Ambit {
 
     private final long idAmbit;
     private final String nom;
+    private final String codi;
+    private final CategoriaInfraestructura categoriaInfraestructura;
 
     @JsonCreator
-    public Ambit(@JsonProperty("idAmbit") long idAmbit, @JsonProperty("nom") String nom) {
+    public Ambit(@JsonProperty("idAmbit") long idAmbit, @JsonProperty("nom") String nom,
+            @JsonProperty("codi") String codi,
+            @JsonProperty("categoriaInfraestructura") CategoriaInfraestructura categoriaInfraestructura) {
         this.idAmbit = idAmbit;
         this.nom = nom;
+        this.codi = codi;
+        this.categoriaInfraestructura = categoriaInfraestructura;
     }
 
     public long getIdAmbit() {
@@ -20,6 +26,14 @@ public class Ambit {
 
     public String getNom() {
         return nom;
+    }
+
+    public String getCodi() {
+        return codi;
+    }
+
+    public CategoriaInfraestructura getCategoriaInfraestructura() {
+        return categoriaInfraestructura;
     }
 
     @Override

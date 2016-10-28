@@ -9,10 +9,12 @@ import org.springframework.util.StringUtils;
 public class AmbitTests {
 
     private Ambit ambit1;
+    private CategoriaInfraestructura categoriaInfraestructura;
 
     @Before
     public void setUp() throws Exception {
-        ambit1 = new Ambit(1, "Ambit 1");
+        categoriaInfraestructura = new CategoriaInfraestructura(10, "Nom categoria", "CODI_CATEGORIA_10");
+        ambit1 = new Ambit(1, "Ambit 1", "CODI_AMBIT_1", categoriaInfraestructura);
     }
 
     @Test
@@ -38,19 +40,19 @@ public class AmbitTests {
 
     @Test
     public void testEquals() {
-        Ambit copy = new Ambit(1, "Ambit 1");
+        Ambit copy = new Ambit(1, "Ambit 1", "CODI_AMBIT_1", categoriaInfraestructura);
         assertEquals(copy, ambit1);
     }
 
     @Test
     public void testNotEquals() {
-        Ambit ambit2 = new Ambit(2, "Ambit 2");
+        Ambit ambit2 = new Ambit(2, "Ambit 2", "CODI_AMBIT_2", categoriaInfraestructura);
         assertNotEquals(ambit1, ambit2);
     }
 
     @Test
     public void testHashCode() {
-        Ambit copy = new Ambit(1, "Ambit 1");
+        Ambit copy = new Ambit(1, "Ambit 1", "CODI_AMBIT_1", categoriaInfraestructura);
         assertEquals(ambit1.hashCode(), copy.hashCode());
     }
 
