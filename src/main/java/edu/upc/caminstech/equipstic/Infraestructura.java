@@ -50,10 +50,14 @@ public class Infraestructura {
     private Ambit ambit;
     private TipusUs tipusUs;
     private Unitat unitatGestora;
+    private Unitat unitatDestinataria;
     private String observacions;
     private TipusXarxa tipusXarxa;
     private int numeroPorts;
     private String configuracioHardware;
+    private Usuari usuariInfraestructura;
+    private String nomUsuariInfraestructura;
+    private String sistemaOperatiu;
 
     // atributs obligatoris (només per a alguns TipusInfraestructura)
 
@@ -334,6 +338,14 @@ public class Infraestructura {
         this.unitatGestora = unitatGestora;
     }
 
+    public Unitat getUnitatDestinataria() {
+        return unitatDestinataria;
+    }
+
+    public void setUnitatDestinataria(Unitat unitatDestinataria) {
+        this.unitatDestinataria = unitatDestinataria;
+    }
+
     public Unitat getUnitat() {
         return unitat;
     }
@@ -364,6 +376,22 @@ public class Infraestructura {
 
     public void setUsuari(Usuari usuari) {
         this.usuari = usuari;
+    }
+
+    public Usuari getUsuariInfraestructura() {
+        return usuariInfraestructura;
+    }
+
+    public void setUsuariInfraestructura(Usuari usuariInfraestructura) {
+        this.usuariInfraestructura = usuariInfraestructura;
+    }
+
+    public String getSistemaOperatiu() {
+        return sistemaOperatiu;
+    }
+
+    public void setSistemaOperatiu(String sistemaOperatiu) {
+        this.sistemaOperatiu = sistemaOperatiu;
     }
 
     public String getCausaCanviWorkflow() {
@@ -407,4 +435,13 @@ public class Infraestructura {
     public int hashCode() {
         return Long.hashCode(identificador);
     }
+
+    public String getNomUsuariInfraestructura() {
+        return nomUsuariInfraestructura;
+    }
+
+    public void setNomUsuariInfraestructura(String nomUsuariInfraestructura) {
+        this.nomUsuariInfraestructura = nomUsuariInfraestructura;
+    }
+
 }
