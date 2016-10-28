@@ -202,7 +202,8 @@ public class InfraestructuraTests {
 
     @Test
     public void testGetAmbit() {
-        Ambit ambit = new Ambit(1, "AMBIT");
+        CategoriaInfraestructura cat = new CategoriaInfraestructura(10, "Nom categoria", "CODI_CATEGORIA");
+        Ambit ambit = new Ambit(1, "AMBIT", "CODI_AMBIT", cat);
         infra.setAmbit(ambit);
         assertEquals(ambit, infra.getAmbit());
     }
