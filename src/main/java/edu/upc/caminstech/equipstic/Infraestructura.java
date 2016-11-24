@@ -6,27 +6,62 @@ import java.util.Date;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * TODO: Utilitzar el patró Builder crear instàncies, tenint en compte quins
+ * TODO: Utilitzar el patró Builder per crear instàncies, tenint en compte quins
  * atributs són opcionals i quins no, segons el tipus d'infraestructura.
  */
 public class Infraestructura {
 
-    // atributs obligatoris
+    // atributs obligatoris (comuns)
 
     private long identificador;
-    private String nomDns; // nom
+    private String nomDns; // etiquetat com a "Nom" al formulari
     private String numeroSerie;
-    private TipusInfraestructura tipusInfraestructura; // inclou la categoria
+    private TipusInfraestructura tipusInfraestructura; // inclou la Categoria
     private Marca marca;
     private String model;
     private Date dataCompra;
     private BigDecimal importCompra;
     private Estat estat;
     private Unitat unitat;
-    private Edifici edifici; // inclou el campus
+    private Ambit ambit; // etiquetat com a "Propòsit" al formulari
+    private Edifici edifici; // inclou el Campus
     private Date dataFinalGarantia;
 
-    private Date dataCarrega;
+    // atributs obligatoris (per a alguns TipusInfraestructura)
+
+    private String modelCpu;
+    private Integer numeroCpus;
+    private String discs;
+    private String capacitatTotalGb;
+    private String sistemaOperatiu;
+
+    // atributs opcionals (comuns)
+
+    private String sla;
+    private String proveidorCompra;
+    private String observacions;
+    private Unitat unitatGestora; // etiquetat com a "Unitat TIC" al formulari
+    private Unitat unitatDestinataria;
+    private TipusUs tipusUs;
+    private String numeroInventariUpc;
+    private String numeroAd;
+    private String localitzacio;
+    private Date dataAltaManteniment;
+    private Date dataBaixaManteniment;
+    private String proveidorManteniment;
+    private Date dataEntrega;
+    private Date dataTramitFactura;
+
+    // atributs opcionals (per a alguns TipusInfraestructura)
+
+    private TipusXarxa tipusXarxa;
+    private int numeroPorts;
+    private String configuracioHardware;
+    private Usuari usuariInfraestructura;
+    private String nomUsuariInfraestructura;
+
+    // atributs d'ús intern
+
     private Estat estatValidacio;
     private Date dataCreacio;
     private Date dataDarreraModificacio;
@@ -34,37 +69,7 @@ public class Infraestructura {
     private String causaCanviWorkflow;
     private Date dataCanviWorkflow;
     private Estat estatAnteriorWorkflow;
-
-    // atributs opcionals (generics)
-
-    private String sla;
-    private String proveidorCompra;
-    private String proveidorManteniment;
-    private Date dataTramitFactura;
-    private Date dataEntrega;
-    private Date dataAltaManteniment;
-    private Date dataBaixaManteniment;
-    private String numeroAd;
-    private String localitzacio;
-    private String numeroInventariUpc;
-    private Ambit ambit;
-    private TipusUs tipusUs;
-    private Unitat unitatGestora;
-    private Unitat unitatDestinataria;
-    private String observacions;
-    private TipusXarxa tipusXarxa;
-    private int numeroPorts;
-    private String configuracioHardware;
-    private Usuari usuariInfraestructura;
-    private String nomUsuariInfraestructura;
-    private String sistemaOperatiu;
-
-    // atributs obligatoris (només per a alguns TipusInfraestructura)
-
-    private String modelCpu;
-    private Integer numeroCpus;
-    private String discs;
-    private String capacitatTotalGb;
+    private Date dataCarrega;
 
     public long getIdentificador() {
         return identificador;
