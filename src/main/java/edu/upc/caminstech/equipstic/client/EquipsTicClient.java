@@ -125,7 +125,7 @@ public class EquipsTicClient {
     public List<Ambit> getAmbits() {
         List<Ambit> result = get("/ambit", new ParameterizedTypeReference<Response<List<Ambit>>>() {
         });
-        return (result != null) ? result : new ArrayList<Ambit>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -138,7 +138,7 @@ public class EquipsTicClient {
         }
         List<Ambit> result = get("/ambit/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Ambit>>>() {
         }, nomAmbit);
-        return (result != null) ? result : new ArrayList<Ambit>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -157,7 +157,7 @@ public class EquipsTicClient {
     public List<Campus> getCampus() {
         List<Campus> result = get("/campus", new ParameterizedTypeReference<Response<List<Campus>>>() {
         });
-        return (result != null) ? result : new ArrayList<Campus>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -188,7 +188,7 @@ public class EquipsTicClient {
     public List<Categoria> getCategories() {
         List<Categoria> result = get("/categoria", new ParameterizedTypeReference<Response<List<Categoria>>>() {
         });
-        return (result != null) ? result : new ArrayList<Categoria>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -207,7 +207,7 @@ public class EquipsTicClient {
     public List<Edifici> getEdificis() {
         List<Edifici> result = get("/edifici", new ParameterizedTypeReference<Response<List<Edifici>>>() {
         });
-        return (result != null) ? result : new ArrayList<Edifici>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -242,7 +242,7 @@ public class EquipsTicClient {
     public List<Estat> getEstats() {
         List<Estat> result = get("/estat", new ParameterizedTypeReference<Response<List<Estat>>>() {
         });
-        return (result != null) ? result : new ArrayList<Estat>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -267,7 +267,7 @@ public class EquipsTicClient {
         }
         List<Estat> result = get("/estat/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Estat>>>() {
         }, nomEstat);
-        return (result != null) ? result : new ArrayList<Estat>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -286,7 +286,7 @@ public class EquipsTicClient {
     public List<Marca> getMarques() {
         List<Marca> result = get("/marca", new ParameterizedTypeReference<Response<List<Marca>>>() {
         });
-        return (result != null) ? result : new ArrayList<Marca>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -299,7 +299,7 @@ public class EquipsTicClient {
         }
         List<Marca> result = get("/marca/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Marca>>>() {
         }, nom);
-        return (result != null) ? result : new ArrayList<Marca>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -318,7 +318,7 @@ public class EquipsTicClient {
     public List<TipusUs> getTipusUs() {
         List<TipusUs> result = get("/tipusUs", new ParameterizedTypeReference<Response<List<TipusUs>>>() {
         });
-        return (result != null) ? result : new ArrayList<TipusUs>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -329,7 +329,7 @@ public class EquipsTicClient {
         List<TipusUs> result = get("/tipusUs/cerca/unitat/{idUnitat}",
                 new ParameterizedTypeReference<Response<List<TipusUs>>>() {
                 }, idUnitat);
-        return (result != null) ? result : new ArrayList<TipusUs>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -349,7 +349,7 @@ public class EquipsTicClient {
         List<TipusInfraestructura> result = get("/tipusInfraestructura",
                 new ParameterizedTypeReference<Response<List<TipusInfraestructura>>>() {
                 });
-        return (result != null) ? result : new ArrayList<TipusInfraestructura>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -360,7 +360,7 @@ public class EquipsTicClient {
         List<TipusInfraestructura> result = get("/tipusInfraestructura/cerca/categoria/{idCategoria}",
                 new ParameterizedTypeReference<Response<List<TipusInfraestructura>>>() {
                 }, idCategoria);
-        return (result != null) ? result : new ArrayList<TipusInfraestructura>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -387,7 +387,7 @@ public class EquipsTicClient {
         List<TipusInfraestructura> result = get("/tipusInfraestructura/cerca/nom/{nom}",
                 new ParameterizedTypeReference<Response<List<TipusInfraestructura>>>() {
                 }, nom);
-        return (result != null) ? result : new ArrayList<TipusInfraestructura>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -406,7 +406,7 @@ public class EquipsTicClient {
     public List<TipusXarxa> getTipusXarxa() {
         List<TipusXarxa> result = get("/tipusXarxa", new ParameterizedTypeReference<Response<List<TipusXarxa>>>() {
         });
-        return (result != null) ? result : new ArrayList<TipusXarxa>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -425,7 +425,7 @@ public class EquipsTicClient {
     public List<Unitat> getUnitats() {
         List<Unitat> result = get("/unitat", new ParameterizedTypeReference<Response<List<Unitat>>>() {
         });
-        return (result != null) ? result : new ArrayList<Unitat>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -458,7 +458,7 @@ public class EquipsTicClient {
         }
         List<Unitat> result = get("/unitat/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Unitat>>>() {
         }, nom);
-        return (result != null) ? result : new ArrayList<Unitat>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
@@ -479,7 +479,7 @@ public class EquipsTicClient {
         List<Unitat> result = get("/unitat/cerca/nom/{nom}/identificador/{identificador}/codi/{codi}",
                 new ParameterizedTypeReference<Response<List<Unitat>>>() {
                 }, nom, identificador, codiUnitat);
-        return (result != null) ? result : new ArrayList<Unitat>();
+        return (result != null) ? result : new ArrayList<>();
     }
 
     /**
