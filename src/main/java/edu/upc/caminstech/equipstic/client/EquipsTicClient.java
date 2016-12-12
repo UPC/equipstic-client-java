@@ -537,6 +537,8 @@ public class EquipsTicClient {
         Edifici edifici = getEdificiById(infra.getEdifici().getIdEdifici());
         Estat estatValidacio = getEstatById(infra.getEstatValidacio().getIdEstat());
         Unitat unitatGestora = getUnitatById(infra.getUnitatGestora().getIdUnitat());
+        Unitat unitatDestinataria = (infra.getUnitatDestinataria() != null)
+                ? getUnitatById(infra.getUnitatDestinataria().getIdUnitat()) : null;
 
         infra.setMarca(marca);
         infra.setTipusInfraestructura(tipusInfraestructura);
@@ -545,6 +547,7 @@ public class EquipsTicClient {
         infra.setEdifici(edifici);
         infra.setEstatValidacio(estatValidacio);
         infra.setUnitatGestora(unitatGestora);
+        infra.setUnitatDestinataria(unitatDestinataria);
     }
 
     /**
