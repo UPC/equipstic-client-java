@@ -9,7 +9,7 @@ public class TipusInfraestructura {
     private final String nom;
     private final String codi;
     private final boolean requereixCampsExtra;
-    private final CategoriaInfraestructura categoriaInfraestructura;
+    private final Categoria categoriaInfraestructura;
 
     @JsonCreator
     public TipusInfraestructura( //
@@ -17,7 +17,7 @@ public class TipusInfraestructura {
             @JsonProperty("nom") String nom, //
             @JsonProperty("codi") String codi, //
             @JsonProperty("requereixCampsExtra") boolean requereixCampsExtra, //
-            @JsonProperty("categoriaInfraestructura") CategoriaInfraestructura categoriaInfraestructura) {
+            @JsonProperty("categoriaInfraestructura") Categoria categoriaInfraestructura) {
         this.idTipus = idTipus;
         this.nom = nom;
         this.codi = codi;
@@ -25,7 +25,7 @@ public class TipusInfraestructura {
         this.categoriaInfraestructura = categoriaInfraestructura;
     }
 
-    public CategoriaInfraestructura getCategoriaInfraestructura() {
+    public Categoria getCategoriaInfraestructura() {
         return categoriaInfraestructura;
     }
 

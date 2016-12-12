@@ -8,12 +8,12 @@ public class Ambit {
     private final long idAmbit;
     private final String nom;
     private final String codi;
-    private final CategoriaInfraestructura categoriaInfraestructura;
+    private final Categoria categoriaInfraestructura;
 
     @JsonCreator
     public Ambit(@JsonProperty("idAmbit") long idAmbit, @JsonProperty("nom") String nom,
             @JsonProperty("codi") String codi,
-            @JsonProperty("categoriaInfraestructura") CategoriaInfraestructura categoriaInfraestructura) {
+            @JsonProperty("categoriaInfraestructura") Categoria categoriaInfraestructura) {
         this.idAmbit = idAmbit;
         this.nom = nom;
         this.codi = codi;
@@ -32,7 +32,7 @@ public class Ambit {
         return codi;
     }
 
-    public CategoriaInfraestructura getCategoriaInfraestructura() {
+    public Categoria getCategoriaInfraestructura() {
         return categoriaInfraestructura;
     }
 

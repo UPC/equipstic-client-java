@@ -10,11 +10,11 @@ public class TipusInfraestructuraTests {
 
     private TipusInfraestructura tipus;
     private TipusInfraestructura copia;
-    private CategoriaInfraestructura cat;
+    private Categoria cat;
 
     @Before
     public void setUp() throws Exception {
-        cat = new CategoriaInfraestructura(1, "CAT1", "C1");
+        cat = new Categoria(1, "CAT1", "C1");
         tipus = new TipusInfraestructura(1, "TIPUS 1", "T1", true, cat);
         copia = new TipusInfraestructura(1, "TIPUS 1", "T1", true, cat);
     }

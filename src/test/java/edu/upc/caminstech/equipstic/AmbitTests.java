@@ -9,11 +9,11 @@ import org.springframework.util.StringUtils;
 public class AmbitTests {
 
     private Ambit ambit1;
-    private CategoriaInfraestructura categoriaInfraestructura;
+    private Categoria categoriaInfraestructura;
 
     @Before
     public void setUp() throws Exception {
-        categoriaInfraestructura = new CategoriaInfraestructura(10, "Nom categoria", "CODI_CATEGORIA_10");
+        categoriaInfraestructura = new Categoria(10, "Nom categoria", "CODI_CATEGORIA_10");
         ambit1 = new Ambit(1, "Ambit 1", "CODI_AMBIT_1", categoriaInfraestructura);
     }
 
