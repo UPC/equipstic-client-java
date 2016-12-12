@@ -5,16 +5,17 @@ import static org.junit.Assert.*;
 import java.net.URI;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.util.StringUtils;
 
 import edu.upc.caminstech.equipstic.Campus;
 import edu.upc.caminstech.equipstic.Edifici;
 import edu.upc.caminstech.equipstic.Estat;
 import edu.upc.caminstech.equipstic.Infraestructura;
 import edu.upc.caminstech.equipstic.Marca;
+import edu.upc.caminstech.equipstic.SistemaOperatiu;
 import edu.upc.caminstech.equipstic.TipusInfraestructura;
 import edu.upc.caminstech.equipstic.TipusUs;
 import edu.upc.caminstech.equipstic.TipusXarxa;
@@ -43,6 +44,7 @@ public class EquipsTicClientTests {
     private static final long ID_CAMPUS_NORD = 1;
     private static final long ID_MARCA_IBM = 45;
     private static final long ID_UNITAT_UTGAC = 79;
+    private static final long ID_SISTEMA_OPERATIU_LINUX = 2;
     private static final String CODI_CAMPUS_NORD = "ND";
     private static final String NOM_TIPUS_IMPRESSORA = "Impressora";
     private static final String CODI_TIPUS_IMPRESSORA = "IMPRESSORA";
@@ -307,12 +309,6 @@ public class EquipsTicClientTests {
         assertNotNull(infraestructura);
     }
 
-    @Test
-    public void altaInfraestructura() {
-        Infraestructura i = infraestructuraFixture();
-        client.altaInfraestructura(i);
-    }
-
     public Infraestructura infraestructuraFixture() {
         Infraestructura i = new Infraestructura();
         i.setMarca(client.getMarcaById(ID_MARCA_IBM));
@@ -320,5 +316,42 @@ public class EquipsTicClientTests {
         i.setTipusInfraestructura(client.getTipusInfraestructuraBycodi(CODI_TIPUS_IMPRESSORA));
         i.setEstat(client.getEstatById(ID_ESTAT_EN_GARANTIA_CENTRALITZAT));
         return i;
+    }
+
+    @Test
+    public void getSistemesOperatius() {
+        List<SistemaOperatiu> sistemesOperatius = client.getSistemesOperatius();
+        assertFalse(sistemesOperatius.isEmpty());
+    }
+
+    @Test
+    public void getSistemesOperatiusByCategoria() {
+        List<SistemaOperatiu> sistemesOperatius = client.getSistemesOperatiusByCategoria(ID_CATEGORIA_SERVIDOR);
+        assertFalse(sistemesOperatius.isEmpty());
+        assertTrue(sistemesOperatius.parallelStream()
+                .allMatch(so -> so.getCategoriaInfraestructura().getIdCategoria() == ID_CATEGORIA_SERVIDOR));
+    }
+
+    @Test
+    public void getSistemesOperatiusByCodi() {
+        List<SistemaOperatiu> sistemesOperatius = client.getSistemesOperatiusByCodi("LINUX");
+        assertFalse(sistemesOperatius.isEmpty());
+        assertTrue(sistemesOperatius.parallelStream()
+                .allMatch(so -> StringUtils.containsIgnoreCase(so.getCodi(), "LINUX")));
+    }
+
+    @Test
+    public void getSistemesOperatiusByNom() {
+        List<SistemaOperatiu> sistemesOperatius = client.getSistemesOperatiusByNom("Linux");
+        assertFalse(sistemesOperatius.isEmpty());
+        assertTrue(sistemesOperatius.parallelStream()
+                .allMatch(so -> StringUtils.containsIgnoreCase(so.getNom(), "Linux")));
+    }
+
+    @Test
+    public void getSistemaOperatiuById() {
+        SistemaOperatiu so = client.getSistemaOperatiuByid(ID_SISTEMA_OPERATIU_LINUX);
+        assertNotNull(so);
+        assertEquals(ID_SISTEMA_OPERATIU_LINUX, so.getIdSistemaOperatiu());
     }
 }

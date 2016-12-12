@@ -33,6 +33,7 @@ import edu.upc.caminstech.equipstic.Edifici;
 import edu.upc.caminstech.equipstic.Estat;
 import edu.upc.caminstech.equipstic.Infraestructura;
 import edu.upc.caminstech.equipstic.Marca;
+import edu.upc.caminstech.equipstic.SistemaOperatiu;
 import edu.upc.caminstech.equipstic.TipusInfraestructura;
 import edu.upc.caminstech.equipstic.TipusUs;
 import edu.upc.caminstech.equipstic.TipusXarxa;
@@ -548,6 +549,76 @@ public class EquipsTicClient {
         infra.setEstatValidacio(estatValidacio);
         infra.setUnitatGestora(unitatGestora);
         infra.setUnitatDestinataria(unitatDestinataria);
+    }
+
+    /**
+     * Llistat de tots els sistemes operatius inventariats.
+     */
+    public List<SistemaOperatiu> getSistemesOperatius() {
+        List<SistemaOperatiu> result = get("/sistemaOperatiu",
+                new ParameterizedTypeReference<Response<List<SistemaOperatiu>>>() {
+                });
+        return (result != null) ? result : new ArrayList<>();
+    }
+
+    /**
+     * Cerca de sistemes operatius per categoria.
+     * 
+     * @param idCategoria
+     *            l'identificador de la categoria
+     */
+    public List<SistemaOperatiu> getSistemesOperatiusByCategoria(long idCategoria) {
+        List<SistemaOperatiu> result = get("/sistemaOperatiu/cerca/categoria/{idCategoria}",
+                new ParameterizedTypeReference<Response<List<SistemaOperatiu>>>() {
+                }, idCategoria);
+        return (result != null) ? result : new ArrayList<>();
+    }
+
+    /**
+     * Cerca de sistemes operatius per codi.
+     * 
+     * @param codi
+     *            un codi de sistema operatiu
+     * @return la llista de sistemes operatius per al codi donat.
+     */
+    public List<SistemaOperatiu> getSistemesOperatiusByCodi(String codi) {
+        if (StringUtils.isBlank(codi)) {
+            throw new IllegalArgumentException("parameter 'codi' can not be blank");
+        }
+        List<SistemaOperatiu> result = get("/sistemaOperatiu/cerca/codi/{codi}",
+                new ParameterizedTypeReference<Response<List<SistemaOperatiu>>>() {
+                }, codi);
+        return (result != null) ? result : new ArrayList<>();
+    }
+
+    /**
+     * Cerca de sistemes operatius per nom.
+     * 
+     * @param nom
+     *            un nom de sistema operatiu
+     * @return la llista de sistemes operatius per al nom donat.
+     */
+    public List<SistemaOperatiu> getSistemesOperatiusByNom(String nom) {
+        if (StringUtils.isBlank(nom)) {
+            throw new IllegalArgumentException("parameter 'nom' can not be blank");
+        }
+        List<SistemaOperatiu> result = get("/sistemaOperatiu/cerca/nom/{nom}",
+                new ParameterizedTypeReference<Response<List<SistemaOperatiu>>>() {
+                }, nom);
+        return (result != null) ? result : new ArrayList<>();
+    }
+
+    /**
+     * Cerca de sistema operatiu a partir del seu identificador.
+     * 
+     * @param idSistemaOperatiu
+     *            un identificador de sistema operatiu
+     * @return el sistema operatiu amb l'identificador donat, o bé {@code null}
+     *         si no existeix.
+     */
+    public SistemaOperatiu getSistemaOperatiuByid(long idSistemaOperatiu) {
+        return get("/sistemaOperatiu/{id}", new ParameterizedTypeReference<Response<SistemaOperatiu>>() {
+        }, idSistemaOperatiu);
     }
 
     /**
