@@ -296,4 +296,10 @@ public class InfraestructuraTests {
         assertEquals(copia.hashCode(), infra.hashCode());
     }
 
+    @Test
+    public void testGetSistemaOperatiu() {
+        SistemaOperatiu so = new SistemaOperatiu(2, null, null, null);
+        infra.setSistemaOperatiu(so);
+        assertEquals(so, infra.getSistemaOperatiu());
+    }
 }
