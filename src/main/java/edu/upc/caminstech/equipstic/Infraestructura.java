@@ -55,7 +55,7 @@ public class Infraestructura {
     // atributs opcionals (per a alguns TipusInfraestructura)
 
     private TipusXarxa tipusXarxa;
-    private int numeroPorts;
+    private Integer numeroPorts;
     private String configuracioHardware;
     private Usuari usuariInfraestructura;
     private String nomUsuariInfraestructura;
@@ -215,11 +215,11 @@ public class Infraestructura {
         this.numeroInventariUpc = numeroInventariUpc;
     }
 
-    public int getNumeroPorts() {
+    public Integer getNumeroPorts() {
         return numeroPorts;
     }
 
-    public void setNumeroPorts(int numeroPorts) {
+    public void setNumeroPorts(Integer numeroPorts) {
         this.numeroPorts = numeroPorts;
     }
 

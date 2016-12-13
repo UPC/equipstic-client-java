@@ -133,8 +133,9 @@ public class InfraestructuraTests {
 
     @Test
     public void testGetNumeroPorts() {
-        infra.setNumeroPorts(48);
-        assertEquals(48, infra.getNumeroPorts());
+        Integer ports = 48;
+        infra.setNumeroPorts(ports);
+        assertEquals(ports, infra.getNumeroPorts());
     }
 
     @Test
