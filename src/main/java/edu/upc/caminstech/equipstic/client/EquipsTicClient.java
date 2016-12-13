@@ -540,6 +540,8 @@ public class EquipsTicClient {
         Unitat unitatGestora = getUnitatById(infra.getUnitatGestora().getIdUnitat());
         Unitat unitatDestinataria = (infra.getUnitatDestinataria() != null)
                 ? getUnitatById(infra.getUnitatDestinataria().getIdUnitat()) : null;
+        SistemaOperatiu sistemaOperatiu = (infra.getSistemaOperatiu() != null)
+                ? getSistemaOperatiuByid(infra.getSistemaOperatiu().getIdSistemaOperatiu()) : null;
 
         infra.setMarca(marca);
         infra.setTipusInfraestructura(tipusInfraestructura);
@@ -549,6 +551,7 @@ public class EquipsTicClient {
         infra.setEstatValidacio(estatValidacio);
         infra.setUnitatGestora(unitatGestora);
         infra.setUnitatDestinataria(unitatDestinataria);
+        infra.setSistemaOperatiu(sistemaOperatiu);
     }
 
     /**

@@ -33,7 +33,7 @@ public class Infraestructura {
     private Integer numeroCpus;
     private String discs;
     private String capacitatTotalGb;
-    private String sistemaOperatiu;
+    private SistemaOperatiu sistemaOperatiu;
 
     // atributs opcionals (comuns)
 
@@ -391,11 +391,11 @@ public class Infraestructura {
         this.usuariInfraestructura = usuariInfraestructura;
     }
 
-    public String getSistemaOperatiu() {
+    public SistemaOperatiu getSistemaOperatiu() {
         return sistemaOperatiu;
     }
 
-    public void setSistemaOperatiu(String sistemaOperatiu) {
+    public void setSistemaOperatiu(SistemaOperatiu sistemaOperatiu) {
         this.sistemaOperatiu = sistemaOperatiu;
     }
 
