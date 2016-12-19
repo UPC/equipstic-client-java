@@ -1,41 +1,58 @@
 package edu.upc.caminstech.equipstic.client;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * Representa una resposta del servidor d'EquipsTIC.
+ * 
+ * Aquesta classe és d'ús intern del client d'EquipsTIC. No la feu servir
+ * directament en els vostres programes.
+ */
 public class Response<T> {
 
-    private String status;
-    private String success;
-    private String message;
-    private T data;
+    public static final String STATUS_SUCCESS = "success";
+
+    public static final String STATUS_FAILURE = "fail";
+
+    private final String status;
+    private final String success;
+    private final String message;
+    private final T data;
+
+    @JsonCreator
+    public Response(@JsonProperty("status") String status, @JsonProperty("success") String success,
+            @JsonProperty("message") String message, @JsonProperty("data") T data) {
+        this.status = status;
+        this.success = success;
+        this.message = message;
+        this.data = data;
+    }
 
     public String getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getSuccess() {
         return success;
     }
 
-    public void setSuccess(String success) {
-        this.success = success;
-    }
-
     public String getMessage() {
         return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public T getData() {
         return data;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public boolean isSuccess() {
+        return STATUS_SUCCESS.equals(status);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("[Response<%s> status: %s, success: %s, message: %s, data: %s]",
+                data != null ? data.getClass().getSimpleName() : "", status, success, message,
+                data != null ? data.toString() : "");
     }
 }
