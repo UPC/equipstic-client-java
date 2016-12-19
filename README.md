@@ -8,13 +8,23 @@ Un client java per a la API d'Equips TIC de la UPC.
 
 ## Quickstart
 
-Situeu-vos al directori on es troba el fitxer pom.xml, i executeu
+Compilar el client i instal·lar-lo al vostre repositori local de Maven:
 
-    mvn package
+    $ mvn install
 
-Al subdirectori `target/` s'hauria d'haver generat el `.jar` que haureu d'incloure al classpath de la vostra aplicació.
+Al vostre projecte, indiqueu la dependència del client en el vostre fitxer `pom.xml`:
+
+    <dependency>
+        <groupId>edu.upc.caminstech</groupId>
+        <artifactId>equipstic-java</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </dependency>
 
 ## Tests
+
+Podeu executar tests unitaris del client amb:
+
+    $ mvn test
 
 Si voleu executar els tests d'integració (deshabilitat per defecte),
 reviseu el fitxer `runClientTests.sh`, definiu les variables d'entorn segons pertoqui, i executeu-lo.
