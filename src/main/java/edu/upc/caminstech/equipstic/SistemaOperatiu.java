@@ -41,7 +41,8 @@ public class SistemaOperatiu {
     @Override
     public String toString() {
         return String.format("[SistemaOperatiu idSistemaOperatiu: %s, nom: %s, codi: %s, categoriaInfraestructura: %s]",
-                idSistemaOperatiu, nom, codi, categoriaInfraestructura.toString());
+                idSistemaOperatiu, nom, codi,
+                categoriaInfraestructura != null ? categoriaInfraestructura.toString() : null);
     }
 
     @Override
