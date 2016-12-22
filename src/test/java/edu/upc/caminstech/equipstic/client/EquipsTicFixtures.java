@@ -78,7 +78,7 @@ public class EquipsTicFixtures {
     }
 
     public static Ambit ambitFixture() {
-        return new Ambit(39, "Lloc de treball PAS", "LT_PAS", categoriaFixture());
+        return new Ambit(6, "Lloc de treball PAS", "LT_PAS", categoriaFixture());
     }
 
     public static Marca marcaFixture() {
