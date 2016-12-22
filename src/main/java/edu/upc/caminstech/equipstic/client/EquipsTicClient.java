@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.auth.AuthScope;
@@ -13,8 +14,12 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClients;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +29,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.upc.caminstech.equipstic.Ambit;
@@ -62,6 +68,8 @@ import edu.upc.caminstech.equipstic.Unitat;
  * cas de problemes en intentar accedir al servidor SOA.
  */
 public class EquipsTicClient {
+
+    protected final Logger logger = LoggerFactory.getLogger(EquipsTicClient.class);
 
     private final String baseUri;
     private final RestTemplate restTemplate;
@@ -555,6 +563,39 @@ public class EquipsTicClient {
     }
 
     /**
+     * Dóna d'alta una nova infraestructura.
+     * 
+     * @param infraestructura
+     *            La infraestructura a crear.
+     * @throws JsonProcessingException
+     */
+    public Infraestructura altaInfraestructura(Infraestructura infraestructura) {
+        if (infraestructura == null) {
+            throw new IllegalArgumentException("La infraestructura no pot ser null");
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        HttpEntity<Infraestructura> req = new HttpEntity<>(infraestructura, headers);
+
+        logger.debug("Request: [headers: {}, body: {}]", req.getHeaders().toString(), req.getBody());
+
+        ResponseEntity<Response<Infraestructura>> rp = restTemplate.exchange(baseUri + "/infraestructura",
+                HttpMethod.POST, req, new ParameterizedTypeReference<Response<Infraestructura>>() {
+                });
+
+        logger.debug("Response: [headers: {}, body: {}]", rp.getHeaders().toString(), rp.getBody().toString());
+
+        Response<Infraestructura> response = rp.getBody();
+        if (response.isSuccess()) {
+            return response.getData();
+        }
+
+        throw new EquipsTicClientException(response, "Error en crear la infraestructura: " + response.getMessage());
+    }
+
+    /**
      * Llistat de tots els sistemes operatius inventariats.
      */
     public List<SistemaOperatiu> getSistemesOperatius() {
@@ -633,18 +674,12 @@ public class EquipsTicClient {
         ResponseEntity<Response<T>> entity = restTemplate.exchange(uri, HttpMethod.GET, null, typeReference, urlParams);
 
         Response<T> response = entity.getBody();
-        RecursNoTrobatException.throwIf(isResourceNotFound(response), response.getMessage());
+        if (response == null || !response.isSuccess()) {
+            String errorMsg = String.format("Error en obtenir el recurs: [urlParams: %s, response: %s]",
+                    Arrays.toString(urlParams), Objects.toString(response));
+            throw new EquipsTicClientException(response, errorMsg);
+        }
         return (response != null) ? response.getData() : null;
     }
 
-    /**
-     * Comprova si la {@link Response} està indicant que no s'ha trobat el
-     * recurs. Això és un <em>workaround</em> ja que la API d'EquipsTIC no
-     * retorna 404 en cas que el recurs no existeixi (retorna un 200, i indica
-     * l'error al estat i al missatge, dins el body).
-     */
-    private <T> boolean isResourceNotFound(Response<T> response) {
-        return (response != null) && "fail".equals(response.getStatus())
-                && StringUtils.containsIgnoreCase(response.getMessage(), "no existeix");
-    }
 }

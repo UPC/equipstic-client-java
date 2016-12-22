@@ -10,7 +10,9 @@ import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import edu.upc.caminstech.equipstic.Ambit;
 import edu.upc.caminstech.equipstic.Campus;
+import edu.upc.caminstech.equipstic.Categoria;
 import edu.upc.caminstech.equipstic.Edifici;
 import edu.upc.caminstech.equipstic.Estat;
 import edu.upc.caminstech.equipstic.Infraestructura;
@@ -36,12 +38,14 @@ public class EquipsTicClientTests {
     private static final String envUsername = System.getenv(ENV_USERNAME_VAR);
     private static final String envPassword = System.getenv(ENV_PASSWORD_VAR);
 
+    private static final int ID_INFRAESTRUCTURA = 16137;
     private static final long ID_CATEGORIA_SERVIDOR = 1;
     private static final long ID_ESTAT_EN_GARANTIA_CENTRALITZAT = 1;
     private static final long ID_TIPUS_IMPRESSORA = 6;
     private static final long ID_TIPUS_XARXA_TRONCAL = 1;
     private static final long ID_TIPUS_US_DOCENCIA = 34;
     private static final long ID_CAMPUS_NORD = 1;
+    private static final long ID_EDIFICI_B2 = 36;
     private static final long ID_MARCA_IBM = 45;
     private static final long ID_UNITAT_UTGAC = 79;
     private static final long ID_SISTEMA_OPERATIU_LINUX = 2;
@@ -59,7 +63,7 @@ public class EquipsTicClientTests {
     private static EquipsTicClient client;
 
     @BeforeClass
-    public static void setUp() throws RecursNoTrobatException {
+    public static void setUp() {
         /*
          * Els tests d'aquesta classe només s'executaran en cas que estiguin
          * definides les variables d'entorn necessàries per a la configuració
@@ -82,13 +86,15 @@ public class EquipsTicClientTests {
     }
 
     @Test
-    public void getAmbitShouldNotThrowException() {
-        client.getAmbits();
+    public void getAmbits() {
+        List<Ambit> ambits = client.getAmbits();
+        assertFalse(ambits.isEmpty());
     }
 
     @Test
-    public void getCampusShouldNotThrowException() {
-        client.getCampus();
+    public void getCampus() {
+        List<Campus> campus = client.getCampus();
+        assertFalse(campus.isEmpty());
     }
 
     @Test
@@ -104,27 +110,30 @@ public class EquipsTicClientTests {
     }
 
     @Test
-    public void getCategoriesShouldNotThrowException() {
-        client.getCategories();
+    public void getCategories() {
+        List<Categoria> categories = client.getCategories();
+        assertFalse(categories.isEmpty());
     }
 
     @Test
     public void getCategoriaById() {
-        client.getCategoriaById(1);
+        Categoria c = client.getCategoriaById(ID_CATEGORIA_SERVIDOR);
+        assertNotNull(c);
+        assertEquals(ID_CATEGORIA_SERVIDOR, c.getIdCategoria());
     }
 
     @Test
     public void getEdificis() {
         List<Edifici> edificis = client.getEdificis();
-        assertTrue(edificis.size() > 0);
+        assertFalse(edificis.isEmpty());
     }
 
     @Test
     public void getEdificiById() {
-        Edifici edifici = client.getEdificiById(1);
+        Edifici edifici = client.getEdificiById(ID_EDIFICI_B2);
 
         assertNotNull(edifici);
-        assertEquals(1, edifici.getIdEdifici());
+        assertEquals(ID_EDIFICI_B2, edifici.getIdEdifici());
         assertNotNull(edifici.getCampus());
     }
 
@@ -142,7 +151,7 @@ public class EquipsTicClientTests {
     @Test
     public void getEstats() {
         List<Estat> estats = client.getEstats();
-        assertNotNull(estats);
+        assertFalse(estats.isEmpty());
     }
 
     @Test
@@ -156,7 +165,7 @@ public class EquipsTicClientTests {
     @Test
     public void getEstatsByNom() {
         List<Estat> estats = client.getEstatsByNom(NOM_ESTAT_BAIXA);
-        assertNotNull(estats);
+        assertFalse(estats.isEmpty());
     }
 
     @Test
@@ -169,16 +178,15 @@ public class EquipsTicClientTests {
 
     @Test
     public void getMarques() {
-        assertFalse(client.getMarques().isEmpty());
+        List<Marca> marques = client.getMarques();
+        assertFalse(marques.isEmpty());
     }
 
     @Test
     public void getMarquesByNom() {
         List<Marca> marques = client.getMarquesByNom(NOM_MARCA_IBM);
         assertFalse(marques.isEmpty());
-        for (Marca m : marques) {
-            assertEquals(NOM_MARCA_IBM, m.getNom());
-        }
+        assertTrue(marques.stream().allMatch(m -> StringUtils.containsIgnoreCase(m.getNom(), NOM_MARCA_IBM)));
     }
 
     @Test
@@ -190,46 +198,44 @@ public class EquipsTicClientTests {
     @Test
     public void getTipusInfraestructura() {
         List<TipusInfraestructura> tipus = client.getTipusInfraestructura();
-        TipusInfraestructura t = tipus.get(0);
-
         assertFalse(tipus.isEmpty());
-        assertNotNull(t.getCategoriaInfraestructura());
     }
 
     @Test
     public void getTipusInfraestructuraByCategoria() {
-        long idCategoria = ID_CATEGORIA_SERVIDOR;
-        assertFalse(client.getTipusInfraestructuraBycategoria(idCategoria).isEmpty());
+        List<TipusInfraestructura> tipus = client.getTipusInfraestructuraBycategoria(ID_CATEGORIA_SERVIDOR);
+        assertFalse(tipus.isEmpty());
     }
 
     @Test
     public void getTipusInfraestructuraByCodi() {
-        assertEquals(CODI_TIPUS_IMPRESSORA, client.getTipusInfraestructuraBycodi(CODI_TIPUS_IMPRESSORA).getCodi());
+        TipusInfraestructura tipus = client.getTipusInfraestructuraBycodi(CODI_TIPUS_IMPRESSORA);
+        assertEquals(CODI_TIPUS_IMPRESSORA, tipus.getCodi());
     }
 
     @Test
     public void getTipusInfraestructuraByNom() {
-        assertFalse(client.getTipusInfraestructuraByNom(NOM_TIPUS_IMPRESSORA).isEmpty());
+        List<TipusInfraestructura> tipus = client.getTipusInfraestructuraByNom(NOM_TIPUS_IMPRESSORA);
+        assertFalse(tipus.isEmpty());
     }
 
     @Test
     public void getTipusInfraestructuraById() {
-        long id = ID_TIPUS_IMPRESSORA;
-        assertEquals(id, client.getTipusInfraestructuraById(id).getIdTipus());
+        TipusInfraestructura tipus = client.getTipusInfraestructuraById(ID_TIPUS_IMPRESSORA);
+        assertEquals(ID_TIPUS_IMPRESSORA, tipus.getIdTipus());
     }
 
     @Test
     public void getTipusUs() {
-        assertFalse(client.getTipusUs().isEmpty());
+        List<TipusUs> tipus = client.getTipusUs();
+        assertFalse(tipus.isEmpty());
     }
 
     @Test
     public void getTipusUsByUnitat() {
-        Unitat unitat = new Unitat(ID_UNITAT_UTGAC, CODI_UNITAT_UTGAC, IDENTIFICADOR_UNITAT_UTGAC, NOM_UNITAT_UTGAC);
+        Unitat unitat = EquipsTicFixtures.unitatFixture();
         List<TipusUs> tipus = client.getTipusUsByUnitat(unitat.getIdUnitat());
-        for (TipusUs t : tipus) {
-            assertEquals(unitat, t.getUnitat());
-        }
+        assertTrue(tipus.stream().allMatch(t -> t.equals(unitat)));
     }
 
     @Test
@@ -240,7 +246,8 @@ public class EquipsTicClientTests {
 
     @Test
     public void getTipusXarxa() {
-        assertFalse(client.getTipusXarxa().isEmpty());
+        List<TipusXarxa> tipus = client.getTipusXarxa();
+        assertFalse(tipus.isEmpty());
     }
 
     @Test
@@ -251,13 +258,14 @@ public class EquipsTicClientTests {
 
     @Test
     public void getUnitats() {
-        assertFalse(client.getUnitats().isEmpty());
+        List<Unitat> unitats = client.getUnitats();
+        assertFalse(unitats.isEmpty());
     }
 
     @Test
     public void getUnitatByIdentificador() {
-        String identificador = IDENTIFICADOR_UNITAT_UTGAC;
-        assertEquals(identificador, client.getUnitatByIdentificador(identificador).getIdentificador());
+        Unitat unitat = client.getUnitatByIdentificador(IDENTIFICADOR_UNITAT_UTGAC);
+        assertEquals(IDENTIFICADOR_UNITAT_UTGAC, unitat.getIdentificador());
     }
 
     @Test
@@ -271,8 +279,8 @@ public class EquipsTicClientTests {
 
     @Test
     public void getUnitatById() {
-        long id = ID_UNITAT_UTGAC;
-        assertEquals(id, client.getUnitatById(id).getIdUnitat());
+        Unitat unitat = client.getUnitatById(ID_UNITAT_UTGAC);
+        assertEquals(ID_UNITAT_UTGAC, unitat.getIdUnitat());
     }
 
     @Test
@@ -291,12 +299,12 @@ public class EquipsTicClientTests {
 
     @Test
     public void getInfraestructuraById() {
-        long id = 16137;
-        Infraestructura infraestructura = client.getInfraestructuraById(id);
+        Infraestructura infraestructura = client.getInfraestructuraById(ID_INFRAESTRUCTURA);
         assertNotNull(infraestructura);
+        assertEquals(ID_INFRAESTRUCTURA, infraestructura.getIdentificador());
     }
 
-    @Test(expected = RecursNoTrobatException.class)
+    @Test(expected = EquipsTicClientException.class)
     public void getInfraestructuraByIdNotFound() {
         client.getInfraestructuraById(123);
     }
@@ -309,13 +317,13 @@ public class EquipsTicClientTests {
         assertNotNull(infraestructura);
     }
 
-    public Infraestructura infraestructuraFixture() {
-        Infraestructura i = new Infraestructura();
-        i.setMarca(client.getMarcaById(ID_MARCA_IBM));
-        i.setNumeroSerie("1234-test");
-        i.setTipusInfraestructura(client.getTipusInfraestructuraBycodi(CODI_TIPUS_IMPRESSORA));
-        i.setEstat(client.getEstatById(ID_ESTAT_EN_GARANTIA_CENTRALITZAT));
-        return i;
+    @Test
+    public void testAltaInfraestructura() {
+        Infraestructura i = EquipsTicFixtures.infraestructuraFixture();
+        Infraestructura creada = client.altaInfraestructura(i);
+        assertEquals(i.getMarca(), creada.getMarca());
+        assertEquals(i.getNumeroSerie(), creada.getNumeroSerie());
+        assertFalse(creada.getIdentificador() != 0);
     }
 
     @Test
