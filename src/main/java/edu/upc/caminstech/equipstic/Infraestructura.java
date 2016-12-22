@@ -65,7 +65,7 @@ public class Infraestructura {
     private TipusXarxa tipusXarxa;
     private Integer numeroPorts;
     private String configuracioHardware;
-    private Usuari usuariInfraestructura;
+    private UsuariInfraestructura usuariInfraestructura;
     private String nomUsuariInfraestructura;
 
     // atributs d'ús intern
@@ -395,11 +395,11 @@ public class Infraestructura {
         this.usuari = usuari;
     }
 
-    public Usuari getUsuariInfraestructura() {
+    public UsuariInfraestructura getUsuariInfraestructura() {
         return usuariInfraestructura;
     }
 
-    public void setUsuariInfraestructura(Usuari usuariInfraestructura) {
+    public void setUsuariInfraestructura(UsuariInfraestructura usuariInfraestructura) {
         this.usuariInfraestructura = usuariInfraestructura;
     }
 
