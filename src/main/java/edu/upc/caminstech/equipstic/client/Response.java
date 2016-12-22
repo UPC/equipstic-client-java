@@ -5,9 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Representa una resposta del servidor d'EquipsTIC.
- * 
- * Aquesta classe és d'ús intern del client d'EquipsTIC. No la feu servir
- * directament en els vostres programes.
  */
 public class Response<T> {
 
@@ -46,7 +43,7 @@ public class Response<T> {
     }
 
     public boolean isSuccess() {
-        return STATUS_SUCCESS.equals(status);
+        return STATUS_SUCCESS.equals(status) || STATUS_SUCCESS.equals(success);
     }
 
     @Override
