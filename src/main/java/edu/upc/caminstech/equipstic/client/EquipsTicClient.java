@@ -596,6 +596,21 @@ public class EquipsTicClient {
     }
 
     /**
+     * Dóna de baixa (esborra) una infraestructura.
+     * 
+     * @param id
+     *            l'identificador de la infraestructura.
+     * @return {@code true} si s'ha esborrat la infraestructura, o bé
+     *         {@code false} si no existia cap infraestructura amb
+     *         l'identificador donat.
+     */
+    public boolean baixaInfraestructura(long id) {
+        restTemplate.delete(baseUri + "/infraestructura/{id}", id);
+        return true; // FIXME: retornar true o false segons el cas (esbrinar
+                     // comportament de la API)
+    }
+
+    /**
      * Llistat de tots els sistemes operatius inventariats.
      */
     public List<SistemaOperatiu> getSistemesOperatius() {

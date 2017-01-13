@@ -321,9 +321,14 @@ public class EquipsTicClientTests {
     public void testAltaInfraestructura() {
         Infraestructura i = EquipsTicFixtures.infraestructuraFixture();
         Infraestructura creada = client.altaInfraestructura(i);
+        assertNotNull(creada);
         assertEquals(i.getMarca(), creada.getMarca());
         assertEquals(i.getNumeroSerie(), creada.getNumeroSerie());
-        assertFalse(creada.getIdentificador() != 0);
+        assertNotEquals(0, creada.getIdentificador());
+
+        // cleanup
+        boolean esborrada = client.baixaInfraestructura(creada.getIdentificador());
+        assertTrue(esborrada);
     }
 
     @Test
