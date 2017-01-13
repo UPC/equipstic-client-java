@@ -27,4 +27,4 @@ Podeu executar tests unitaris del client amb:
     $ mvn test
 
 Si voleu executar els tests d'integració (deshabilitat per defecte),
-reviseu el fitxer `runClientTests.sh`, definiu les variables d'entorn segons pertoqui, i executeu-lo.
+reviseu el fitxer `runIntegrationTests.sh`, definiu les variables d'entorn segons pertoqui, i executeu-lo.
