@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Representa una resposta del servidor d'EquipsTIC.
+ * <p>
+ * Els usuaris normalment no haurien d'accedir a aquesta classe, però pot ser
+ * útil per depurar errors.
  */
 public class Response<T> {
 

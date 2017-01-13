@@ -26,7 +26,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -48,14 +47,6 @@ import edu.upc.caminstech.equipstic.Unitat;
 /**
  * Aquesta és la classe que implementa el client.
  * <p>
- * S'han seguit les següents convencions:
- * <ul>
- * <li>Les operacions que retornen llistes, mai no retornen {@code null}: si no
- * hi ha elements, retornen una llista buida.</li>
- * <li>Les operacions que retornen objectes, retornen {@code null} si l'objecte
- * no existeix.</li>
- * </ul>
- * <p>
  * Exemple d'utilització:
  * <p>
  * <code>
@@ -64,8 +55,15 @@ import edu.upc.caminstech.equipstic.Unitat;
  * List&lt;Campus&gt; campus = client.getCampus();
  * </code>
  * <p>
- * Les operacions poden llançar una excepció {@link HttpServerErrorException} en
- * cas de problemes en intentar accedir al servidor SOA.
+ * Les operacions del client segueixen les següents convencions:
+ * <ul>
+ * <li>Les operacions que retornen llistes mai no retornen {@code null}: quan no
+ * hi ha resultats, retornen una llista buida.</li>
+ * <li>Les operacions que retornen un sol objecte retornen {@code null} si
+ * l'objecte no existeix.</li>
+ * <li>En cas d'error en la crida al servidor, les operacions poden llançar una
+ * excepció {@link EquipsTicClientException}.</li>
+ * </ul>
  */
 public class EquipsTicClient {
 
