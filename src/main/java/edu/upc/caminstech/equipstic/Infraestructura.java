@@ -7,11 +7,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-/**
- * TODO: Utilitzar el patró Builder per crear instàncies, tenint en compte quins
- * atributs són opcionals i quins no, segons el tipus d'infraestructura.
- */
 public class Infraestructura {
+    /*
+     * TODO: Utilitzar el patró Builder per crear instàncies, tenint en compte
+     * quins atributs són opcionals i quins no, segons el tipus
+     * d'infraestructura.
+     */
 
     // atributs obligatoris (comuns)
 
