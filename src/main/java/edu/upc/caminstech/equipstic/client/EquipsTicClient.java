@@ -445,7 +445,7 @@ public class EquipsTicClient {
      * {@link Unitat}, que correspón a les sigles de la unitat, per exemple
      * "ETSECCPB".
      *
-     * @see {@link Unitat#getIdentificador()}
+     * @see Unitat#getIdentificador()
      */
     @Cacheable("unitats")
     public Unitat getUnitatByIdentificador(String identificador) {
