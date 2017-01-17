@@ -22,7 +22,7 @@ public class Response<T> {
 
     @JsonCreator
     public Response(@JsonProperty("status") String status, @JsonProperty("success") String success,
-            @JsonProperty("message") String message, @JsonProperty("data") T data) {
+            @JsonProperty("message") String message, @JsonProperty(value = "data", required = false) T data) {
         this.status = status;
         this.success = success;
         this.message = message;
