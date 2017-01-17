@@ -598,14 +598,16 @@ public class EquipsTicClient {
      * 
      * @param id
      *            l'identificador de la infraestructura.
-     * @return {@code true} si s'ha esborrat la infraestructura, o bé
-     *         {@code false} si no existia cap infraestructura amb
-     *         l'identificador donat.
      */
-    public boolean baixaInfraestructura(long id) {
-        restTemplate.delete(baseUri + "/infraestructura/{id}", id);
-        return true; // FIXME: retornar true o false segons el cas (esbrinar
-                     // comportament de la API)
+    public void baixaInfraestructura(long id) {
+        ResponseEntity<Response<Object>> rp = restTemplate.exchange(baseUri + "/infraestructura/{id}",
+                HttpMethod.DELETE, null, new ParameterizedTypeReference<Response<Object>>() {
+                }, id);
+        Response<Object> response = rp.getBody();
+        if (!response.isSuccess()) {
+            throw new EquipsTicClientException(response,
+                    "Error en esborrar la infraestructura: " + response.getMessage());
+        }
     }
 
     /**

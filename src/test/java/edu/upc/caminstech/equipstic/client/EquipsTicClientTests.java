@@ -327,8 +327,17 @@ public class EquipsTicClientTests {
         assertNotEquals(0, creada.getIdentificador());
 
         // cleanup
-        boolean esborrada = client.baixaInfraestructura(creada.getIdentificador());
-        assertTrue(esborrada);
+        client.baixaInfraestructura(creada.getIdentificador());
+    }
+
+    @Test
+    public void testBaixaInfraestructuraInexistent() {
+        try {
+            client.baixaInfraestructura(0);
+        } catch (EquipsTicClientException e) {
+            assertFalse(e.getResponse().isSuccess());
+            assertEquals("L'equip no existeix.", e.getResponse().getMessage());
+        }
     }
 
     @Test
