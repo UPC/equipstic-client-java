@@ -43,7 +43,7 @@ public class EquipsTicFixtures {
         i.setEdifici(edificiFixture());
         i.setEstat(estatFixture());
         i.setEstatValidacio(estatValidacioFixture());
-        i.setIdentificador(987654321);
+        i.setIdentificador(0);
         i.setImportCompra(BigDecimal.valueOf(1250.75));
         i.setLocalitzacio("localitzacio exemple");
         i.setMarca(marcaFixture());
