@@ -16,7 +16,6 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -128,7 +127,6 @@ public class EquipsTicClient {
     /**
      * Retorna els àmbits existents.
      */
-    @Cacheable("ambits")
     public List<Ambit> getAmbits() {
         List<Ambit> result = get("/ambit", new ParameterizedTypeReference<Response<List<Ambit>>>() {
         });
@@ -138,7 +136,6 @@ public class EquipsTicClient {
     /**
      * Cerca d'àmbits per nom.
      */
-    @Cacheable("ambits")
     public List<Ambit> getAmbitsByNom(String nomAmbit) {
         if (nomAmbit == null) {
             throw new IllegalArgumentException("El nom de l'àmbit no pot ser null");
@@ -151,7 +148,6 @@ public class EquipsTicClient {
     /**
      * Retorna l'àmbit amb l'identificador donat.
      */
-    @Cacheable("ambits")
     public Ambit getAmbitById(long idAmbit) {
         return get("/ambit/{id}", new ParameterizedTypeReference<Response<Ambit>>() {
         }, idAmbit);
@@ -160,7 +156,6 @@ public class EquipsTicClient {
     /**
      * Retorna tots els campus existents.
      */
-    @Cacheable("campus")
     public List<Campus> getCampus() {
         List<Campus> result = get("/campus", new ParameterizedTypeReference<Response<List<Campus>>>() {
         });
@@ -170,7 +165,6 @@ public class EquipsTicClient {
     /**
      * Retorna el campus amb el codi donat.
      */
-    @Cacheable("campus")
     public Campus getCampusByCodi(String codiCampus) {
         if (codiCampus == null) {
             throw new IllegalArgumentException("El codi del campus no pot ser null");
@@ -182,7 +176,6 @@ public class EquipsTicClient {
     /**
      * Retorna el campus amb l'identificador donat.
      */
-    @Cacheable("campus")
     public Campus getCampusById(long idCampus) {
         return get("/campus/{id}", new ParameterizedTypeReference<Response<Campus>>() {
         }, idCampus);
@@ -191,7 +184,6 @@ public class EquipsTicClient {
     /**
      * Retorna totes les categories existents.
      */
-    @Cacheable("categories")
     public List<Categoria> getCategories() {
         List<Categoria> result = get("/categoria", new ParameterizedTypeReference<Response<List<Categoria>>>() {
         });
@@ -201,7 +193,6 @@ public class EquipsTicClient {
     /**
      * Retorna una categoria a partir del seu identificador.
      */
-    @Cacheable("categories")
     public Categoria getCategoriaById(long idCategoria) {
         return get("/categoria/{id}", new ParameterizedTypeReference<Response<Categoria>>() {
         }, idCategoria);
@@ -210,7 +201,6 @@ public class EquipsTicClient {
     /**
      * Retorna tots els edificis existents.
      */
-    @Cacheable("edificis")
     public List<Edifici> getEdificis() {
         List<Edifici> result = get("/edifici", new ParameterizedTypeReference<Response<List<Edifici>>>() {
         });
@@ -220,7 +210,6 @@ public class EquipsTicClient {
     /**
      * Retorna un edifici a partir del seu identificador.
      */
-    @Cacheable("edificis")
     public Edifici getEdificiById(long idEdifici) {
         return get("/edifici/{id}", new ParameterizedTypeReference<Response<Edifici>>() {
         }, idEdifici);
@@ -229,7 +218,6 @@ public class EquipsTicClient {
     /**
      * Retorna un edifici a partir d'un codi d'edifici i un codi de campus.
      */
-    @Cacheable("edificis")
     public Edifici getEdificiByCodiAndCodiCampus(String codiEdifici, String codiCampus) {
         if (codiEdifici == null) {
             throw new IllegalArgumentException("El codi de l'edifici no pot ser null");
@@ -245,7 +233,6 @@ public class EquipsTicClient {
     /**
      * Retorna tots els estats existents.
      */
-    @Cacheable("estats")
     public List<Estat> getEstats() {
         List<Estat> result = get("/estat", new ParameterizedTypeReference<Response<List<Estat>>>() {
         });
@@ -255,7 +242,6 @@ public class EquipsTicClient {
     /**
      * Retorna un estat a partir del seu codi.
      */
-    @Cacheable("estats")
     public Estat getEstatByCodi(String codiEstat) {
         if (codiEstat == null) {
             throw new IllegalArgumentException("El codi de l'estat no pot ser null");
@@ -267,7 +253,6 @@ public class EquipsTicClient {
     /**
      * Cerca d'estats a partir d'un nom.
      */
-    @Cacheable("estats")
     public List<Estat> getEstatsByNom(String nomEstat) {
         if (nomEstat == null) {
             throw new IllegalArgumentException("El nom de l'estat no pot ser null");
@@ -280,7 +265,6 @@ public class EquipsTicClient {
     /**
      * Retorna un estat a partir del seu identificador.
      */
-    @Cacheable("estats")
     public Estat getEstatById(long idEstat) {
         return get("/estat/{id}", new ParameterizedTypeReference<Response<Estat>>() {
         }, idEstat);
@@ -289,7 +273,6 @@ public class EquipsTicClient {
     /**
      * Retorna totes les marques existents.
      */
-    @Cacheable("marques")
     public List<Marca> getMarques() {
         List<Marca> result = get("/marca", new ParameterizedTypeReference<Response<List<Marca>>>() {
         });
@@ -299,7 +282,6 @@ public class EquipsTicClient {
     /**
      * Cerca de marques pel nom.
      */
-    @Cacheable("marques")
     public List<Marca> getMarquesByNom(String nom) {
         if (nom == null) {
             throw new IllegalArgumentException("El nom de la marca no pot ser null");
@@ -312,7 +294,6 @@ public class EquipsTicClient {
     /**
      * Retorna una marca a partir del seu identificador.
      */
-    @Cacheable("marques")
     public Marca getMarcaById(long idMarca) {
         return get("/marca/{id}", new ParameterizedTypeReference<Response<Marca>>() {
         }, idMarca);
@@ -321,7 +302,6 @@ public class EquipsTicClient {
     /**
      * Retorna tots els tipus d'ús existents.
      */
-    @Cacheable("tipusUs")
     public List<TipusUs> getTipusUs() {
         List<TipusUs> result = get("/tipusUs", new ParameterizedTypeReference<Response<List<TipusUs>>>() {
         });
@@ -331,7 +311,6 @@ public class EquipsTicClient {
     /**
      * Cerca tipus d'ús a partir d'una unitat.
      */
-    @Cacheable("tipusUs")
     public List<TipusUs> getTipusUsByUnitat(long idUnitat) {
         List<TipusUs> result = get("/tipusUs/cerca/unitat/{idUnitat}",
                 new ParameterizedTypeReference<Response<List<TipusUs>>>() {
@@ -342,7 +321,6 @@ public class EquipsTicClient {
     /**
      * Retorna un tipus d'ús a partir del seu identificador.
      */
-    @Cacheable("tipusUs")
     public TipusUs getTipusUsById(long idTipusUs) {
         return get("/tipusUs/{idTipusUs}", new ParameterizedTypeReference<Response<TipusUs>>() {
         }, idTipusUs);
@@ -351,7 +329,6 @@ public class EquipsTicClient {
     /**
      * Retorna tots els tipus d'infraestructura existents.
      */
-    @Cacheable("tipusInfraestructura")
     public List<TipusInfraestructura> getTipusInfraestructura() {
         List<TipusInfraestructura> result = get("/tipusInfraestructura",
                 new ParameterizedTypeReference<Response<List<TipusInfraestructura>>>() {
@@ -362,7 +339,6 @@ public class EquipsTicClient {
     /**
      * Cerca de tipus d'infraestructura per categoria.
      */
-    @Cacheable("tipusInfraestructura")
     public List<TipusInfraestructura> getTipusInfraestructuraBycategoria(long idCategoria) {
         List<TipusInfraestructura> result = get("/tipusInfraestructura/cerca/categoria/{idCategoria}",
                 new ParameterizedTypeReference<Response<List<TipusInfraestructura>>>() {
@@ -373,7 +349,6 @@ public class EquipsTicClient {
     /**
      * Retorna un tipus d'infraestructura a partir del seu codi.
      */
-    @Cacheable("tipusInfraestructura")
     public TipusInfraestructura getTipusInfraestructuraBycodi(String codi) {
         if (codi == null) {
             throw new IllegalArgumentException("El codi del tipus no pot ser null");
@@ -386,7 +361,6 @@ public class EquipsTicClient {
     /**
      * Cerca de tipus d'infraestructura a partir del seu nom.
      */
-    @Cacheable("tipusInfraestructura")
     public List<TipusInfraestructura> getTipusInfraestructuraByNom(String nom) {
         if (nom == null) {
             throw new IllegalArgumentException("El nom del tipus no pot ser null");
@@ -400,7 +374,6 @@ public class EquipsTicClient {
     /**
      * Retorna un tipus d'infraestructura a partir del seu identificador.
      */
-    @Cacheable("tipusInfraestructura")
     public TipusInfraestructura getTipusInfraestructuraById(long idTipus) {
         return get("/tipusInfraestructura/{id}", new ParameterizedTypeReference<Response<TipusInfraestructura>>() {
         }, idTipus);
@@ -409,7 +382,6 @@ public class EquipsTicClient {
     /**
      * Retorna tots els tipus de xarxa existents.
      */
-    @Cacheable("tipusXarxa")
     public List<TipusXarxa> getTipusXarxa() {
         List<TipusXarxa> result = get("/tipusXarxa", new ParameterizedTypeReference<Response<List<TipusXarxa>>>() {
         });
@@ -419,7 +391,6 @@ public class EquipsTicClient {
     /**
      * Retorna un tipus de xarxa a partir del seu identificador.
      */
-    @Cacheable("tipusXarxa")
     public TipusXarxa getTipusXarxaById(long idTipusXarxa) {
         return get("/tipusXarxa/{id}", new ParameterizedTypeReference<Response<TipusXarxa>>() {
         }, idTipusXarxa);
@@ -428,7 +399,6 @@ public class EquipsTicClient {
     /**
      * Retorna totes les unitats existents.
      */
-    @Cacheable("unitats")
     public List<Unitat> getUnitats() {
         List<Unitat> result = get("/unitat", new ParameterizedTypeReference<Response<List<Unitat>>>() {
         });
@@ -445,7 +415,6 @@ public class EquipsTicClient {
      *
      * @see Unitat#getIdentificador()
      */
-    @Cacheable("unitats")
     public Unitat getUnitatByIdentificador(String identificador) {
         if (identificador == null) {
             throw new IllegalArgumentException("L'identificador de la unitat no pot ser null");
@@ -458,7 +427,6 @@ public class EquipsTicClient {
     /**
      * Cerca d'unitats a partir del nom.
      */
-    @Cacheable("unitats")
     public List<Unitat> getUnitatsByNom(String nom) {
         if (nom == null) {
             throw new IllegalArgumentException("El nom de la unitat no pot ser null");
@@ -471,7 +439,6 @@ public class EquipsTicClient {
     /**
      * Cerca d'unitats a partir del nom, l'identificador i el codi.
      */
-    @Cacheable("unitats")
     public List<Unitat> getUnitatsByNomAndIdentificadorAndCodi(String nom, String identificador, String codiUnitat) {
         if (nom == null) {
             throw new IllegalArgumentException("El nom de la unitat no pot ser null");
@@ -496,7 +463,6 @@ public class EquipsTicClient {
      *            l'identificador intern d'unitat (ull: no és el mateix que el
      *            codi d'unitat que fa servir la UPC).
      */
-    @Cacheable("unitats")
     public Unitat getUnitatById(long idUnitat) {
         return get("/unitat/{id}", new ParameterizedTypeReference<Response<Unitat>>() {
         }, idUnitat);
@@ -536,6 +502,9 @@ public class EquipsTicClient {
      *            la infraestructura
      */
     private void ompleCampsNoInicialitzatsInfraestructura(Infraestructura infra) {
+        if (infra == null) {
+            return;
+        }
         Marca marca = getMarcaById(infra.getMarca().getIdMarca());
         TipusInfraestructura tipusInfraestructura = getTipusInfraestructuraById(
                 infra.getTipusInfraestructura().getIdTipus());
@@ -568,22 +537,11 @@ public class EquipsTicClient {
      * @throws JsonProcessingException
      */
     public Infraestructura altaInfraestructura(Infraestructura infraestructura) {
-        if (infraestructura == null) {
-            throw new IllegalArgumentException("La infraestructura no pot ser null");
-        }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        HttpEntity<Infraestructura> req = new HttpEntity<>(infraestructura, headers);
-
-        logger.debug("Request: [headers: {}, body: {}]", req.getHeaders().toString(), req.getBody());
+        HttpEntity<Infraestructura> req = preparaRequest(infraestructura);
 
         ResponseEntity<Response<Infraestructura>> rp = restTemplate.exchange(baseUri + "/infraestructura",
                 HttpMethod.POST, req, new ParameterizedTypeReference<Response<Infraestructura>>() {
                 });
-
-        logger.debug("Response: [headers: {}, body: {}]", rp.getHeaders().toString(), rp.getBody().toString());
 
         Response<Infraestructura> response = rp.getBody();
         if (response.isSuccess()) {
@@ -594,12 +552,37 @@ public class EquipsTicClient {
     }
 
     /**
+     * Mètode auxiliar per crear una petició HTTP.
+     * <p>
+     * La petició es crearà amb els headers (Accept, Content-Type) i el body
+     * adients.
+     * 
+     * @param infraestructura
+     *            la infraestructura que s'afegirà al body en format JSON. No
+     *            pot ser {@code null}.
+     * @return
+     */
+    private HttpEntity<Infraestructura> preparaRequest(Infraestructura infraestructura) {
+        if (infraestructura == null) {
+            throw new IllegalArgumentException("La infraestructura no pot ser null");
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        return new HttpEntity<>(infraestructura, headers);
+    }
+
+    /**
      * Dóna de baixa (esborra) una infraestructura.
      * 
      * @param id
      *            l'identificador de la infraestructura.
      */
     public void baixaInfraestructura(long id) {
+        /*
+         * Fem servir 'Object' com a tipus parametritzat perquè en el DELETE
+         * l'objecte inclós a la Response és null i no ens importa el seu tipus.
+         */
         ResponseEntity<Response<Object>> rp = restTemplate.exchange(baseUri + "/infraestructura/{id}",
                 HttpMethod.DELETE, null, new ParameterizedTypeReference<Response<Object>>() {
                 }, id);
@@ -608,6 +591,35 @@ public class EquipsTicClient {
             throw new EquipsTicClientException(response,
                     "Error en esborrar la infraestructura: " + response.getMessage());
         }
+    }
+
+    /**
+     * Modifica una infraestructura.
+     * <p>
+     * La infraestructura amb l'identificador donat serà substituïda per la
+     * infraestructura donada.
+     * 
+     * @param id
+     *            l'identificador de la infraestructura a modificar. Aquesta
+     *            infraestructura ha d'existir.
+     * @param infraestructura
+     *            la nova infraestructura que substituirà l'antiga. Aquesta
+     *            infraestructura no cal que tingui informat l'identificador: la
+     *            infraestructura modificada seguirà tenint l'identificador
+     *            antic.
+     */
+    public Infraestructura modificaInfraestructura(long id, Infraestructura infraestructura) {
+        HttpEntity<Infraestructura> req = preparaRequest(infraestructura);
+
+        ResponseEntity<Response<Infraestructura>> rp = restTemplate.exchange(baseUri + "/infraestructura/{id}",
+                HttpMethod.PUT, req, new ParameterizedTypeReference<Response<Infraestructura>>() {
+                }, id);
+
+        Response<Infraestructura> response = rp.getBody();
+        if (response.isSuccess()) {
+            return response.getData();
+        }
+        throw new EquipsTicClientException(response, "Error en modificar la infraestructura: " + response.getMessage());
     }
 
     /**
@@ -689,6 +701,11 @@ public class EquipsTicClient {
         ResponseEntity<Response<T>> entity = restTemplate.exchange(uri, HttpMethod.GET, null, typeReference, urlParams);
 
         Response<T> response = entity.getBody();
+
+        if (StringUtils.containsIgnoreCase(response.getMessage(), "no existeix")) {
+            return null;
+        }
+
         if (response == null || !response.isSuccess()) {
             String errorMsg = String.format("Error en obtenir el recurs: [urlParams: %s, response: %s]",
                     Arrays.toString(urlParams), Objects.toString(response));
