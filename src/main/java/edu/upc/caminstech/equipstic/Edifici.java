@@ -1,8 +1,11 @@
 package edu.upc.caminstech.equipstic;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(Include.NON_NULL)
 public class Edifici {
 
     private final long idEdifici;
@@ -16,12 +19,12 @@ public class Edifici {
     @JsonCreator
     public Edifici( //
             @JsonProperty("idEdifici") long idEdifici, //
-            @JsonProperty("nom") String nom, //
-            @JsonProperty("codi") String codi, //
-            @JsonProperty("adreca") String adreca, //
-            @JsonProperty("ciutat") String ciutat, //
-            @JsonProperty("codi_postal") String codiPostal, //
-            @JsonProperty("campus") Campus campus) {
+            @JsonProperty(value = "nom", required = false) String nom, //
+            @JsonProperty(value = "codi", required = false) String codi, //
+            @JsonProperty(value = "adreca", required = false) String adreca, //
+            @JsonProperty(value = "ciutat", required = false) String ciutat, //
+            @JsonProperty(value = "codi_postal", required = false) String codiPostal, //
+            @JsonProperty(value = "campus", required = false) Campus campus) {
 
         this.idEdifici = idEdifici;
         this.nom = nom;
@@ -30,6 +33,10 @@ public class Edifici {
         this.ciutat = ciutat;
         this.codiPostal = codiPostal;
         this.campus = campus;
+    }
+
+    public Edifici(long idEdifici) {
+        this(idEdifici, null, null, null, null, null, null);
     }
 
     public long getIdEdifici() {

@@ -3,8 +3,11 @@ package edu.upc.caminstech.equipstic;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(Include.NON_NULL)
 public class UsuariInfraestructura {
 
     private final long idUsuariInfraestructura;
@@ -16,11 +19,11 @@ public class UsuariInfraestructura {
 
     @JsonCreator
     public UsuariInfraestructura(@JsonProperty("idUsuariInfraestructura") long idUsuariInfraestructura, //
-            @JsonProperty("nom") String nom, //
-            @JsonProperty("nomUsuari") String nomUsuari, //
-            @JsonProperty("cognom1") String cognom1, //
-            @JsonProperty("cognom2") String cognom2, //
-            @JsonProperty("dataCreacio") Date dataCreacio) {
+            @JsonProperty(value = "nom", required = false) String nom, //
+            @JsonProperty(value = "nomUsuari", required = false) String nomUsuari, //
+            @JsonProperty(value = "cognom1", required = false) String cognom1, //
+            @JsonProperty(value = "cognom2", required = false) String cognom2, //
+            @JsonProperty(value = "dataCreacio", required = false) Date dataCreacio) {
         this.idUsuariInfraestructura = idUsuariInfraestructura;
         this.nom = nom;
         this.nomUsuari = nomUsuari;

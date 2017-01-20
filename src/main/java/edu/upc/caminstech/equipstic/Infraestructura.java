@@ -6,7 +6,10 @@ import java.util.Date;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+@JsonInclude(Include.NON_NULL)
 public class Infraestructura {
     /*
      * TODO: Utilitzar el patró Builder per crear instàncies, tenint en compte

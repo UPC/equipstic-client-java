@@ -1,28 +1,35 @@
 package edu.upc.caminstech.equipstic;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(Include.NON_NULL)
 public class TipusInfraestructura {
 
     private final long idTipus;
     private final String nom;
     private final String codi;
-    private final boolean requereixCampsExtra;
+    private final Boolean requereixCampsExtra;
     private final Categoria categoriaInfraestructura;
 
     @JsonCreator
     public TipusInfraestructura( //
-            @JsonProperty("idTipus") long idTipus, //
-            @JsonProperty("nom") String nom, //
-            @JsonProperty("codi") String codi, //
-            @JsonProperty("requereixCampsExtra") boolean requereixCampsExtra, //
-            @JsonProperty("categoriaInfraestructura") Categoria categoriaInfraestructura) {
+            @JsonProperty(value = "idTipus") long idTipus, //
+            @JsonProperty(value = "nom", required = false) String nom, //
+            @JsonProperty(value = "codi", required = false) String codi, //
+            @JsonProperty(value = "requereixCampsExtra", required = false) Boolean requereixCampsExtra, //
+            @JsonProperty(value = "categoriaInfraestructura", required = false) Categoria categoriaInfraestructura) {
         this.idTipus = idTipus;
         this.nom = nom;
         this.codi = codi;
         this.requereixCampsExtra = requereixCampsExtra;
         this.categoriaInfraestructura = categoriaInfraestructura;
+    }
+
+    public TipusInfraestructura(long idTipus) {
+        this(idTipus, null, null, null, null);
     }
 
     public Categoria getCategoriaInfraestructura() {
@@ -41,7 +48,7 @@ public class TipusInfraestructura {
         return codi;
     }
 
-    public boolean isRequereixCampsExtra() {
+    public Boolean isRequereixCampsExtra() {
         return requereixCampsExtra;
     }
 

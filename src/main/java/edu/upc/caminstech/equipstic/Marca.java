@@ -1,8 +1,11 @@
 package edu.upc.caminstech.equipstic;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(Include.NON_NULL)
 public class Marca {
 
     private final long idMarca;
@@ -10,11 +13,15 @@ public class Marca {
 
     @JsonCreator
     public Marca( //
-            @JsonProperty("idMarca") long idMarca, //
-            @JsonProperty("nom") String nom) {
+            @JsonProperty(value = "idMarca", required = true) long idMarca, //
+            @JsonProperty(value = "nom", required = false) String nom) {
 
         this.idMarca = idMarca;
         this.nom = nom;
+    }
+
+    public Marca(long idMarca) {
+        this(idMarca, null);
     }
 
     public long getIdMarca() {

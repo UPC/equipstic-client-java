@@ -595,25 +595,17 @@ public class EquipsTicClient {
 
     /**
      * Modifica una infraestructura.
-     * <p>
-     * La infraestructura amb l'identificador donat serà substituïda per la
-     * infraestructura donada.
-     * 
-     * @param id
-     *            l'identificador de la infraestructura a modificar. Aquesta
-     *            infraestructura ha d'existir.
+     *
      * @param infraestructura
-     *            la nova infraestructura que substituirà l'antiga. Aquesta
-     *            infraestructura no cal que tingui informat l'identificador: la
-     *            infraestructura modificada seguirà tenint l'identificador
-     *            antic.
+     *            la nova infraestructura que substituirà l'antiga.
+     * @return la infraestructura modificada
      */
-    public Infraestructura modificaInfraestructura(long id, Infraestructura infraestructura) {
+    public Infraestructura modificaInfraestructura(Infraestructura infraestructura) {
         HttpEntity<Infraestructura> req = preparaRequest(infraestructura);
 
         ResponseEntity<Response<Infraestructura>> rp = restTemplate.exchange(baseUri + "/infraestructura/{id}",
                 HttpMethod.PUT, req, new ParameterizedTypeReference<Response<Infraestructura>>() {
-                }, id);
+                }, infraestructura.getIdentificador());
 
         Response<Infraestructura> response = rp.getBody();
         if (response.isSuccess()) {

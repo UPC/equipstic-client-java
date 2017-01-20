@@ -1,6 +1,8 @@
 package edu.upc.caminstech.equipstic;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -11,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * que conté les sigles de la unitat, i que no s'ha de confondre amb l'atribut
  * {@link #idUnitat}, de tipus {@code long}.
  */
+@JsonInclude(Include.NON_NULL)
 public class Unitat {
 
     private final long idUnitat;
@@ -21,14 +24,18 @@ public class Unitat {
     @JsonCreator
     public Unitat(//
             @JsonProperty("idUnitat") long idUnitat, //
-            @JsonProperty("codiUnitat") String codiUnitat, //
-            @JsonProperty("identificador") String identificador, //
-            @JsonProperty("nom") String nom) {
+            @JsonProperty(value = "codiUnitat", required = false) String codiUnitat, //
+            @JsonProperty(value = "identificador", required = false) String identificador, //
+            @JsonProperty(value = "nom", required = false) String nom) {
 
         this.idUnitat = idUnitat;
         this.codiUnitat = codiUnitat;
         this.identificador = identificador;
         this.nom = nom;
+    }
+
+    public Unitat(long idUnitat) {
+        this(idUnitat, null, null, null);
     }
 
     public long getIdUnitat() {

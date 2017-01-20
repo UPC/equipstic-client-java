@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 
 import edu.upc.caminstech.equipstic.Ambit;
 import edu.upc.caminstech.equipstic.Campus;
@@ -24,23 +25,47 @@ import edu.upc.caminstech.equipstic.Unitat;
  * Framework.
  * <p>
  * Aquest client guarda els resultats del servidor en una caché, i en les crides
- * següents retorna el resultat cachejat, si està disponible, evitant la crida
- * al servidor. En qualsevol moment es pot forçar un buidat de la caché fent
- * servir el mètode {@link #refrescaCache()}.
+ * següents retorna el resultat cachejat, si és possible, evitant crides al
+ * servidor. En qualsevol moment es pot forçar un <em>refresc</em> de la caché
+ * fent servir el mètode {@link #refrescaCache()}.
+ * <p>
+ * <strong>Nota sobre la implementació</strong>
  * <p>
  * Aquesta implementació fa servir un {@link CacheManager} de Spring Framework
- * que s'ha de passar com a paràmetre al constructor. Vegeu la documentació de
- * Spring per veure com configurar un {@link CacheManager} a la vostra
- * aplicació.
+ * que s'ha de passar com a paràmetre al constructor. Vegeu <a href=
+ * "http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-caching">la
+ * documentació de Spring</a> per veure com configurar un {@link CacheManager} a
+ * la vostra aplicació.
  * <p>
- * <strong>NOTA:</strong> En cas que no feu servir Spring Framework, podeu fer
- * servir aquesta classe com a exemple per veure com implementar la vostra
- * propia versió de client «amb caché», fent servir el <em>backend</em> de caché
- * que desitjeu.
+ * Per tal que funcioni, primer haureu d'activar el suport de caché via
+ * anotacions a la vostra aplicació, amb l'anotació {@link EnableCaching}, i
+ * després instanciar el client com un {@code Bean} per poder injectar-hi el
+ * {@code CacheManager}:
+ * <p>
+ * 
+ * <pre>
+ * &#64;Configuration
+ * &#64;EnableCaching
+ * public class AppConfig {
+ * 
+ *     &#64;Autowired
+ *     CacheManager cacheManager;
+ * 
+ *     &#64;Bean
+ *     CachedEquipsTicClient getClient() {
+ *         return new CachedEquipsTicClient(apiUrl, soaUser, soaPass, cacheManager);
+ *     }
+ * }
+ * </pre>
+ * 
+ * <p>
+ * <strong>En cas que no feu servir Spring Framework, podeu fer servir aquesta
+ * classe com a exemple per veure com implementar la vostra propia versió de
+ * client «amb caché», fent servir el <em>backend</em> de caché que desitjeu.
  * 
  * @see EquipsTicClient
  */
-public class EquipsTicCachedClient extends EquipsTicClient {
+public class CachedEquipsTicClient extends EquipsTicClient {
 
     /*
      * Com que el CacheManager pot gestionar altres cachés alienes al client,
@@ -48,7 +73,7 @@ public class EquipsTicCachedClient extends EquipsTicClient {
      * amb altres cachés alienes al client. Això és una particularitat dels
      * CacheManager de Spring.
      */
-    private static final String cachePrefix = "equipstic-client-cache-";
+    private final String cachePrefix = "cached-equipstic-client-";
 
     private final CacheManager cacheManager;
 
@@ -67,7 +92,7 @@ public class EquipsTicCachedClient extends EquipsTicClient {
      *            el gestor de cachés que ha de fer servir el client.
      * @see EquipsTicClient#EquipsTicClient(URI, String, String)
      */
-    public EquipsTicCachedClient(URI baseUri, String username, String password, CacheManager cacheManager) {
+    public CachedEquipsTicClient(URI baseUri, String username, String password, CacheManager cacheManager) {
         super(baseUri, username, password);
         this.cacheManager = cacheManager;
     }
@@ -83,7 +108,7 @@ public class EquipsTicCachedClient extends EquipsTicClient {
     }
 
     @Override
-    @Cacheable(cachePrefix + "ambits")
+    @Cacheable(value = cachePrefix + "ambits")
     public List<Ambit> getAmbits() {
         return super.getAmbits();
     }

@@ -1,8 +1,11 @@
 package edu.upc.caminstech.equipstic;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(Include.NON_NULL)
 public class Categoria {
 
     private final long idCategoria;
@@ -10,11 +13,16 @@ public class Categoria {
     private final String codi;
 
     @JsonCreator
-    public Categoria(@JsonProperty("idCategoria") long idCategoria, @JsonProperty("nom") String nom,
-            @JsonProperty("codi") String codi) {
+    public Categoria(@JsonProperty("idCategoria") long idCategoria, //
+            @JsonProperty(value = "nom", required = false) String nom,
+            @JsonProperty(value = "codi", required = false) String codi) {
         this.idCategoria = idCategoria;
         this.nom = nom;
         this.codi = codi;
+    }
+
+    public Categoria(long idCategoria) {
+        this(idCategoria, null, null);
     }
 
     public long getIdCategoria() {

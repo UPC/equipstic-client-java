@@ -1,8 +1,11 @@
 package edu.upc.caminstech.equipstic;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(Include.NON_NULL)
 public class SistemaOperatiu {
 
     private final long idSistemaOperatiu;
@@ -13,13 +16,17 @@ public class SistemaOperatiu {
     @JsonCreator
     public SistemaOperatiu(//
             @JsonProperty("idSistemaOperatiu") long idSistemaOperatiu, //
-            @JsonProperty("nom") String nom, //
-            @JsonProperty("codi") String codi, //
-            @JsonProperty("categoriaInfraestructura") Categoria categoriaInfraestructura) {
+            @JsonProperty(value = "nom", required = false) String nom, //
+            @JsonProperty(value = "codi", required = false) String codi, //
+            @JsonProperty(value = "categoriaInfraestructura", required = false) Categoria categoriaInfraestructura) {
         this.idSistemaOperatiu = idSistemaOperatiu;
         this.nom = nom;
         this.codi = codi;
         this.categoriaInfraestructura = categoriaInfraestructura;
+    }
+
+    public SistemaOperatiu(long idSistemaOperatiu) {
+        this(idSistemaOperatiu, null, null, null);
     }
 
     public long getIdSistemaOperatiu() {

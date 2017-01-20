@@ -3,12 +3,14 @@ package edu.upc.caminstech.equipstic.client;
 import static org.junit.Assert.*;
 
 import java.net.URI;
+import java.time.Month;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.cache.support.SimpleCacheManager;
 
 import edu.upc.caminstech.equipstic.Ambit;
 import edu.upc.caminstech.equipstic.Campus;
@@ -25,10 +27,13 @@ import edu.upc.caminstech.equipstic.Unitat;
 
 /**
  * Tests d'integració per a la classe {@link EquipsTicClient}.
+ * <p>
+ * TODO: S'ha de refactoritzar aquesta classe per fer <em>mocking</em> del
+ * servidor.
  */
 public class EquipsTicClientTests {
 
-    // environment variable names
+    // noms de les variables d'entorn
 
     private static final String ENV_API_URL = "EQUIPSTIC_SOA_URL";
     private static final String ENV_USERNAME_VAR = "EQUIPSTIC_SOA_USERNAME";
@@ -37,6 +42,8 @@ public class EquipsTicClientTests {
     private static final String envApiUrl = System.getenv(ENV_API_URL);
     private static final String envUsername = System.getenv(ENV_USERNAME_VAR);
     private static final String envPassword = System.getenv(ENV_PASSWORD_VAR);
+
+    // alguns valors per fer servir als tests
 
     private static final int ID_INFRAESTRUCTURA = 16137;
     private static final long ID_CATEGORIA_SERVIDOR = 1;
@@ -72,7 +79,8 @@ public class EquipsTicClientTests {
         checkCredentialsDefined();
 
         URI baseUri = URI.create(envApiUrl);
-        client = new EquipsTicClient(baseUri, envUsername, envPassword);
+        // client = new EquipsTicClient(baseUri, envUsername, envPassword);
+        client = new CachedEquipsTicClient(baseUri, envUsername, envPassword, new SimpleCacheManager());
     }
 
     private static void checkCredentialsDefined() {
@@ -203,7 +211,7 @@ public class EquipsTicClientTests {
 
     @Test
     public void getTipusInfraestructuraByCategoria() {
-        List<TipusInfraestructura> tipus = client.getTipusInfraestructuraBycategoria(ID_CATEGORIA_SERVIDOR);
+        List<TipusInfraestructura> tipus = client.getTipusInfraestructuraByCategoria(ID_CATEGORIA_SERVIDOR);
         assertFalse(tipus.isEmpty());
     }
 
@@ -233,8 +241,8 @@ public class EquipsTicClientTests {
 
     @Test
     public void getTipusUsByUnitat() {
-        Unitat unitat = EquipsTicFixtures.unitatFixture();
-        List<TipusUs> tipus = client.getTipusUsByUnitat(unitat.getIdUnitat());
+        Unitat unitat = new Unitat(ID_UNITAT_UTGAC);
+        List<TipusUs> tipus = client.getTipusUsByUnitat(ID_UNITAT_UTGAC);
         assertTrue(tipus.stream().allMatch(t -> t.equals(unitat)));
     }
 
@@ -304,9 +312,10 @@ public class EquipsTicClientTests {
         assertEquals(ID_INFRAESTRUCTURA, infraestructura.getIdentificador());
     }
 
-    @Test(expected = EquipsTicClientException.class)
+    @Test
     public void getInfraestructuraByIdNotFound() {
-        client.getInfraestructuraById(123);
+        Infraestructura i = client.getInfraestructuraById(123);
+        assertNull(i);
     }
 
     @Test
@@ -318,25 +327,51 @@ public class EquipsTicClientTests {
     }
 
     @Test
-    public void testAltaInfraestructura() {
+    public void altaInfraestructura() {
         Infraestructura i = EquipsTicFixtures.infraestructuraFixture();
-        Infraestructura creada = client.altaInfraestructura(i);
-        assertNotNull(creada);
-        assertEquals(i.getMarca(), creada.getMarca());
-        assertEquals(i.getNumeroSerie(), creada.getNumeroSerie());
-        assertNotEquals(0, creada.getIdentificador());
-
-        // cleanup
-        client.baixaInfraestructura(creada.getIdentificador());
+        Infraestructura creada = null;
+        try {
+            creada = client.altaInfraestructura(i);
+            assertNotNull(creada);
+            assertEquals(i.getMarca(), creada.getMarca());
+            assertEquals(i.getNumeroSerie(), creada.getNumeroSerie());
+            assertNotEquals(0, creada.getIdentificador());
+        } finally {
+            if (creada != null) {
+                client.baixaInfraestructura(creada.getIdentificador());
+            }
+        }
     }
 
     @Test
-    public void testBaixaInfraestructuraInexistent() {
+    public void baixaInfraestructuraInexistent() {
         try {
             client.baixaInfraestructura(0);
         } catch (EquipsTicClientException e) {
             assertFalse(e.getResponse().isSuccess());
             assertEquals("L'equip no existeix.", e.getResponse().getMessage());
+        }
+    }
+
+    @Test
+    public void modificaInfraestructura() {
+        Infraestructura fixture = EquipsTicFixtures.infraestructuraFixture();
+        Infraestructura i = null;
+        try {
+            i = client.altaInfraestructura(fixture);
+
+            i.setDataTramitFactura(EquipsTicFixtures.dateFixture(2017, Month.JANUARY, 1));
+
+            Infraestructura nova = client.modificaInfraestructura(i);
+
+            assertNotNull(nova);
+            assertEquals("L'identificador no hauria de canviar", i.getIdentificador(), nova.getIdentificador());
+            assertEquals(i.getDataTramitFactura(), nova.getDataTramitFactura());
+        } finally {
+            if (i != null) {
+                // cleanup
+                client.baixaInfraestructura(i.getIdentificador());
+            }
         }
     }
 
@@ -372,7 +407,7 @@ public class EquipsTicClientTests {
 
     @Test
     public void getSistemaOperatiuById() {
-        SistemaOperatiu so = client.getSistemaOperatiuByid(ID_SISTEMA_OPERATIU_LINUX);
+        SistemaOperatiu so = client.getSistemaOperatiuById(ID_SISTEMA_OPERATIU_LINUX);
         assertNotNull(so);
         assertEquals(ID_SISTEMA_OPERATIU_LINUX, so.getIdSistemaOperatiu());
     }

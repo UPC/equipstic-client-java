@@ -1,8 +1,11 @@
 package edu.upc.caminstech.equipstic;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(Include.NON_NULL)
 public class Estat {
 
     public enum TipusEstat {
@@ -13,21 +16,25 @@ public class Estat {
     private final String nom;
     private final TipusEstat tipusEstat;
     private final String codi;
-    private final boolean requereixValidacio;
+    private final Boolean requereixValidacio;
 
     @JsonCreator
     public Estat( //
             @JsonProperty("idEstat") long idEstat, //
-            @JsonProperty("nom") String nom, //
-            @JsonProperty("tipusEstat") TipusEstat tipusEstat, //
-            @JsonProperty("codi") String codi, //
-            @JsonProperty("requereixValidacio") boolean requereixValidacio) {
+            @JsonProperty(value = "nom", required = false) String nom, //
+            @JsonProperty(value = "tipusEstat", required = false) TipusEstat tipusEstat, //
+            @JsonProperty(value = "codi", required = false) String codi, //
+            @JsonProperty(value = "requereixValidacio", required = false) Boolean requereixValidacio) {
 
         this.idEstat = idEstat;
         this.nom = nom;
         this.tipusEstat = tipusEstat;
         this.codi = codi;
         this.requereixValidacio = requereixValidacio;
+    }
+
+    public Estat(long idEstat) {
+        this(idEstat, null, null, null, null);
     }
 
     public long getIdEstat() {
@@ -46,7 +53,7 @@ public class Estat {
         return codi;
     }
 
-    public boolean isRequereixValidacio() {
+    public Boolean isRequereixValidacio() {
         return requereixValidacio;
     }
 

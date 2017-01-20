@@ -1,8 +1,11 @@
 package edu.upc.caminstech.equipstic;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(Include.NON_NULL)
 public class TipusUs {
 
     private final long idTipusUs;
@@ -10,8 +13,9 @@ public class TipusUs {
     private final Unitat unitat;
 
     @JsonCreator
-    public TipusUs(@JsonProperty("idTipusUs") long idTipusUs, @JsonProperty("nom") String nom,
-            @JsonProperty("unitat") Unitat unitat) {
+    public TipusUs(@JsonProperty("idTipusUs") long idTipusUs, //
+            @JsonProperty(value = "nom", required = false) String nom, //
+            @JsonProperty(value = "unitat", required = false) Unitat unitat) {
 
         this.idTipusUs = idTipusUs;
         this.nom = nom;
