@@ -3,7 +3,7 @@ Un client java per a la API d'Equips TIC de la UPC.
 
 ## Requeriments
 
-- Java >= 1.7 (per Spring Boot)
+- Java >= 1.8
 - Maven >= 3
 
 ## Quickstart

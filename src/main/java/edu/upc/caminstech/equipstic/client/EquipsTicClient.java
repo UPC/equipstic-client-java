@@ -502,6 +502,9 @@ public class EquipsTicClient {
      *            la infraestructura
      */
     private void ompleCampsNoInicialitzatsInfraestructura(Infraestructura infra) {
+        if (infra == null) {
+            return;
+        }
         Marca marca = getMarcaById(infra.getMarca().getIdMarca());
         TipusInfraestructura tipusInfraestructura = getTipusInfraestructuraById(
                 infra.getTipusInfraestructura().getIdTipus());
@@ -534,22 +537,11 @@ public class EquipsTicClient {
      * @throws JsonProcessingException
      */
     public Infraestructura altaInfraestructura(Infraestructura infraestructura) {
-        if (infraestructura == null) {
-            throw new IllegalArgumentException("La infraestructura no pot ser null");
-        }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        HttpEntity<Infraestructura> req = new HttpEntity<>(infraestructura, headers);
-
-        logger.debug("Request: [headers: {}, body: {}]", req.getHeaders().toString(), req.getBody());
+        HttpEntity<Infraestructura> req = preparaRequest(infraestructura);
 
         ResponseEntity<Response<Infraestructura>> rp = restTemplate.exchange(baseUri + "/infraestructura",
                 HttpMethod.POST, req, new ParameterizedTypeReference<Response<Infraestructura>>() {
                 });
-
-        logger.debug("Response: [headers: {}, body: {}]", rp.getHeaders().toString(), rp.getBody().toString());
 
         Response<Infraestructura> response = rp.getBody();
         if (response.isSuccess()) {
@@ -560,12 +552,37 @@ public class EquipsTicClient {
     }
 
     /**
+     * Mètode auxiliar per crear una petició HTTP.
+     * <p>
+     * La petició es crearà amb els headers (Accept, Content-Type) i el body
+     * adients.
+     * 
+     * @param infraestructura
+     *            la infraestructura que s'afegirà al body en format JSON. No
+     *            pot ser {@code null}.
+     * @return
+     */
+    private HttpEntity<Infraestructura> preparaRequest(Infraestructura infraestructura) {
+        if (infraestructura == null) {
+            throw new IllegalArgumentException("La infraestructura no pot ser null");
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        return new HttpEntity<>(infraestructura, headers);
+    }
+
+    /**
      * Dóna de baixa (esborra) una infraestructura.
      * 
      * @param id
      *            l'identificador de la infraestructura.
      */
     public void baixaInfraestructura(long id) {
+        /*
+         * Fem servir 'Object' com a tipus parametritzat perquè en el DELETE
+         * l'objecte inclós a la Response és null i no ens importa el seu tipus.
+         */
         ResponseEntity<Response<Object>> rp = restTemplate.exchange(baseUri + "/infraestructura/{id}",
                 HttpMethod.DELETE, null, new ParameterizedTypeReference<Response<Object>>() {
                 }, id);
@@ -574,6 +591,35 @@ public class EquipsTicClient {
             throw new EquipsTicClientException(response,
                     "Error en esborrar la infraestructura: " + response.getMessage());
         }
+    }
+
+    /**
+     * Modifica una infraestructura.
+     * <p>
+     * La infraestructura amb l'identificador donat serà substituïda per la
+     * infraestructura donada.
+     * 
+     * @param id
+     *            l'identificador de la infraestructura a modificar. Aquesta
+     *            infraestructura ha d'existir.
+     * @param infraestructura
+     *            la nova infraestructura que substituirà l'antiga. Aquesta
+     *            infraestructura no cal que tingui informat l'identificador: la
+     *            infraestructura modificada seguirà tenint l'identificador
+     *            antic.
+     */
+    public Infraestructura modificaInfraestructura(long id, Infraestructura infraestructura) {
+        HttpEntity<Infraestructura> req = preparaRequest(infraestructura);
+
+        ResponseEntity<Response<Infraestructura>> rp = restTemplate.exchange(baseUri + "/infraestructura/{id}",
+                HttpMethod.PUT, req, new ParameterizedTypeReference<Response<Infraestructura>>() {
+                }, id);
+
+        Response<Infraestructura> response = rp.getBody();
+        if (response.isSuccess()) {
+            return response.getData();
+        }
+        throw new EquipsTicClientException(response, "Error en modificar la infraestructura: " + response.getMessage());
     }
 
     /**
@@ -655,6 +701,11 @@ public class EquipsTicClient {
         ResponseEntity<Response<T>> entity = restTemplate.exchange(uri, HttpMethod.GET, null, typeReference, urlParams);
 
         Response<T> response = entity.getBody();
+
+        if (StringUtils.containsIgnoreCase(response.getMessage(), "no existeix")) {
+            return null;
+        }
+
         if (response == null || !response.isSuccess()) {
             String errorMsg = String.format("Error en obtenir el recurs: [urlParams: %s, response: %s]",
                     Arrays.toString(urlParams), Objects.toString(response));
