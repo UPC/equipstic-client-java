@@ -63,7 +63,7 @@ public class EquipsTicFixtures {
         i.setNumeroCpus(4);
         i.setNumeroInventariUpc("numero inventari upc exemple");
         i.setNumeroPorts(5);
-        i.setNumeroSerie("numero-serie-exemple");
+        i.setNumeroSerie("numero serie exemple");
         i.setObservacions("observacions exemple");
         i.setProveidorCompra("proveidor compra exemple");
         i.setProveidorManteniment("proveidor manteniment exemple");
