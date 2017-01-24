@@ -41,4 +41,22 @@ public class MarcaTests {
         String json = objectMapper.writeValueAsString(m);
         assertThat(json, not(containsString("nom")));
     }
+
+    @Test
+    public void testDeserialization() throws Exception {
+        String json = "{ \"idMarca\": \"2\", \"nom\": \"DELL\" }";
+        Marca m = objectMapper.readValue(json, Marca.class);
+        assertNotNull(m);
+        assertEquals(2, m.getIdMarca());
+        assertEquals("DELL", m.getNom());
+    }
+
+    @Test
+    public void testDeserializationNomNull() throws Exception {
+        String json = "{ \"idMarca\": \"3\", \"nom\": null }";
+        Marca m = objectMapper.readValue(json, Marca.class);
+        assertNotNull(m);
+        assertEquals(3, m.getIdMarca());
+        assertNull(m.getNom());
+    }
 }
