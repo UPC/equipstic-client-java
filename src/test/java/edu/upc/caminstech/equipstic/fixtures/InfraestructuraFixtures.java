@@ -1,4 +1,4 @@
-package edu.upc.caminstech.equipstic.client;
+package edu.upc.caminstech.equipstic.fixtures;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,7 +19,7 @@ import edu.upc.caminstech.equipstic.Unitat;
 /**
  * Helper class to create test fixtures.
  */
-public class EquipsTicFixtures {
+public class InfraestructuraFixtures {
 
     public static final long ID_CATEGORIA_EQUIP_DE_TREBALL = 3L;
     public static final long ID_AMBIT_LLOC_DE_TREBALL = 6L;

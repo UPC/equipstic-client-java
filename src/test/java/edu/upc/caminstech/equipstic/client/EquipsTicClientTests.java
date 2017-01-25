@@ -24,6 +24,7 @@ import edu.upc.caminstech.equipstic.TipusInfraestructura;
 import edu.upc.caminstech.equipstic.TipusUs;
 import edu.upc.caminstech.equipstic.TipusXarxa;
 import edu.upc.caminstech.equipstic.Unitat;
+import edu.upc.caminstech.equipstic.fixtures.InfraestructuraFixtures;
 
 /**
  * Tests d'integració per a la classe {@link EquipsTicClient}.
@@ -328,13 +329,14 @@ public class EquipsTicClientTests {
 
     @Test
     public void altaInfraestructura() {
-        Infraestructura i = EquipsTicFixtures.infraestructuraFixture();
+        Infraestructura i = InfraestructuraFixtures.infraestructuraFixture();
         Infraestructura creada = null;
         try {
             creada = client.altaInfraestructura(i);
             assertNotNull(creada);
             assertEquals(i.getMarca(), creada.getMarca());
             assertEquals(i.getNumeroSerie(), creada.getNumeroSerie());
+            assertEquals(creada.getDataFinalGarantia(), i.getDataFinalGarantia());
             assertNotEquals(0, creada.getIdentificador());
         } finally {
             if (creada != null) {
@@ -355,17 +357,20 @@ public class EquipsTicClientTests {
 
     @Test
     public void modificaInfraestructura() {
-        Infraestructura fixture = EquipsTicFixtures.infraestructuraFixture();
+        Infraestructura fixture = InfraestructuraFixtures.infraestructuraFixture();
         Infraestructura i = null;
         try {
             i = client.altaInfraestructura(fixture);
 
-            i.setDataTramitFactura(EquipsTicFixtures.dateFixture(2017, Month.JANUARY, 1));
+            assertEquals(fixture.getDataFinalGarantia(), i.getDataFinalGarantia());
+
+            i.setDataTramitFactura(InfraestructuraFixtures.dateFixture(2017, Month.JANUARY, 2));
 
             Infraestructura nova = client.modificaInfraestructura(i);
 
             assertNotNull(nova);
             assertEquals("L'identificador no hauria de canviar", i.getIdentificador(), nova.getIdentificador());
+            assertEquals(fixture.getDataFinalGarantia(), nova.getDataFinalGarantia());
             assertEquals(i.getDataTramitFactura(), nova.getDataTramitFactura());
         } finally {
             if (i != null) {
