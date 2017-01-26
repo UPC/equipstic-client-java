@@ -14,8 +14,6 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClients;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -65,8 +63,6 @@ import edu.upc.caminstech.equipstic.Unitat;
  * </ul>
  */
 public class EquipsTicClient {
-
-    protected final Logger logger = LoggerFactory.getLogger(EquipsTicClient.class);
 
     private final String baseUri;
     private final RestTemplate restTemplate;
