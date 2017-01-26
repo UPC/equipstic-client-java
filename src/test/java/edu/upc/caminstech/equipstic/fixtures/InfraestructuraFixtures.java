@@ -83,7 +83,7 @@ public class InfraestructuraFixtures {
 
     public static Date dateFixture(int year, Month month, int dayOfMonth) {
         LocalDate localDate = LocalDate.of(year, month, dayOfMonth);
-        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return Date.from(localDate.atStartOfDay(ZoneId.of("Europe/Madrid")).toInstant());
     }
 
     private static Unitat unitatFixture() {

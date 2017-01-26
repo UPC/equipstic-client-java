@@ -4,19 +4,28 @@ import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.upc.caminstech.equipstic.Estat.TipusEstat;
+import edu.upc.caminstech.equipstic.fixtures.InfraestructuraFixtures;
 
 public class InfraestructuraTests {
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private Infraestructura infra;
     private Date data = new Date();
 
     @Before
     public void setUp() throws Exception {
+        objectMapper.setTimeZone(TimeZone.getTimeZone("Europe/Madrid"));
         infra = new Infraestructura();
     }
 
@@ -301,5 +310,13 @@ public class InfraestructuraTests {
         SistemaOperatiu so = new SistemaOperatiu(2, null, null, null);
         infra.setSistemaOperatiu(so);
         assertEquals(so, infra.getSistemaOperatiu());
+    }
+
+    @Test
+    public void testSerializeDate() throws JsonProcessingException {
+        Infraestructura i = InfraestructuraFixtures.infraestructuraFixture();
+        String expected = "{ \"dataCompra\": \"2016-01-04\" }";
+        String actual = objectMapper.writeValueAsString(i);
+        JSONAssert.assertEquals(expected, actual, false);
     }
 }
