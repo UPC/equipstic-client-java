@@ -336,7 +336,8 @@ public class EquipsTicClientTests {
             assertNotNull(creada);
             assertEquals(i.getMarca(), creada.getMarca());
             assertEquals(i.getNumeroSerie(), creada.getNumeroSerie());
-            assertEquals(creada.getDataFinalGarantia(), i.getDataFinalGarantia());
+            assertEquals("dataCompra", i.getDataCompra(), creada.getDataCompra());
+            assertEquals("dataFinalGarantia", i.getDataFinalGarantia(), creada.getDataFinalGarantia());
             assertNotEquals(0, creada.getIdentificador());
         } finally {
             if (creada != null) {
