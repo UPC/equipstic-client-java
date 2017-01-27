@@ -1,5 +1,6 @@
 # equipstic-client-java
-Un client java per a la API d'Equips TIC de la UPC.
+
+Un client Java per a la API d'Equips TIC de la UPC.
 
 ## Requeriments
 
@@ -17,8 +18,17 @@ Al vostre projecte, indiqueu la dependència del client en el vostre fitxer `pom
     <dependency>
         <groupId>edu.upc.caminstech</groupId>
         <artifactId>equipstic-java</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>   <!-- canvieu-ho per la versió que toqui -->
     </dependency>
+
+## Documentació
+
+Generar la documentació Javadoc de la llibreria:
+
+    $ mvn javadoc:javadoc
+
+La documentació es generarà dins el directori ``target/site/apidocs/``
+(obriu el fitxer ``index.html`` amb el vostre navegador).
 
 ## Tests
 
