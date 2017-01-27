@@ -2,6 +2,7 @@ package edu.upc.caminstech.equipstic.client;
 
 import java.net.URI;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
@@ -94,6 +95,27 @@ public class CachedEquipsTicClient extends EquipsTicClient {
      */
     public CachedEquipsTicClient(URI baseUri, String username, String password, CacheManager cacheManager) {
         super(baseUri, username, password);
+        this.cacheManager = cacheManager;
+    }
+
+    /**
+     * Constructor del client amb caché.
+     * 
+     * @param baseUri
+     *            la URL de la API, tal com indica la documentació del bus SOA.
+     *            Es pot fer servir tant la URL de desenvolupament com la de
+     *            producció.
+     * @param username
+     *            el nostre usuari al bus SOA (ha de tenir accés a la API).
+     * @param password
+     *            la nostra contrasenya al bus SOA.
+     * @param cacheManager
+     *            el gestor de cachés que ha de fer servir el client.
+     * @see EquipsTicClient#EquipsTicClient(URI, String, String)
+     */
+    public CachedEquipsTicClient(URI baseUri, String username, String password, TimeZone timeZone,
+            CacheManager cacheManager) {
+        super(baseUri, username, password, timeZone);
         this.cacheManager = cacheManager;
     }
 

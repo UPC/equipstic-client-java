@@ -25,14 +25,14 @@ public class Infraestructura {
     private TipusInfraestructura tipusInfraestructura; // inclou la Categoria
     private Marca marca;
     private String model;
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Europe/Madrid")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataCompra;
     private BigDecimal importCompra;
     private Estat estat;
     private Unitat unitat;
     private Ambit ambit; // etiquetat com a "Propòsit" al formulari
     private Edifici edifici; // inclou el Campus
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Europe/Madrid")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataFinalGarantia;
 
     // atributs obligatoris (per a alguns TipusInfraestructura)
@@ -54,14 +54,14 @@ public class Infraestructura {
     private String numeroInventariUpc;
     private String numeroAd;
     private String localitzacio;
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Europe/Madrid")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataAltaManteniment;
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Europe/Madrid")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataBaixaManteniment;
     private String proveidorManteniment;
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Europe/Madrid")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataEntrega;
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Europe/Madrid")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataTramitFactura;
 
     // atributs opcionals (per a alguns TipusInfraestructura)
@@ -75,16 +75,16 @@ public class Infraestructura {
     // atributs d'ús intern
 
     private Estat estatValidacio;
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Europe/Madrid")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataCreacio;
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Europe/Madrid")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataDarreraModificacio;
     private Usuari usuari;
     private String causaCanviWorkflow;
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Europe/Madrid")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataCanviWorkflow;
     private Estat estatAnteriorWorkflow;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Europe/Madrid")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date dataCarrega;
 
     public long getIdentificador() {

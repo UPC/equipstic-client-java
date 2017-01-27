@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.TimeZone;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.auth.AuthScope;
@@ -64,8 +66,35 @@ import edu.upc.caminstech.equipstic.Unitat;
  */
 public class EquipsTicClient {
 
+    /**
+     * El TimeZone que fa servir el servidor d'EquipsTIC.
+     */
+    private static final TimeZone EQUIPSTIC_SERVER_TIMEZONE = TimeZone.getTimeZone("Europe/Madrid");
+
     private final String baseUri;
     private final RestTemplate restTemplate;
+
+    /**
+     * Crea una nova instància del client.
+     * <p>
+     * El client retornat codifica/descodifica les dates fent servir el TimeZone
+     * que utilitza el servidor EquipsTIC de la UPC. Si voleu configurar un
+     * altre {@code TimeZone}, feu servir el
+     * {@link #EquipsTicClient(URI, String, String, TimeZone) constructor
+     * alternatiu}.
+     *
+     * @param baseUri
+     *            la URL de la API, tal com indica la documentació del bus SOA.
+     *            Es pot fer servir tant la URL de desenvolupament com la de
+     *            producció.
+     * @param username
+     *            el nostre usuari al bus SOA (ha de tenir accés a la API).
+     * @param password
+     *            la nostra contrasenya al bus SOA.
+     */
+    public EquipsTicClient(URI baseUri, String username, String password) {
+        this(baseUri, username, password, EQUIPSTIC_SERVER_TIMEZONE);
+    }
 
     /**
      * Crea una nova instància del client.
@@ -78,12 +107,13 @@ public class EquipsTicClient {
      *            el nostre usuari al bus SOA (ha de tenir accés a la API).
      * @param password
      *            la nostra contrasenya al bus SOA.
+     * @param timeZone
+     *            el {@code TimeZone} que fa servir el servidor d'EquipsTIC.
      */
-    public EquipsTicClient(URI baseUri, String username, String password) {
+    public EquipsTicClient(URI baseUri, String username, String password, TimeZone timeZone) {
         this.baseUri = baseUri.toString();
         HttpClient httpClient = prepareHttpClient(baseUri, username, password);
-        restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory(httpClient));
-        fixSupportedMediaTypes(restTemplate);
+        restTemplate = prepareRestTemplate(httpClient, timeZone);
     }
 
     /**
@@ -98,6 +128,31 @@ public class EquipsTicClient {
         HttpClient httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
 
         return httpClient;
+    }
+
+    private RestTemplate prepareRestTemplate(HttpClient httpClient, TimeZone timeZone) {
+        RestTemplate template = new RestTemplate(new HttpComponentsClientHttpRequestFactory(httpClient));
+        fixSupportedMediaTypes(template);
+        fixJacksonObjectMapperTimezone(template, timeZone);
+        return template;
+    }
+
+    /**
+     * Reconfigura la serialització/deserialització amb Jackson per tenir en
+     * compte implícitament el TimeZone indicat.
+     * 
+     * Això és necessari perquè Jackson per defecte fa servir el timezone UTC
+     * quan no s'explicita el TimeZone, però sembla que el servidor EquipsTIC fa
+     * servir CET ("Europe/Madrid" o equivalent).
+     */
+    private void fixJacksonObjectMapperTimezone(RestTemplate template, TimeZone timeZone) {
+        Optional<HttpMessageConverter<?>> converter = template.getMessageConverters().stream()
+                .filter(c -> c.getClass().getName().equals(MappingJackson2HttpMessageConverter.class.getName()))
+                .findFirst();
+        if (converter.isPresent()) {
+            MappingJackson2HttpMessageConverter c = (MappingJackson2HttpMessageConverter) converter.get();
+            c.getObjectMapper().setTimeZone(timeZone);
+        }
     }
 
     /**
