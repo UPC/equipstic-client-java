@@ -7,7 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Representa una resposta del servidor d'EquipsTIC.
  * <p>
  * Els usuaris normalment no haurien d'accedir a aquesta classe, però pot ser
- * útil per depurar errors.
+ * útil per depurar errors (podeu obtenir una referència via
+ * {@link EquipsTicClientException#getResponse()}).
  */
 public class Response<T> {
 

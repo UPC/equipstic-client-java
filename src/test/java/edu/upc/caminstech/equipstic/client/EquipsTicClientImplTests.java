@@ -27,12 +27,12 @@ import edu.upc.caminstech.equipstic.Unitat;
 import edu.upc.caminstech.equipstic.fixtures.InfraestructuraFixtures;
 
 /**
- * Tests d'integració per a la classe {@link EquipsTicClient}.
+ * Tests d'integració per a la classe {@link EquipsTicClientImpl}.
  * <p>
  * TODO: S'ha de refactoritzar aquesta classe per fer <em>mocking</em> del
  * servidor.
  */
-public class EquipsTicClientTests {
+public class EquipsTicClientImplTests {
 
     // noms de les variables d'entorn
 
@@ -80,8 +80,9 @@ public class EquipsTicClientTests {
         checkCredentialsDefined();
 
         URI baseUri = URI.create(envApiUrl);
-        // client = new EquipsTicClient(baseUri, envUsername, envPassword);
-        client = new CachedEquipsTicClient(baseUri, envUsername, envPassword, new SimpleCacheManager());
+        EquipsTicClient baseClient = new EquipsTicClientImpl(baseUri, envUsername, envPassword);
+
+        client = new EquipsTicClientSpringCachedImpl(baseClient, new SimpleCacheManager());
     }
 
     private static void checkCredentialsDefined() {

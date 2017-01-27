@@ -1,10 +1,9 @@
 package edu.upc.caminstech.equipstic.client;
 
-import java.net.URI;
 import java.util.List;
-import java.util.TimeZone;
 
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 
@@ -30,7 +29,13 @@ import edu.upc.caminstech.equipstic.Unitat;
  * servidor. En qualsevol moment es pot forçar un <em>refresc</em> de la caché
  * fent servir el mètode {@link #refrescaCache()}.
  * <p>
+ * Noteu que les crides que fan modificacions (alta, baixa i modificació
+ * d'infraestructura) no estàn cachejades.
+ * <p>
  * <strong>Nota sobre la implementació</strong>
+ * <p>
+ * Les crides al servidor es resolen per delegació a un client prèviament
+ * instanciat i configurat, que es passa com a paràmetre al constructor.
  * <p>
  * Aquesta implementació fa servir un {@link CacheManager} de Spring Framework
  * que s'ha de passar com a paràmetre al constructor. Vegeu <a href=
@@ -53,8 +58,9 @@ import edu.upc.caminstech.equipstic.Unitat;
  *     CacheManager cacheManager;
  * 
  *     &#64;Bean
- *     CachedEquipsTicClient getClient() {
- *         return new CachedEquipsTicClient(apiUrl, soaUser, soaPass, cacheManager);
+ *     EquipsTicClientSpringCachedImpl getClient() {
+ *         EquipsTicClient client = new EquipsTicClient(apiUrl, soaUser, soaPass);
+ *         return new EquipsTicClientSpringCachedImpl(client, cacheManager);
  *     }
  * }
  * </pre>
@@ -62,11 +68,12 @@ import edu.upc.caminstech.equipstic.Unitat;
  * <p>
  * <strong>En cas que no feu servir Spring Framework, podeu fer servir aquesta
  * classe com a exemple per veure com implementar la vostra propia versió de
- * client «amb caché», fent servir el <em>backend</em> de caché que desitjeu.
+ * client «amb caché», implementant el <em>backend</em> de caché que desitjeu.
  * 
  * @see EquipsTicClient
+ * @see EquipsTicClientImpl
  */
-public class CachedEquipsTicClient extends EquipsTicClient {
+public class EquipsTicClientSpringCachedImpl implements EquipsTicClient {
 
     /*
      * Com que el CacheManager pot gestionar altres cachés alienes al client,
@@ -78,44 +85,19 @@ public class CachedEquipsTicClient extends EquipsTicClient {
 
     private final CacheManager cacheManager;
 
-    /**
-     * Constructor del client amb caché.
-     * 
-     * @param baseUri
-     *            la URL de la API, tal com indica la documentació del bus SOA.
-     *            Es pot fer servir tant la URL de desenvolupament com la de
-     *            producció.
-     * @param username
-     *            el nostre usuari al bus SOA (ha de tenir accés a la API).
-     * @param password
-     *            la nostra contrasenya al bus SOA.
-     * @param cacheManager
-     *            el gestor de cachés que ha de fer servir el client.
-     * @see EquipsTicClient#EquipsTicClient(URI, String, String)
-     */
-    public CachedEquipsTicClient(URI baseUri, String username, String password, CacheManager cacheManager) {
-        super(baseUri, username, password);
-        this.cacheManager = cacheManager;
-    }
+    private final EquipsTicClient client;
 
     /**
      * Constructor del client amb caché.
      * 
-     * @param baseUri
-     *            la URL de la API, tal com indica la documentació del bus SOA.
-     *            Es pot fer servir tant la URL de desenvolupament com la de
-     *            producció.
-     * @param username
-     *            el nostre usuari al bus SOA (ha de tenir accés a la API).
-     * @param password
-     *            la nostra contrasenya al bus SOA.
+     * @param client
+     *            un client, prèviament instanciat, que volem "cachejar" (les
+     *            crides al servidor es resoldran per delegació a aquest client)
      * @param cacheManager
-     *            el gestor de cachés que ha de fer servir el client.
-     * @see EquipsTicClient#EquipsTicClient(URI, String, String)
+     *            el gestor de cachés que ha de fer servir el client
      */
-    public CachedEquipsTicClient(URI baseUri, String username, String password, TimeZone timeZone,
-            CacheManager cacheManager) {
-        super(baseUri, username, password, timeZone);
+    public EquipsTicClientSpringCachedImpl(EquipsTicClient client, CacheManager cacheManager) {
+        this.client = client;
         this.cacheManager = cacheManager;
     }
 
@@ -132,240 +114,277 @@ public class CachedEquipsTicClient extends EquipsTicClient {
     @Override
     @Cacheable(value = cachePrefix + "ambits")
     public List<Ambit> getAmbits() {
-        return super.getAmbits();
+        return client.getAmbits();
     }
 
     @Override
     @Cacheable(cachePrefix + "ambitsByNom")
     public List<Ambit> getAmbitsByNom(String nomAmbit) {
-        return super.getAmbitsByNom(nomAmbit);
+        return client.getAmbitsByNom(nomAmbit);
     }
 
     @Override
     @Cacheable(cachePrefix + "ambitsById")
     public Ambit getAmbitById(long idAmbit) {
-        return super.getAmbitById(idAmbit);
+        return client.getAmbitById(idAmbit);
     }
 
     @Override
     @Cacheable(cachePrefix + "campus")
     public List<Campus> getCampus() {
-        return super.getCampus();
+        return client.getCampus();
     }
 
     @Override
     @Cacheable(cachePrefix + "campusByCodi")
     public Campus getCampusByCodi(String codiCampus) {
-        return super.getCampusByCodi(codiCampus);
+        return client.getCampusByCodi(codiCampus);
     }
 
     @Override
     @Cacheable(cachePrefix + "campusById")
     public Campus getCampusById(long idCampus) {
-        return super.getCampusById(idCampus);
+        return client.getCampusById(idCampus);
     }
 
     @Override
     @Cacheable(cachePrefix + "categories")
     public List<Categoria> getCategories() {
-        return super.getCategories();
+        return client.getCategories();
     }
 
     @Override
     @Cacheable(cachePrefix + "categoriaById")
     public Categoria getCategoriaById(long idCategoria) {
-        return super.getCategoriaById(idCategoria);
+        return client.getCategoriaById(idCategoria);
     }
 
     @Override
     @Cacheable(cachePrefix + "edificis")
     public List<Edifici> getEdificis() {
-        return super.getEdificis();
+        return client.getEdificis();
     }
 
     @Override
     @Cacheable(cachePrefix + "edificiById")
     public Edifici getEdificiById(long idEdifici) {
-        return super.getEdificiById(idEdifici);
+        return client.getEdificiById(idEdifici);
     }
 
     @Override
     @Cacheable(cachePrefix + "edificiByCodiAndCodiCampus")
     public Edifici getEdificiByCodiAndCodiCampus(String codiEdifici, String codiCampus) {
-        return super.getEdificiByCodiAndCodiCampus(codiEdifici, codiCampus);
+        return client.getEdificiByCodiAndCodiCampus(codiEdifici, codiCampus);
     }
 
     @Override
     @Cacheable(cachePrefix + "estats")
     public List<Estat> getEstats() {
-        return super.getEstats();
+        return client.getEstats();
     }
 
     @Override
     @Cacheable(cachePrefix + "estatByCodi")
     public Estat getEstatByCodi(String codiEstat) {
-        return super.getEstatByCodi(codiEstat);
+        return client.getEstatByCodi(codiEstat);
     }
 
     @Override
     @Cacheable(cachePrefix + "estatsByNom")
     public List<Estat> getEstatsByNom(String nomEstat) {
-        return super.getEstatsByNom(nomEstat);
+        return client.getEstatsByNom(nomEstat);
     }
 
     @Override
     @Cacheable(cachePrefix + "estatById")
     public Estat getEstatById(long idEstat) {
-        return super.getEstatById(idEstat);
+        return client.getEstatById(idEstat);
     }
 
     @Override
     @Cacheable(cachePrefix + "marques")
     public List<Marca> getMarques() {
-        return super.getMarques();
+        return client.getMarques();
     }
 
     @Override
     @Cacheable(cachePrefix + "marquesByNom")
     public List<Marca> getMarquesByNom(String nom) {
-        return super.getMarquesByNom(nom);
+        return client.getMarquesByNom(nom);
     }
 
     @Override
     @Cacheable(cachePrefix + "marcaById")
     public Marca getMarcaById(long idMarca) {
-        return super.getMarcaById(idMarca);
+        return client.getMarcaById(idMarca);
     }
 
     @Override
     @Cacheable(cachePrefix + "tipusUs")
     public List<TipusUs> getTipusUs() {
-        return super.getTipusUs();
+        return client.getTipusUs();
     }
 
     @Override
     @Cacheable(cachePrefix + "tipusUsByUnitat")
     public List<TipusUs> getTipusUsByUnitat(long idUnitat) {
-        return super.getTipusUsByUnitat(idUnitat);
+        return client.getTipusUsByUnitat(idUnitat);
     }
 
     @Override
     @Cacheable(cachePrefix + "tipusUs")
     public TipusUs getTipusUsById(long idTipusUs) {
-        return super.getTipusUsById(idTipusUs);
+        return client.getTipusUsById(idTipusUs);
     }
 
     @Override
     @Cacheable(cachePrefix + "tipusInfraestructura")
     public List<TipusInfraestructura> getTipusInfraestructura() {
-        return super.getTipusInfraestructura();
+        return client.getTipusInfraestructura();
     }
 
     @Override
     @Cacheable(cachePrefix + "tipusInfraestructuraByCategoria")
     public List<TipusInfraestructura> getTipusInfraestructuraByCategoria(long idCategoria) {
-        return super.getTipusInfraestructuraByCategoria(idCategoria);
+        return client.getTipusInfraestructuraByCategoria(idCategoria);
     }
 
     @Override
     @Cacheable(cachePrefix + "tipusInfraestructuraByCodi")
     public TipusInfraestructura getTipusInfraestructuraBycodi(String codi) {
-        return super.getTipusInfraestructuraBycodi(codi);
+        return client.getTipusInfraestructuraBycodi(codi);
     }
 
     @Override
     @Cacheable(cachePrefix + "tipusInfraestructuraByNom")
     public List<TipusInfraestructura> getTipusInfraestructuraByNom(String nom) {
-        return super.getTipusInfraestructuraByNom(nom);
+        return client.getTipusInfraestructuraByNom(nom);
     }
 
     @Override
     @Cacheable(cachePrefix + "tipusInfraestructuraById")
     public TipusInfraestructura getTipusInfraestructuraById(long idTipus) {
-        return super.getTipusInfraestructuraById(idTipus);
+        return client.getTipusInfraestructuraById(idTipus);
     }
 
     @Override
     @Cacheable(cachePrefix + "tipusXarxa")
     public List<TipusXarxa> getTipusXarxa() {
-        return super.getTipusXarxa();
+        return client.getTipusXarxa();
     }
 
     @Override
     @Cacheable(cachePrefix + "tipusXarxaByid")
     public TipusXarxa getTipusXarxaById(long idTipusXarxa) {
-        return super.getTipusXarxaById(idTipusXarxa);
+        return client.getTipusXarxaById(idTipusXarxa);
     }
 
     @Override
     @Cacheable(cachePrefix + "unitats")
     public List<Unitat> getUnitats() {
-        return super.getUnitats();
+        return client.getUnitats();
     }
 
     @Override
     @Cacheable(cachePrefix + "unitatByIdentificador")
     public Unitat getUnitatByIdentificador(String identificador) {
-        return super.getUnitatByIdentificador(identificador);
+        return client.getUnitatByIdentificador(identificador);
     }
 
     @Override
     @Cacheable(cachePrefix + "unitatsByNom")
     public List<Unitat> getUnitatsByNom(String nom) {
-        return super.getUnitatsByNom(nom);
+        return client.getUnitatsByNom(nom);
     }
 
     @Override
     @Cacheable(cachePrefix + "unitatsByNomAndIdentificadorAndCodi")
     public List<Unitat> getUnitatsByNomAndIdentificadorAndCodi(String nom, String identificador, String codiUnitat) {
-        return super.getUnitatsByNomAndIdentificadorAndCodi(nom, identificador, codiUnitat);
+        return client.getUnitatsByNomAndIdentificadorAndCodi(nom, identificador, codiUnitat);
     }
 
     @Override
     @Cacheable(cachePrefix + "unitatsById")
     public Unitat getUnitatById(long idUnitat) {
-        return super.getUnitatById(idUnitat);
+        return client.getUnitatById(idUnitat);
     }
 
     @Override
     @Cacheable(cachePrefix + "infraestructuraByMarcaAndNumeroDeSerie")
     public Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn) {
-        return super.getInfraestructuraByMarcaAndNumeroDeSerie(idMarca, sn);
+        return client.getInfraestructuraByMarcaAndNumeroDeSerie(idMarca, sn);
     }
 
     @Override
     @Cacheable(cachePrefix + "infraestructuraById")
     public Infraestructura getInfraestructuraById(long id) {
-        return super.getInfraestructuraById(id);
+        return client.getInfraestructuraById(id);
+    }
+
+    /**
+     * Aquesta crida no està cachejada.
+     * 
+     * @see EquipsTicClient#altaInfraestructura(Infraestructura)
+     */
+    @Override
+    @CacheEvict(cacheNames = { cachePrefix + "infraestructuraByMarcaAndNumeroDeSerie",
+            cachePrefix + "infraestructuraById" })
+    public Infraestructura altaInfraestructura(Infraestructura infraestructura) {
+        return client.altaInfraestructura(infraestructura);
+    }
+
+    /**
+     * Aquesta crida no està cachejada.
+     * 
+     * @see EquipsTicClient#baixaInfraestructura(long)
+     */
+    @Override
+    @CacheEvict(cacheNames = { cachePrefix + "infraestructuraByMarcaAndNumeroDeSerie",
+            cachePrefix + "infraestructuraById" })
+    public void baixaInfraestructura(long id) {
+        client.baixaInfraestructura(id);
+    }
+
+    /**
+     * Aquesta crida no està cachejada.
+     * 
+     * @see EquipsTicClient#modificaInfraestructura(Infraestructura)
+     */
+    @Override
+    @CacheEvict(cacheNames = { cachePrefix + "infraestructuraByMarcaAndNumeroDeSerie",
+            cachePrefix + "infraestructuraById" })
+    public Infraestructura modificaInfraestructura(Infraestructura infraestructura) {
+        return client.modificaInfraestructura(infraestructura);
     }
 
     @Override
     @Cacheable(cachePrefix + "sistemesOperatius")
     public List<SistemaOperatiu> getSistemesOperatius() {
-        return super.getSistemesOperatius();
+        return client.getSistemesOperatius();
     }
 
     @Override
     @Cacheable(cachePrefix + "sistemesOperatiusByCategoria")
     public List<SistemaOperatiu> getSistemesOperatiusByCategoria(long idCategoria) {
-        return super.getSistemesOperatiusByCategoria(idCategoria);
+        return client.getSistemesOperatiusByCategoria(idCategoria);
     }
 
     @Override
     @Cacheable(cachePrefix + "sistemesOperatiusByCodi")
     public List<SistemaOperatiu> getSistemesOperatiusByCodi(String codi) {
-        return super.getSistemesOperatiusByCodi(codi);
+        return client.getSistemesOperatiusByCodi(codi);
     }
 
     @Override
     @Cacheable(cachePrefix + "sistemesOperatiusByNom")
     public List<SistemaOperatiu> getSistemesOperatiusByNom(String nom) {
-        return super.getSistemesOperatiusByNom(nom);
+        return client.getSistemesOperatiusByNom(nom);
     }
 
     @Override
     @Cacheable(cachePrefix + "sistemaOperatiuById")
     public SistemaOperatiu getSistemaOperatiuById(long idSistemaOperatiu) {
-        return super.getSistemaOperatiuById(idSistemaOperatiu);
+        return client.getSistemaOperatiuById(idSistemaOperatiu);
     }
+
 }
