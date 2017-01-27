@@ -1,5 +1,5 @@
 
-v1.0.0 / 2017-01-27
+v1.1.0 / 2017-01-27
 ==================
 
  * Primera versió estable i completa.
