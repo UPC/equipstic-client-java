@@ -22,7 +22,7 @@ import edu.upc.caminstech.equipstic.Unitat;
 public class InfraestructuraFixtures {
 
     public static final long ID_CATEGORIA_EQUIP_DE_TREBALL = 3L;
-    public static final long ID_AMBIT_LLOC_DE_TREBALL = 6L;
+    public static final long ID_AMBIT_LLOC_DE_TREBALL = 39L;
     public static final long ID_MARCA_DELL = 2;
     public static final long ID_EDIFICI_B2 = 36;
     public static final long ID_UNITAT_UTGAC = 79;
