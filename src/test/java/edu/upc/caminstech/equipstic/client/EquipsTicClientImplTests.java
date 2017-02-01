@@ -57,9 +57,11 @@ public class EquipsTicClientImplTests {
     private static final long ID_MARCA_IBM = 45;
     private static final long ID_UNITAT_UTGAC = 79;
     private static final long ID_SISTEMA_OPERATIU_LINUX = 2;
+    private static final long ID_AMBIT_LT_PAS = 39;
     private static final String CODI_CAMPUS_NORD = "ND";
     private static final String NOM_TIPUS_IMPRESSORA = "Impressora";
     private static final String CODI_TIPUS_IMPRESSORA = "IMPRESSORA";
+    private static final String NOM_AMBIT_LT_PAS = "Lloc de treball PAS";
     private static final String NOM_MARCA_IBM = "IBM";
     private static final String NOM_ESTAT_BAIXA = "Baixa";
     private static final String CODI_ESTAT_BAIXA = "BAIXA";
@@ -99,6 +101,20 @@ public class EquipsTicClientImplTests {
     public void getAmbits() {
         List<Ambit> ambits = client.getAmbits();
         assertFalse(ambits.isEmpty());
+    }
+
+    @Test
+    public void getAmbitsByNom() {
+        List<Ambit> ambits = client.getAmbitsByNom(NOM_AMBIT_LT_PAS);
+        assertFalse(ambits.isEmpty());
+        assertTrue(ambits.stream().allMatch(a -> a.getNom().equals(NOM_AMBIT_LT_PAS)));
+    }
+
+    @Test
+    public void getAmbitById() {
+        Ambit a = client.getAmbitById(ID_AMBIT_LT_PAS);
+        assertNotNull(a);
+        assertEquals(ID_AMBIT_LT_PAS, a.getIdAmbit());
     }
 
     @Test
