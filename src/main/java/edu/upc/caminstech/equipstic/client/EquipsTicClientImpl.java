@@ -3,6 +3,7 @@ package edu.upc.caminstech.equipstic.client;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -196,7 +197,11 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     public List<Campus> getCampus() {
         List<Campus> result = get("/campus", new ParameterizedTypeReference<Response<List<Campus>>>() {
         });
-        return (result != null) ? result : new ArrayList<>();
+        if (result == null) {
+            return new ArrayList<>();
+        }
+        Collections.sort(result);
+        return result;
     }
 
     @Override
@@ -231,7 +236,11 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     public List<Edifici> getEdificis() {
         List<Edifici> result = get("/edifici", new ParameterizedTypeReference<Response<List<Edifici>>>() {
         });
-        return (result != null) ? result : new ArrayList<>();
+        if (result == null) {
+            return new ArrayList<>();
+        }
+        Collections.sort(result);
+        return result;
     }
 
     @Override
@@ -389,7 +398,11 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     public List<Unitat> getUnitats() {
         List<Unitat> result = get("/unitat", new ParameterizedTypeReference<Response<List<Unitat>>>() {
         });
-        return (result != null) ? result : new ArrayList<>();
+        if (result == null) {
+            return new ArrayList<>();
+        }
+        Collections.sort(result);
+        return result;
     }
 
     @Override
@@ -409,7 +422,11 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         }
         List<Unitat> result = get("/unitat/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Unitat>>>() {
         }, nom);
-        return (result != null) ? result : new ArrayList<>();
+        if (result == null) {
+            return new ArrayList<>();
+        }
+        Collections.sort(result);
+        return result;
     }
 
     @Override
@@ -427,7 +444,11 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         List<Unitat> result = get("/unitat/cerca/nom/{nom}/identificador/{identificador}/codi/{codi}",
                 new ParameterizedTypeReference<Response<List<Unitat>>>() {
                 }, nom, identificador, codiUnitat);
-        return (result != null) ? result : new ArrayList<>();
+        if (result == null) {
+            return new ArrayList<>();
+        }
+        Collections.sort(result);
+        return result;
     }
 
     @Override
