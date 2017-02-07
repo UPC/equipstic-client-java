@@ -1,12 +1,14 @@
 package edu.upc.caminstech.equipstic;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(Include.NON_NULL)
-public class TipusUs {
+public class TipusUs implements Comparable<TipusUs> {
 
     private final long idTipusUs;
     private final String nom;
@@ -50,6 +52,18 @@ public class TipusUs {
     @Override
     public int hashCode() {
         return Long.hashCode(idTipusUs);
+    }
+
+    @Override
+    public int compareTo(TipusUs o) {
+        if (o == null) {
+            return -1;
+        }
+        if (o == this) {
+            return 0;
+        }
+        return new CompareToBuilder().append(this.unitat, o.unitat).append(this.nom, o.nom)
+                .append(this.idTipusUs, o.idTipusUs).toComparison();
     }
 
 }

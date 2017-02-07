@@ -325,7 +325,11 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     public List<TipusUs> getTipusUs() {
         List<TipusUs> result = get("/tipusUs", new ParameterizedTypeReference<Response<List<TipusUs>>>() {
         });
-        return (result != null) ? result : new ArrayList<>();
+        if (result == null) {
+            return new ArrayList<>();
+        }
+        Collections.sort(result);
+        return result;
     }
 
     @Override
@@ -333,7 +337,11 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         List<TipusUs> result = get("/tipusUs/cerca/unitat/{idUnitat}",
                 new ParameterizedTypeReference<Response<List<TipusUs>>>() {
                 }, idUnitat);
-        return (result != null) ? result : new ArrayList<>();
+        if (result == null) {
+            return new ArrayList<>();
+        }
+        Collections.sort(result);
+        return result;
     }
 
     @Override
