@@ -266,7 +266,11 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     public List<Estat> getEstats() {
         List<Estat> result = get("/estat", new ParameterizedTypeReference<Response<List<Estat>>>() {
         });
-        return (result != null) ? result : new ArrayList<>();
+        if (result == null) {
+            return new ArrayList<>();
+        }
+        Collections.sort(result);
+        return result;
     }
 
     @Override

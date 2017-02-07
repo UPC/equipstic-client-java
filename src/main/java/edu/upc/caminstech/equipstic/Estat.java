@@ -1,12 +1,14 @@
 package edu.upc.caminstech.equipstic;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(Include.NON_NULL)
-public class Estat {
+public class Estat implements Comparable<Estat> {
 
     public enum TipusEstat {
         VALIDACIO, INFRAESTRUCTURA;
@@ -74,5 +76,16 @@ public class Estat {
     @Override
     public int hashCode() {
         return Long.hashCode(idEstat);
+    }
+
+    @Override
+    public int compareTo(Estat other) {
+        if (other == null) {
+            return -1;
+        }
+        if (other == this) {
+            return 0;
+        }
+        return new CompareToBuilder().append(this.nom, other.nom).append(this.idEstat, other.idEstat).toComparison();
     }
 }
