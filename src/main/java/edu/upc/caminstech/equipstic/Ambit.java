@@ -1,12 +1,14 @@
 package edu.upc.caminstech.equipstic;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(Include.NON_NULL)
-public class Ambit {
+public class Ambit implements Comparable<Ambit> {
 
     private final long idAmbit;
     private final String nom;
@@ -60,5 +62,21 @@ public class Ambit {
     @Override
     public int hashCode() {
         return Long.hashCode(idAmbit);
+    }
+
+    /**
+     * La ordenació per defecte és per {@code categoriaInfraestructura},
+     * {@code nom} i {@code idAmbit}.
+     */
+    @Override
+    public int compareTo(Ambit other) {
+        if (other == null) {
+            return -1;
+        }
+        if (other == this) {
+            return 0;
+        }
+        return new CompareToBuilder().append(this.categoriaInfraestructura, other.categoriaInfraestructura)
+                .append(this.nom, other.nom).append(this.idAmbit, other.idAmbit).toComparison();
     }
 }

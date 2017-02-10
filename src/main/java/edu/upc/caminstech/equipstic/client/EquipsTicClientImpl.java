@@ -174,7 +174,11 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     public List<Ambit> getAmbits() {
         List<Ambit> result = get("/ambit", new ParameterizedTypeReference<Response<List<Ambit>>>() {
         });
-        return (result != null) ? result : new ArrayList<>();
+        if (result == null) {
+            return new ArrayList<>();
+        }
+        Collections.sort(result);
+        return result;
     }
 
     @Override
@@ -184,7 +188,11 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         }
         List<Ambit> result = get("/ambit/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Ambit>>>() {
         }, nomAmbit);
-        return (result != null) ? result : new ArrayList<>();
+        if (result == null) {
+            return new ArrayList<>();
+        }
+        Collections.sort(result);
+        return result;
     }
 
     @Override
@@ -223,7 +231,11 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     public List<Categoria> getCategories() {
         List<Categoria> result = get("/categoria", new ParameterizedTypeReference<Response<List<Categoria>>>() {
         });
-        return (result != null) ? result : new ArrayList<>();
+        if (result == null) {
+            return new ArrayList<>();
+        }
+        Collections.sort(result);
+        return result;
     }
 
     @Override
