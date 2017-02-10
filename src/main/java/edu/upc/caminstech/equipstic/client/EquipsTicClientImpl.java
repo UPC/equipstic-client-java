@@ -174,11 +174,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     public List<Ambit> getAmbits() {
         List<Ambit> result = get("/ambit", new ParameterizedTypeReference<Response<List<Ambit>>>() {
         });
-        if (result == null) {
-            return new ArrayList<>();
-        }
-        Collections.sort(result);
-        return result;
+        return sorted(result);
     }
 
     @Override
@@ -188,11 +184,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         }
         List<Ambit> result = get("/ambit/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Ambit>>>() {
         }, nomAmbit);
-        if (result == null) {
-            return new ArrayList<>();
-        }
-        Collections.sort(result);
-        return result;
+        return sorted(result);
     }
 
     @Override
@@ -205,11 +197,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     public List<Campus> getCampus() {
         List<Campus> result = get("/campus", new ParameterizedTypeReference<Response<List<Campus>>>() {
         });
-        if (result == null) {
-            return new ArrayList<>();
-        }
-        Collections.sort(result);
-        return result;
+        return sorted(result);
     }
 
     @Override
@@ -231,11 +219,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     public List<Categoria> getCategories() {
         List<Categoria> result = get("/categoria", new ParameterizedTypeReference<Response<List<Categoria>>>() {
         });
-        if (result == null) {
-            return new ArrayList<>();
-        }
-        Collections.sort(result);
-        return result;
+        return sorted(result);
     }
 
     @Override
@@ -248,11 +232,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     public List<Edifici> getEdificis() {
         List<Edifici> result = get("/edifici", new ParameterizedTypeReference<Response<List<Edifici>>>() {
         });
-        if (result == null) {
-            return new ArrayList<>();
-        }
-        Collections.sort(result);
-        return result;
+        return sorted(result);
     }
 
     @Override
@@ -278,11 +258,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     public List<Estat> getEstats() {
         List<Estat> result = get("/estat", new ParameterizedTypeReference<Response<List<Estat>>>() {
         });
-        if (result == null) {
-            return new ArrayList<>();
-        }
-        Collections.sort(result);
-        return result;
+        return sorted(result);
     }
 
     @Override
@@ -337,11 +313,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     public List<TipusUs> getTipusUs() {
         List<TipusUs> result = get("/tipusUs", new ParameterizedTypeReference<Response<List<TipusUs>>>() {
         });
-        if (result == null) {
-            return new ArrayList<>();
-        }
-        Collections.sort(result);
-        return result;
+        return sorted(result);
     }
 
     @Override
@@ -349,11 +321,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         List<TipusUs> result = get("/tipusUs/cerca/unitat/{idUnitat}",
                 new ParameterizedTypeReference<Response<List<TipusUs>>>() {
                 }, idUnitat);
-        if (result == null) {
-            return new ArrayList<>();
-        }
-        Collections.sort(result);
-        return result;
+        return sorted(result);
     }
 
     @Override
@@ -422,11 +390,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     public List<Unitat> getUnitats() {
         List<Unitat> result = get("/unitat", new ParameterizedTypeReference<Response<List<Unitat>>>() {
         });
-        if (result == null) {
-            return new ArrayList<>();
-        }
-        Collections.sort(result);
-        return result;
+        return sorted(result);
     }
 
     @Override
@@ -446,11 +410,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         }
         List<Unitat> result = get("/unitat/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Unitat>>>() {
         }, nom);
-        if (result == null) {
-            return new ArrayList<>();
-        }
-        Collections.sort(result);
-        return result;
+        return sorted(result);
     }
 
     @Override
@@ -468,11 +428,8 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         List<Unitat> result = get("/unitat/cerca/nom/{nom}/identificador/{identificador}/codi/{codi}",
                 new ParameterizedTypeReference<Response<List<Unitat>>>() {
                 }, nom, identificador, codiUnitat);
-        if (result == null) {
-            return new ArrayList<>();
-        }
-        Collections.sort(result);
-        return result;
+
+        return sorted(result);
     }
 
     @Override
@@ -670,4 +627,19 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         return (response != null) ? response.getData() : null;
     }
 
+    /**
+     * Ordena la llista donada (<em>null-safe</em>).
+     * 
+     * @param list
+     *            la llista a ordenar; pot ser {@code null}.
+     * @return la llista ordenada, o bé una llista buida si
+     *         {@code list == null}.
+     */
+    private <T extends Comparable<T>> List<T> sorted(List<T> list) {
+        if (list == null) {
+            return Collections.emptyList();
+        }
+        Collections.sort(list);
+        return list;
+    }
 }
