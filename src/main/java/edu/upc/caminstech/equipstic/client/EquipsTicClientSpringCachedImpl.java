@@ -19,6 +19,7 @@ import edu.upc.caminstech.equipstic.TipusInfraestructura;
 import edu.upc.caminstech.equipstic.TipusUs;
 import edu.upc.caminstech.equipstic.TipusXarxa;
 import edu.upc.caminstech.equipstic.Unitat;
+import edu.upc.caminstech.equipstic.UsuariInfraestructura;
 
 /**
  * Implementació del client amb una <em>caché</em> gestionada per Spring
@@ -385,6 +386,12 @@ public class EquipsTicClientSpringCachedImpl implements EquipsTicClient {
     @Cacheable(cachePrefix + "sistemaOperatiuById")
     public SistemaOperatiu getSistemaOperatiuById(long idSistemaOperatiu) {
         return client.getSistemaOperatiuById(idSistemaOperatiu);
+    }
+
+    @Override
+    @Cacheable(cachePrefix + "usuariInfraestructuraById")
+    public UsuariInfraestructura getUsuariInfraestructura(long idUsuariInfraestructura) {
+        return client.getUsuariInfraestructura(idUsuariInfraestructura);
     }
 
 }

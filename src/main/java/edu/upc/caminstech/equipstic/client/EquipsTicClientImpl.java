@@ -42,6 +42,7 @@ import edu.upc.caminstech.equipstic.TipusInfraestructura;
 import edu.upc.caminstech.equipstic.TipusUs;
 import edu.upc.caminstech.equipstic.TipusXarxa;
 import edu.upc.caminstech.equipstic.Unitat;
+import edu.upc.caminstech.equipstic.UsuariInfraestructura;
 
 /**
  * Una implementació per defecte del client.
@@ -404,6 +405,13 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
+    public UsuariInfraestructura getUsuariInfraestructura(long idUsuariInfraestructura) {
+        return get("/usuariInfraestructura/{idUsuariInfraestructura}",
+                new ParameterizedTypeReference<Response<UsuariInfraestructura>>() {
+                }, idUsuariInfraestructura);
+    }
+
+    @Override
     public List<Unitat> getUnitatsByNom(String nom) {
         if (nom == null) {
             throw new IllegalArgumentException("El nom de la unitat no pot ser null");
@@ -481,6 +489,8 @@ public class EquipsTicClientImpl implements EquipsTicClient {
                 ? getUnitatById(infra.getUnitatDestinataria().getIdUnitat()) : null;
         SistemaOperatiu sistemaOperatiu = (infra.getSistemaOperatiu() != null)
                 ? getSistemaOperatiuById(infra.getSistemaOperatiu().getIdSistemaOperatiu()) : null;
+        UsuariInfraestructura usuariInfraestructura = (infra.getUsuariInfraestructura() != null)
+                ? getUsuariInfraestructura(infra.getUsuariInfraestructura().getIdUsuariInfraestructura()) : null;
 
         infra.setMarca(marca);
         infra.setTipusInfraestructura(tipusInfraestructura);
@@ -491,6 +501,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         infra.setUnitatGestora(unitatGestora);
         infra.setUnitatDestinataria(unitatDestinataria);
         infra.setSistemaOperatiu(sistemaOperatiu);
+        infra.setUsuariInfraestructura(usuariInfraestructura);
     }
 
     @Override
@@ -642,4 +653,5 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         Collections.sort(list);
         return list;
     }
+
 }

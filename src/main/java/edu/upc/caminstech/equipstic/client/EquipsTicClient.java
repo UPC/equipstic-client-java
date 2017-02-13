@@ -14,6 +14,7 @@ import edu.upc.caminstech.equipstic.TipusInfraestructura;
 import edu.upc.caminstech.equipstic.TipusUs;
 import edu.upc.caminstech.equipstic.TipusXarxa;
 import edu.upc.caminstech.equipstic.Unitat;
+import edu.upc.caminstech.equipstic.UsuariInfraestructura;
 
 /**
  * Interfície base per als clients d'EquipsTIC.
@@ -270,5 +271,10 @@ public interface EquipsTicClient {
      * Cerca de sistema operatiu a partir del seu identificador.
      */
     SistemaOperatiu getSistemaOperatiuById(long idSistemaOperatiu);
+
+    /**
+     * Obté un {@link UsuariInfraestructura} a partir del seu identificador.
+     */
+    UsuariInfraestructura getUsuariInfraestructura(long idUsuariInfraestructura);
 
 }
