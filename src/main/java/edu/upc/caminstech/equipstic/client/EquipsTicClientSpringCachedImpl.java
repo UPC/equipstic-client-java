@@ -394,4 +394,10 @@ public class EquipsTicClientSpringCachedImpl implements EquipsTicClient {
         return client.getUsuariInfraestructura(idUsuariInfraestructura);
     }
 
+    @Override
+    @Cacheable(cachePrefix + "usuarisInfraestructura")
+    public List<UsuariInfraestructura> getUsuarisInfraestructura() {
+        return client.getUsuarisInfraestructura();
+    }
+
 }

@@ -24,6 +24,7 @@ import edu.upc.caminstech.equipstic.TipusInfraestructura;
 import edu.upc.caminstech.equipstic.TipusUs;
 import edu.upc.caminstech.equipstic.TipusXarxa;
 import edu.upc.caminstech.equipstic.Unitat;
+import edu.upc.caminstech.equipstic.UsuariInfraestructura;
 import edu.upc.caminstech.equipstic.fixtures.InfraestructuraFixtures;
 
 /**
@@ -433,5 +434,19 @@ public class EquipsTicClientImplTests {
         SistemaOperatiu so = client.getSistemaOperatiuById(ID_SISTEMA_OPERATIU_LINUX);
         assertNotNull(so);
         assertEquals(ID_SISTEMA_OPERATIU_LINUX, so.getIdSistemaOperatiu());
+    }
+
+    @Test
+    public void getUsuariInfraestructuraById() {
+        UsuariInfraestructura u = client.getUsuariInfraestructura(1L);
+        assertNotNull(u);
+        assertEquals(1L, u.getIdUsuariInfraestructura());
+    }
+
+    @Test
+    public void getUsuarisInfraestructura() {
+        List<UsuariInfraestructura> list = client.getUsuarisInfraestructura();
+        assertNotNull(list);
+        assertTrue(list.stream().filter(u -> "angel.aguilera".equals(u.getNomUsuari())).findFirst().isPresent());
     }
 }

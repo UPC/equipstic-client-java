@@ -412,6 +412,14 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
+    public List<UsuariInfraestructura> getUsuarisInfraestructura() {
+        List<UsuariInfraestructura> result = get("/usuariInfraestructura",
+                new ParameterizedTypeReference<Response<List<UsuariInfraestructura>>>() {
+                });
+        return sorted(result);
+    }
+
+    @Override
     public List<Unitat> getUnitatsByNom(String nom) {
         if (nom == null) {
             throw new IllegalArgumentException("El nom de la unitat no pot ser null");

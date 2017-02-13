@@ -277,4 +277,8 @@ public interface EquipsTicClient {
      */
     UsuariInfraestructura getUsuariInfraestructura(long idUsuariInfraestructura);
 
+    /**
+     * Obté tot els {@link UsuariInfraestructura} existents.
+     */
+    List<UsuariInfraestructura> getUsuarisInfraestructura();
 }

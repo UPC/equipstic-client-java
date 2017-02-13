@@ -2,6 +2,8 @@ package edu.upc.caminstech.equipstic;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -11,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Usuari habitual d'un equip.
  */
 @JsonInclude(Include.NON_NULL)
-public class UsuariInfraestructura {
+public class UsuariInfraestructura implements Comparable<UsuariInfraestructura> {
 
     private final long idUsuariInfraestructura;
     private final String nom;
@@ -33,6 +35,10 @@ public class UsuariInfraestructura {
         this.cognom1 = cognom1;
         this.cognom2 = cognom2;
         this.dataCreacio = dataCreacio;
+    }
+
+    public UsuariInfraestructura(long idUsuariInfraestructura) {
+        this(idUsuariInfraestructura, null, null, null, null, null);
     }
 
     public long getIdUsuariInfraestructura() {
@@ -78,5 +84,20 @@ public class UsuariInfraestructura {
         return String.format(
                 "[UsuariInfraestructura idUsuariInfraestructura: %s, nom: %s, nomUsuari: %s, cognom1: %s, cognom2: %s, dataCreacio:%s]",
                 idUsuariInfraestructura, nom, nomUsuari, cognom1, cognom2, dataCreacio);
+    }
+
+    /**
+     * La ordenació per defecte és per {@code nomUsuari} (username UPC).
+     */
+    @Override
+    public int compareTo(UsuariInfraestructura obj) {
+        if (obj == null) {
+            return -1;
+        }
+        if (obj == this) {
+            return 0;
+        }
+        return new CompareToBuilder().append(this.nomUsuari, obj.nomUsuari)
+                .append(this.idUsuariInfraestructura, obj.idUsuariInfraestructura).toComparison();
     }
 }
