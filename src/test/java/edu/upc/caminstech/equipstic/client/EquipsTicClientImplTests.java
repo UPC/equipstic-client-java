@@ -1,13 +1,15 @@
 package edu.upc.caminstech.equipstic.client;
 
 import static org.junit.Assert.*;
+import static org.junit.Assume.assumeTrue;
 
 import java.net.URI;
 import java.time.Month;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.cache.support.SimpleCacheManager;
@@ -80,7 +82,7 @@ public class EquipsTicClientImplTests {
          * definides les variables d'entorn necessàries per a la configuració
          * del client.
          */
-        checkCredentialsDefined();
+        checkEnvironmentDefined();
 
         URI baseUri = URI.create(envApiUrl);
         EquipsTicClient baseClient = new EquipsTicClientImpl(baseUri, envUsername, envPassword);
@@ -88,14 +90,15 @@ public class EquipsTicClientImplTests {
         client = new EquipsTicClientSpringCachedImpl(baseClient, new SimpleCacheManager());
     }
 
-    private static void checkCredentialsDefined() {
-        String msg = String.format("No s'han definit les variables d'entorn %s, %s i %s", ENV_API_URL, ENV_USERNAME_VAR,
-                ENV_PASSWORD_VAR);
-        boolean missingVariables = StringUtils.isEmpty(envApiUrl) || StringUtils.isEmpty(envUsername)
-                || StringUtils.isEmpty(envPassword);
+    private static void checkEnvironmentDefined() {
+        List<String> varNames = Arrays.asList(ENV_API_URL, ENV_USERNAME_VAR, ENV_PASSWORD_VAR);
+        List<String> values = varNames.stream().map(System::getenv).collect(Collectors.toList());
+        String msg = String.format("No s'ha definit alguna de les variables d'entorn necessàries %s",
+                varNames.toString());
+        boolean allDefined = values.stream().noneMatch(StringUtils::isEmpty);
 
         // si això no es compleix, s'ignoraran els tests d'aquesta classe
-        Assume.assumeFalse(msg, missingVariables);
+        assumeTrue(msg, allDefined);
     }
 
     @Test
@@ -393,7 +396,6 @@ public class EquipsTicClientImplTests {
             assertEquals(i.getDataTramitFactura(), nova.getDataTramitFactura());
         } finally {
             if (i != null) {
-                // cleanup
                 client.baixaInfraestructura(i.getIdentificador());
             }
         }
@@ -448,5 +450,13 @@ public class EquipsTicClientImplTests {
         List<UsuariInfraestructura> list = client.getUsuarisInfraestructura();
         assertNotNull(list);
         assertTrue(list.stream().filter(u -> "angel.aguilera".equals(u.getNomUsuari())).findFirst().isPresent());
+    }
+
+    @Test
+    public void getUsuarisInfraestructuraByNom() {
+        List<UsuariInfraestructura> list = client.getUsuarisInfraestructuraByNom("angel");
+        assertNotNull(list);
+        assertFalse(list.isEmpty());
+        assertTrue(list.stream().allMatch(u -> StringUtils.containsIgnoreCase(u.getNom(), "angel")));
     }
 }

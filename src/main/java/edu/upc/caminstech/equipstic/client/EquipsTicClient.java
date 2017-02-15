@@ -281,4 +281,9 @@ public interface EquipsTicClient {
      * Obté tot els {@link UsuariInfraestructura} existents.
      */
     List<UsuariInfraestructura> getUsuarisInfraestructura();
+
+    /**
+     * Cerca d'{@link UsuariInfraestructura} per nom.
+     */
+    List<UsuariInfraestructura> getUsuarisInfraestructuraByNom(String nom);
 }
