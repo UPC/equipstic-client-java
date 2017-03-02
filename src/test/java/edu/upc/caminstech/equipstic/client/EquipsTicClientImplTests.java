@@ -1,5 +1,6 @@
 package edu.upc.caminstech.equipstic.client;
 
+import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
 
@@ -216,7 +217,7 @@ public class EquipsTicClientImplTests {
     public void getMarquesByNom() {
         List<Marca> marques = client.getMarquesByNom(NOM_MARCA_IBM);
         assertFalse(marques.isEmpty());
-        assertTrue(marques.stream().allMatch(m -> StringUtils.containsIgnoreCase(m.getNom(), NOM_MARCA_IBM)));
+        assertTrue(marques.stream().allMatch(m -> containsIgnoreCase(m.getNom(), NOM_MARCA_IBM)));
     }
 
     @Test
@@ -454,9 +455,19 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getUsuarisInfraestructuraByNom() {
-        List<UsuariInfraestructura> list = client.getUsuarisInfraestructuraByNom("angel");
+        String nom = "angel.aguilera";
+        List<UsuariInfraestructura> list = client.getUsuarisInfraestructuraByNom(nom);
         assertNotNull(list);
         assertFalse(list.isEmpty());
-        assertTrue(list.stream().allMatch(u -> StringUtils.containsIgnoreCase(u.getNom(), "angel")));
+        System.out.println(list);
+        assertTrue(list.stream().allMatch(u -> coincideixNom(u, nom)));
+    }
+
+    /**
+     * Mètode auxiliar per verificar la coincidència d'un
+     * {@link UsuariInfraestructura} amb un nom.
+     */
+    private boolean coincideixNom(UsuariInfraestructura u, String nom) {
+        return containsIgnoreCase(u.getNom(), nom) || containsIgnoreCase(u.getNomUsuari(), nom);
     }
 }
