@@ -372,6 +372,7 @@ public class EquipsTicClientImplTests {
     public void baixaInfraestructuraInexistent() {
         try {
             client.baixaInfraestructura(0);
+            fail("S'hauria d'haver llançat una excepció");
         } catch (EquipsTicClientException e) {
             assertFalse(e.getResponse().isSuccess());
             assertEquals("L'equip no existeix.", e.getResponse().getMessage());
