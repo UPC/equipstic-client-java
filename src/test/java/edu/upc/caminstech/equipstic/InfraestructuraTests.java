@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -313,7 +314,7 @@ public class InfraestructuraTests {
     }
 
     @Test
-    public void testSerializeDate() throws JsonProcessingException {
+    public void testSerializeDate() throws JsonProcessingException, JSONException {
         Infraestructura i = InfraestructuraFixtures.infraestructuraFixture();
         String expected = "{ \"dataCompra\": \"2016-01-04\" }";
         String actual = objectMapper.writeValueAsString(i);

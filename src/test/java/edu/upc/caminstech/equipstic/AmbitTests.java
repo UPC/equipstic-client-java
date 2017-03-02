@@ -3,6 +3,7 @@ package edu.upc.caminstech.equipstic;
 import static edu.upc.caminstech.equipstic.fixtures.JsonFixtures.attr;
 import static org.junit.Assert.*;
 
+import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -67,7 +68,7 @@ public class AmbitTests {
     }
 
     @Test
-    public void testSerialize() throws JsonProcessingException {
+    public void testSerialize() throws JsonProcessingException, JSONException {
         String[] attrs = new String[] { attr("idAmbit", 1L), attr("nom", "Ambit 1"), attr("codi", "CODI_AMBIT_1"),
                 attr("categoriaInfraestructura", ambit.getCategoriaInfraestructura(), objectMapper) };
         String expected = String.format("{ %s }", String.join(", ", attrs));
@@ -76,7 +77,7 @@ public class AmbitTests {
     }
 
     @Test
-    public void testSerializeNullAttributes() throws JsonProcessingException {
+    public void testSerializeNullAttributes() throws JsonProcessingException, JSONException {
         Ambit a = new Ambit(23L);
         String expected = "{" + attr("idAmbit", 23) + "}";
         String actual = objectMapper.writeValueAsString(a);
