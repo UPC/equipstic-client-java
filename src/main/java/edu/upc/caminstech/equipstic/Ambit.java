@@ -7,6 +7,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Aquesta classe representa l'àmbit d'una infraestructura.
+ * <p>
+ * <blockquote><strong>ATENCIÓ:</strong> dins l'aplicació web d'EquipsTIC,
+ * l'àmbit es troba sota l'etiqueta <em>Propòsit</em>. </blockquote>
+ */
 @JsonInclude(Include.NON_NULL)
 public class Ambit implements Comparable<Ambit> {
 
