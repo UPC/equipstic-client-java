@@ -596,7 +596,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         List<SistemaOperatiu> result = get("/sistemaOperatiu",
                 new ParameterizedTypeReference<Response<List<SistemaOperatiu>>>() {
                 });
-        return (result != null) ? result : new ArrayList<>();
+        return (result != null) ? sorted(result) : new ArrayList<>();
     }
 
     @Override
@@ -604,7 +604,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         List<SistemaOperatiu> result = get("/sistemaOperatiu/cerca/categoria/{idCategoria}",
                 new ParameterizedTypeReference<Response<List<SistemaOperatiu>>>() {
                 }, idCategoria);
-        return (result != null) ? result : new ArrayList<>();
+        return (result != null) ? sorted(result) : new ArrayList<>();
     }
 
     @Override
@@ -615,7 +615,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         List<SistemaOperatiu> result = get("/sistemaOperatiu/cerca/codi/{codi}",
                 new ParameterizedTypeReference<Response<List<SistemaOperatiu>>>() {
                 }, codi);
-        return (result != null) ? result : new ArrayList<>();
+        return (result != null) ? sorted(result) : new ArrayList<>();
     }
 
     @Override
@@ -626,7 +626,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         List<SistemaOperatiu> result = get("/sistemaOperatiu/cerca/nom/{nom}",
                 new ParameterizedTypeReference<Response<List<SistemaOperatiu>>>() {
                 }, nom);
-        return (result != null) ? result : new ArrayList<>();
+        return (result != null) ? sorted(result) : new ArrayList<>();
     }
 
     @Override
