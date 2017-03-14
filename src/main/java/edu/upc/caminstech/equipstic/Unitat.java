@@ -3,6 +3,7 @@ package edu.upc.caminstech.equipstic;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,8 +15,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * aquesta classe un atribut {@link #identificador}, de tipus {@code String},
  * que conté les sigles de la unitat, i que no s'ha de confondre amb l'atribut
  * {@link #idUnitat}, de tipus {@code long}.
+ * 
+ * FIXME: Esborrar l'anotació @JsonIgnoreProperties i processar el camp "estat"
  */
 @JsonInclude(Include.NON_NULL)
+@JsonIgnoreProperties({ "estat" })
 public class Unitat implements Comparable<Unitat> {
 
     private final long idUnitat;
