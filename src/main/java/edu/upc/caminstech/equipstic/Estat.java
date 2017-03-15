@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Estat implements Comparable<Estat> {
 
     public enum TipusEstat {
-        VALIDACIO, INFRAESTRUCTURA;
+        VALIDACIO, INFRAESTRUCTURA, UNITAT;
     }
 
     private final long idEstat;
