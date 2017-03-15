@@ -242,14 +242,14 @@ public class InfraestructuraTests {
 
     @Test
     public void testGetUnitatGestora() {
-        Unitat unitat = new Unitat(1, "U", "UNITAT", "Unitat");
+        Unitat unitat = new Unitat(1, "U", "UNITAT", "Unitat", new Estat(11L));
         infra.setUnitatGestora(unitat);
         assertEquals(unitat, infra.getUnitatGestora());
     }
 
     @Test
     public void testGetUnitat() {
-        Unitat unitat = new Unitat(1, "U", "UNITAT", "Unitat");
+        Unitat unitat = new Unitat(1, "U", "UNITAT", "Unitat", new Estat(11L));
         infra.setUnitat(unitat);
         assertEquals(unitat, infra.getUnitat());
     }

@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client;
 
 import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
+import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
 
@@ -304,7 +305,7 @@ public class EquipsTicClientImplTests {
         List<Unitat> unitats = client.getUnitatsByNom(NOM_UNITAT_UTGAC);
         assertFalse(unitats.isEmpty());
         for (Unitat u : unitats) {
-            assertEquals(NOM_UNITAT_UTGAC, u.getNom());
+            assertThat(u.getNom(), equalToIgnoringCase(NOM_UNITAT_UTGAC));
         }
     }
 
@@ -322,7 +323,7 @@ public class EquipsTicClientImplTests {
         List<Unitat> unitats = client.getUnitatsByNomAndIdentificadorAndCodi(nom, identificador, codi);
         assertFalse(unitats.isEmpty());
         for (Unitat u : unitats) {
-            assertEquals(nom, u.getNom());
+            assertThat(u.getNom(), equalToIgnoringCase(nom));
             assertEquals(identificador, u.getIdentificador());
             assertEquals(codi, u.getCodiUnitat());
         }

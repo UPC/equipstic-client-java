@@ -13,8 +13,9 @@ public class UnitatTests {
 
     @Before
     public void setUp() throws Exception {
-        unitat = new Unitat(1, "171", "UTGAC", "Utg de l'Àmbit de Camins");
-        copia = new Unitat(1, "171", "UTGAC", "Utg de l'Àmbit de Camins");
+        Estat estat = new Estat(11L);
+        unitat = new Unitat(1, "171", "UTGAC", "Utg de l'Àmbit de Camins", estat);
+        copia = new Unitat(1, "171", "UTGAC", "Utg de l'Àmbit de Camins", estat);
     }
 
     @Test
@@ -43,6 +44,11 @@ public class UnitatTests {
     }
 
     @Test
+    public void testGetEstat() {
+        assertEquals(new Estat(11L), unitat.getEstat());
+    }
+
+    @Test
     public void testToString() {
         assertTrue(StringUtils.substringMatch(unitat.toString(), 0, "[Unitat "));
     }
@@ -54,7 +60,7 @@ public class UnitatTests {
 
     @Test
     public void testEqualsFalse() {
-        Unitat unitat2 = new Unitat(2, "codi", "ident", "nom");
+        Unitat unitat2 = new Unitat(2, "codi", "ident", "nom", new Estat(11L));
         assertNotEquals(unitat, unitat2);
     }
 

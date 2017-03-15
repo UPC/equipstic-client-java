@@ -3,7 +3,6 @@ package edu.upc.caminstech.equipstic;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,29 +18,31 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * FIXME: Esborrar l'anotació @JsonIgnoreProperties i processar el camp "estat"
  */
 @JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties({ "estat" })
 public class Unitat implements Comparable<Unitat> {
 
     private final long idUnitat;
     private final String codiUnitat;
     private final String identificador;
     private final String nom;
+    private final Estat estat;
 
     @JsonCreator
     public Unitat(//
             @JsonProperty("idUnitat") long idUnitat, //
             @JsonProperty(value = "codiUnitat", required = false) String codiUnitat, //
             @JsonProperty(value = "identificador", required = false) String identificador, //
-            @JsonProperty(value = "nom", required = false) String nom) {
+            @JsonProperty(value = "nom", required = false) String nom,
+            @JsonProperty(value = "estat", required = false) Estat estat) {
 
         this.idUnitat = idUnitat;
         this.codiUnitat = codiUnitat;
         this.identificador = identificador;
         this.nom = nom;
+        this.estat = estat;
     }
 
     public Unitat(long idUnitat) {
-        this(idUnitat, null, null, null);
+        this(idUnitat, null, null, null, null);
     }
 
     public long getIdUnitat() {
@@ -61,6 +62,10 @@ public class Unitat implements Comparable<Unitat> {
 
     public String getNom() {
         return nom;
+    }
+
+    public Estat getEstat() {
+        return estat;
     }
 
     @Override

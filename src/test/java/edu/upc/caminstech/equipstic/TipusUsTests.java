@@ -14,7 +14,7 @@ public class TipusUsTests {
 
     @Before
     public void setUp() throws Exception {
-        unitat = new Unitat(1, "1", "U1", "UNITAT1");
+        unitat = new Unitat(1, "1", "U1", "UNITAT1", new Estat(11L));
         tipus = new TipusUs(1, "TIPUS_US1", unitat);
         copia = new TipusUs(1, "TIPUS_US1", unitat);
     }
