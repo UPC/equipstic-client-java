@@ -1,6 +1,8 @@
 package edu.upc.caminstech.equipstic.client;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -10,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * útil per depurar errors (podeu obtenir una referència via
  * {@link EquipsTicClientException#getResponse()}).
  */
+@JsonInclude(Include.NON_NULL)
 public class Response<T> {
 
     public static final String STATUS_SUCCESS = "success";
@@ -20,14 +23,17 @@ public class Response<T> {
     private final String success;
     private final String message;
     private final T data;
+    private final Integer totalElements;
 
     @JsonCreator
     public Response(@JsonProperty("status") String status, @JsonProperty("success") String success,
-            @JsonProperty("message") String message, @JsonProperty(value = "data", required = false) T data) {
+            @JsonProperty("message") String message, @JsonProperty(value = "data", required = false) T data,
+            @JsonProperty(value = "totalElements", required = false) Integer totalElements) {
         this.status = status;
         this.success = success;
         this.message = message;
         this.data = data;
+        this.totalElements = totalElements;
     }
 
     public String getStatus() {
@@ -46,6 +52,10 @@ public class Response<T> {
         return data;
     }
 
+    public Integer getTotalElements() {
+        return totalElements;
+    }
+
     public boolean isSuccess() {
         return STATUS_SUCCESS.equals(status) || STATUS_SUCCESS.equals(success);
     }
@@ -56,4 +66,5 @@ public class Response<T> {
                 data != null ? data.getClass().getSimpleName() : "", status, success, message,
                 data != null ? data.toString() : "");
     }
+
 }
