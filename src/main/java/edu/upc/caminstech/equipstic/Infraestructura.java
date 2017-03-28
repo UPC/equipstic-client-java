@@ -3,6 +3,7 @@ package edu.upc.caminstech.equipstic;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
-public class Infraestructura {
+public class Infraestructura implements Comparable<Infraestructura> {
     /*
      * TODO: Utilitzar el patró Builder per crear instàncies, tenint en compte
      * quins atributs són opcionals i quins no, segons el tipus
@@ -463,6 +464,18 @@ public class Infraestructura {
 
     public void setNomUsuariInfraestructura(String nomUsuariInfraestructura) {
         this.nomUsuariInfraestructura = nomUsuariInfraestructura;
+    }
+
+    @Override
+    public int compareTo(Infraestructura i) {
+        if (i == null) {
+            return -1;
+        }
+        if (i == this) {
+            return 0;
+        }
+        return new CompareToBuilder().append(this.nomDns, i.nomDns).append(this.identificador, i.identificador)
+                .toComparison();
     }
 
 }
