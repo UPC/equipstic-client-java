@@ -336,7 +336,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         List<TipusInfraestructura> result = get("/tipusInfraestructura",
                 new ParameterizedTypeReference<Response<List<TipusInfraestructura>>>() {
                 });
-        return (result != null) ? result : new ArrayList<>();
+        return sorted(result);
     }
 
     @Override
@@ -344,7 +344,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         List<TipusInfraestructura> result = get("/tipusInfraestructura/cerca/categoria/{idCategoria}",
                 new ParameterizedTypeReference<Response<List<TipusInfraestructura>>>() {
                 }, idCategoria);
-        return (result != null) ? result : new ArrayList<>();
+        return sorted(result);
     }
 
     @Override
@@ -365,7 +365,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         List<TipusInfraestructura> result = get("/tipusInfraestructura/cerca/nom/{nom}",
                 new ParameterizedTypeReference<Response<List<TipusInfraestructura>>>() {
                 }, nom);
-        return (result != null) ? result : new ArrayList<>();
+        return sorted(result);
     }
 
     @Override
@@ -645,7 +645,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
 
         Response<T> response = entity.getBody();
 
-        if (StringUtils.containsIgnoreCase(response.getMessage(), "no existeix")) {
+        if (response != null && StringUtils.containsIgnoreCase(response.getMessage(), "no existeix")) {
             return null;
         }
 
