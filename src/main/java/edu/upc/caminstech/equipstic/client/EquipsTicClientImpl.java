@@ -1,5 +1,7 @@
 package edu.upc.caminstech.equipstic.client;
 
+import static java.util.stream.Collectors.toList;
+
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -485,6 +487,17 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         return i;
     }
 
+    @Override
+    public List<Infraestructura> getInfraestructuraByUnitat(long idUnitat) {
+        List<Infraestructura> result = get("/infraestructura/cerca/unitat/{idUnitat}",
+                new ParameterizedTypeReference<Response<List<Infraestructura>>>() {
+                }, idUnitat);
+        if (result != null) {
+            result.stream().forEach(i -> ompleCampsNoInicialitzatsInfraestructura(i));
+        }
+        return sorted(result);
+    }
+
     /**
      * Inicialitza els atributs d'una infraestructura que corresponen a objectes
      * JSON que només tenen inicialitzat l'identificador.
@@ -669,8 +682,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         if (list == null) {
             return Collections.emptyList();
         }
-        Collections.sort(list);
-        return list;
+        return list.stream().sorted().collect(toList());
     }
 
 }

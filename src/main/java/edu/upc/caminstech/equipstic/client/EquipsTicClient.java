@@ -224,6 +224,11 @@ public interface EquipsTicClient {
     Infraestructura getInfraestructuraById(long id);
 
     /**
+     * Cerca d'infraestructures a partir d'una unitat.
+     */
+    List<Infraestructura> getInfraestructuraByUnitat(long idUnitat);
+
+    /**
      * Dóna d'alta una nova infraestructura.
      * 
      * @param infraestructura

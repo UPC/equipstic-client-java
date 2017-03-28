@@ -322,6 +322,12 @@ public class EquipsTicClientSpringCachedImpl implements EquipsTicClient {
         return client.getInfraestructuraById(id);
     }
 
+    @Override
+    @Cacheable(cachePrefix + "infraestructuraByUnitat")
+    public List<Infraestructura> getInfraestructuraByUnitat(long idUnitat) {
+        return client.getInfraestructuraByUnitat(idUnitat);
+    }
+
     /**
      * Aquesta crida no està cachejada.
      * 
@@ -329,7 +335,7 @@ public class EquipsTicClientSpringCachedImpl implements EquipsTicClient {
      */
     @Override
     @CacheEvict(cacheNames = { cachePrefix + "infraestructuraByMarcaAndNumeroDeSerie",
-            cachePrefix + "infraestructuraById" })
+            cachePrefix + "infraestructuraById", cachePrefix + "infraestructuraByUnitat" })
     public Infraestructura altaInfraestructura(Infraestructura infraestructura) {
         return client.altaInfraestructura(infraestructura);
     }
@@ -341,7 +347,7 @@ public class EquipsTicClientSpringCachedImpl implements EquipsTicClient {
      */
     @Override
     @CacheEvict(cacheNames = { cachePrefix + "infraestructuraByMarcaAndNumeroDeSerie",
-            cachePrefix + "infraestructuraById" })
+            cachePrefix + "infraestructuraById", cachePrefix + "infraestructuraByUnitat" })
     public void baixaInfraestructura(long id) {
         client.baixaInfraestructura(id);
     }
@@ -353,7 +359,7 @@ public class EquipsTicClientSpringCachedImpl implements EquipsTicClient {
      */
     @Override
     @CacheEvict(cacheNames = { cachePrefix + "infraestructuraByMarcaAndNumeroDeSerie",
-            cachePrefix + "infraestructuraById" })
+            cachePrefix + "infraestructuraById", cachePrefix + "infraestructuraByUnitat" })
     public Infraestructura modificaInfraestructura(Infraestructura infraestructura) {
         return client.modificaInfraestructura(infraestructura);
     }
