@@ -488,7 +488,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public List<Infraestructura> getInfraestructuraByUnitat(long idUnitat) {
+    public List<Infraestructura> getInfraestructuresByUnitat(long idUnitat) {
         List<Infraestructura> result = get("/infraestructura/cerca/unitat/{idUnitat}",
                 new ParameterizedTypeReference<Response<List<Infraestructura>>>() {
                 }, idUnitat);

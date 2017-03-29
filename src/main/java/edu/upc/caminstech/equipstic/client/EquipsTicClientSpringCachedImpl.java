@@ -361,9 +361,9 @@ public class EquipsTicClientSpringCachedImpl implements EquipsTicClient {
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "infraestructuraByUnitat")
-    public List<Infraestructura> getInfraestructuraByUnitat(long idUnitat) {
-        return client.getInfraestructuraByUnitat(idUnitat);
+    @Cacheable(cachePrefix + "infraestructuresByUnitat")
+    public List<Infraestructura> getInfraestructuresByUnitat(long idUnitat) {
+        return client.getInfraestructuresByUnitat(idUnitat);
     }
 
     /**
@@ -375,7 +375,7 @@ public class EquipsTicClientSpringCachedImpl implements EquipsTicClient {
      */
     @Override
     @CacheEvict(cacheNames = { cachePrefix + "infraestructuraByMarcaAndNumeroDeSerie",
-            cachePrefix + "infraestructuraById", cachePrefix + "infraestructuraByUnitat" })
+            cachePrefix + "infraestructuraById", cachePrefix + "infraestructuresByUnitat" })
     public Infraestructura altaInfraestructura(Infraestructura infraestructura) {
         return client.altaInfraestructura(infraestructura);
     }
@@ -389,7 +389,7 @@ public class EquipsTicClientSpringCachedImpl implements EquipsTicClient {
      */
     @Override
     @CacheEvict(cacheNames = { cachePrefix + "infraestructuraByMarcaAndNumeroDeSerie",
-            cachePrefix + "infraestructuraById", cachePrefix + "infraestructuraByUnitat" })
+            cachePrefix + "infraestructuraById", cachePrefix + "infraestructuresByUnitat" })
     public void baixaInfraestructura(long id) {
         client.baixaInfraestructura(id);
     }
@@ -403,7 +403,7 @@ public class EquipsTicClientSpringCachedImpl implements EquipsTicClient {
      */
     @Override
     @CacheEvict(cacheNames = { cachePrefix + "infraestructuraByMarcaAndNumeroDeSerie",
-            cachePrefix + "infraestructuraById", cachePrefix + "infraestructuraByUnitat" })
+            cachePrefix + "infraestructuraById", cachePrefix + "infraestructuresByUnitat" })
     public Infraestructura modificaInfraestructura(Infraestructura infraestructura) {
         return client.modificaInfraestructura(infraestructura);
     }

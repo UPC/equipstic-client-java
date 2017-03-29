@@ -352,7 +352,7 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getInfraestructuresByUnitat() {
-        List<Infraestructura> infraestructures = client.getInfraestructuraByUnitat(ID_UNITAT_UTGAC);
+        List<Infraestructura> infraestructures = client.getInfraestructuresByUnitat(ID_UNITAT_UTGAC);
         assertNotNull(infraestructures);
         assertFalse(infraestructures.isEmpty());
         assertTrue(infraestructures.stream().allMatch(i -> i.getUnitat().getIdUnitat() == ID_UNITAT_UTGAC));

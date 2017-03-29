@@ -226,7 +226,7 @@ public interface EquipsTicClient {
     /**
      * Cerca d'infraestructures a partir d'una unitat.
      */
-    List<Infraestructura> getInfraestructuraByUnitat(long idUnitat);
+    List<Infraestructura> getInfraestructuresByUnitat(long idUnitat);
 
     /**
      * Dóna d'alta una nova infraestructura.
