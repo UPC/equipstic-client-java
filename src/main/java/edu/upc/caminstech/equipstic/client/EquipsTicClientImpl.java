@@ -8,29 +8,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.TimeZone;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.Credentials;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.HttpClients;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.upc.caminstech.equipstic.Ambit;
 import edu.upc.caminstech.equipstic.Campus;
@@ -110,67 +97,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
      */
     public EquipsTicClientImpl(URI baseUri, String username, String password, TimeZone timeZone) {
         this.baseUri = baseUri.toString();
-        HttpClient httpClient = prepareHttpClient(baseUri, username, password);
-        restTemplate = prepareRestTemplate(httpClient, timeZone);
-    }
-
-    /**
-     * Mètode auxiliar per instanciar un HttpClient a partir de les credencials
-     * d'autenticació.
-     */
-    private HttpClient prepareHttpClient(URI baseUri, String username, String password) {
-        CredentialsProvider credsProvider = new BasicCredentialsProvider();
-        AuthScope authScope = new AuthScope(baseUri.getHost(), baseUri.getPort());
-        Credentials credentials = new UsernamePasswordCredentials(username, password);
-        credsProvider.setCredentials(authScope, credentials);
-        HttpClient httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
-
-        return httpClient;
-    }
-
-    private RestTemplate prepareRestTemplate(HttpClient httpClient, TimeZone timeZone) {
-        RestTemplate template = new RestTemplate(new HttpComponentsClientHttpRequestFactory(httpClient));
-        fixSupportedMediaTypes(template);
-        fixJacksonObjectMapperTimezone(template, timeZone);
-        return template;
-    }
-
-    /**
-     * Reconfigura la serialització/deserialització amb Jackson per tenir en
-     * compte implícitament el TimeZone indicat.
-     * 
-     * Això és necessari perquè Jackson per defecte fa servir el timezone UTC
-     * quan no s'explicita el TimeZone, però sembla que el servidor EquipsTIC fa
-     * servir CET ("Europe/Madrid" o equivalent).
-     */
-    private void fixJacksonObjectMapperTimezone(RestTemplate template, TimeZone timeZone) {
-        Optional<HttpMessageConverter<?>> converter = template.getMessageConverters().stream()
-                .filter(c -> c.getClass().getName().equals(MappingJackson2HttpMessageConverter.class.getName()))
-                .findFirst();
-        if (converter.isPresent()) {
-            MappingJackson2HttpMessageConverter c = (MappingJackson2HttpMessageConverter) converter.get();
-            c.getObjectMapper().setTimeZone(timeZone);
-        }
-    }
-
-    /**
-     * Reconfigura els Converters de la RestTemplate per tal que acceptin també
-     * respostes de tipus "text/plain".
-     *
-     * Això és necessari perquè el servidor SOA retorna erròniament un
-     * Content-Type amb valor "text/plain" quan hauria de ser
-     * "application/json".
-     */
-    private void fixSupportedMediaTypes(RestTemplate restTemplate) {
-        for (HttpMessageConverter<?> converter : restTemplate.getMessageConverters()) {
-            if (converter instanceof MappingJackson2HttpMessageConverter) {
-                MappingJackson2HttpMessageConverter jsonConverter = (MappingJackson2HttpMessageConverter) converter;
-                jsonConverter.setObjectMapper(new ObjectMapper());
-                jsonConverter.setSupportedMediaTypes(Arrays.asList(
-                        new MediaType("application", "json", MappingJackson2HttpMessageConverter.DEFAULT_CHARSET),
-                        new MediaType("text", "plain", MappingJackson2HttpMessageConverter.DEFAULT_CHARSET)));
-            }
-        }
+        restTemplate = EquipsTicRestTemplateBuilder.createRestTemplate(baseUri, username, password, timeZone);
     }
 
     @Override
