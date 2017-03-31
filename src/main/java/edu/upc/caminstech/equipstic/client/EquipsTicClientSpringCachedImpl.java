@@ -116,252 +116,252 @@ public class EquipsTicClientSpringCachedImpl implements EquipsTicClient {
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(value = cachePrefix + "ambits")
+    @Cacheable(value = cachePrefix + "ambits", sync = true)
     public List<Ambit> getAmbits() {
         return client.getAmbits();
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "ambitsByNom")
+    @Cacheable(value = cachePrefix + "ambitsByNom", sync = true)
     public List<Ambit> getAmbitsByNom(String nomAmbit) {
         return client.getAmbitsByNom(nomAmbit);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "ambitsById")
+    @Cacheable(value = cachePrefix + "ambitsById", sync = true)
     public Ambit getAmbitById(long idAmbit) {
         return client.getAmbitById(idAmbit);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "campus")
+    @Cacheable(value = cachePrefix + "campus", sync = true)
     public List<Campus> getCampus() {
         return client.getCampus();
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "campusByCodi")
+    @Cacheable(value = cachePrefix + "campusByCodi", sync = true)
     public Campus getCampusByCodi(String codiCampus) {
         return client.getCampusByCodi(codiCampus);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "campusById")
+    @Cacheable(value = cachePrefix + "campusById", sync = true)
     public Campus getCampusById(long idCampus) {
         return client.getCampusById(idCampus);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "categories")
+    @Cacheable(value = cachePrefix + "categories", sync = true)
     public List<Categoria> getCategories() {
         return client.getCategories();
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "categoriaById")
+    @Cacheable(value = cachePrefix + "categoriaById", sync = true)
     public Categoria getCategoriaById(long idCategoria) {
         return client.getCategoriaById(idCategoria);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "edificis")
+    @Cacheable(value = cachePrefix + "edificis", sync = true)
     public List<Edifici> getEdificis() {
         return client.getEdificis();
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "edificiById")
+    @Cacheable(value = cachePrefix + "edificiById", sync = true)
     public Edifici getEdificiById(long idEdifici) {
         return client.getEdificiById(idEdifici);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "edificiByCodiAndCodiCampus")
+    @Cacheable(value = cachePrefix + "edificiByCodiAndCodiCampus", sync = true)
     public Edifici getEdificiByCodiAndCodiCampus(String codiEdifici, String codiCampus) {
         return client.getEdificiByCodiAndCodiCampus(codiEdifici, codiCampus);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "estats")
+    @Cacheable(value = cachePrefix + "estats", sync = true)
     public List<Estat> getEstats() {
         return client.getEstats();
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "estatByCodi")
+    @Cacheable(value = cachePrefix + "estatByCodi", sync = true)
     public Estat getEstatByCodi(String codiEstat) {
         return client.getEstatByCodi(codiEstat);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "estatsByNom")
+    @Cacheable(value = cachePrefix + "estatsByNom", sync = true)
     public List<Estat> getEstatsByNom(String nomEstat) {
         return client.getEstatsByNom(nomEstat);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "estatById")
+    @Cacheable(value = cachePrefix + "estatById", sync = true)
     public Estat getEstatById(long idEstat) {
         return client.getEstatById(idEstat);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "marques")
+    @Cacheable(value = cachePrefix + "marques", sync = true)
     public List<Marca> getMarques() {
         return client.getMarques();
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "marquesByNom")
+    @Cacheable(value = cachePrefix + "marquesByNom", sync = true)
     public List<Marca> getMarquesByNom(String nom) {
         return client.getMarquesByNom(nom);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "marcaById")
+    @Cacheable(value = cachePrefix + "marcaById", sync = true)
     public Marca getMarcaById(long idMarca) {
         return client.getMarcaById(idMarca);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "tipusUs")
+    @Cacheable(value = cachePrefix + "tipusUs", sync = true)
     public List<TipusUs> getTipusUs() {
         return client.getTipusUs();
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "tipusUsByUnitat")
+    @Cacheable(value = cachePrefix + "tipusUsByUnitat", sync = true)
     public List<TipusUs> getTipusUsByUnitat(long idUnitat) {
         return client.getTipusUsByUnitat(idUnitat);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "tipusUs")
+    @Cacheable(value = cachePrefix + "tipusUs", sync = true)
     public TipusUs getTipusUsById(long idTipusUs) {
         return client.getTipusUsById(idTipusUs);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "tipusInfraestructura")
+    @Cacheable(value = cachePrefix + "tipusInfraestructura", sync = true)
     public List<TipusInfraestructura> getTipusInfraestructura() {
         return client.getTipusInfraestructura();
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "tipusInfraestructuraByCategoria")
+    @Cacheable(value = cachePrefix + "tipusInfraestructuraByCategoria", sync = true)
     public List<TipusInfraestructura> getTipusInfraestructuraByCategoria(long idCategoria) {
         return client.getTipusInfraestructuraByCategoria(idCategoria);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "tipusInfraestructuraByCodi")
+    @Cacheable(value = cachePrefix + "tipusInfraestructuraByCodi", sync = true)
     public TipusInfraestructura getTipusInfraestructuraBycodi(String codi) {
         return client.getTipusInfraestructuraBycodi(codi);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "tipusInfraestructuraByNom")
+    @Cacheable(value = cachePrefix + "tipusInfraestructuraByNom", sync = true)
     public List<TipusInfraestructura> getTipusInfraestructuraByNom(String nom) {
         return client.getTipusInfraestructuraByNom(nom);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "tipusInfraestructuraById")
+    @Cacheable(value = cachePrefix + "tipusInfraestructuraById", sync = true)
     public TipusInfraestructura getTipusInfraestructuraById(long idTipus) {
         return client.getTipusInfraestructuraById(idTipus);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "tipusXarxa")
+    @Cacheable(value = cachePrefix + "tipusXarxa", sync = true)
     public List<TipusXarxa> getTipusXarxa() {
         return client.getTipusXarxa();
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "tipusXarxaByid")
+    @Cacheable(value = cachePrefix + "tipusXarxaByid", sync = true)
     public TipusXarxa getTipusXarxaById(long idTipusXarxa) {
         return client.getTipusXarxaById(idTipusXarxa);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "unitats")
+    @Cacheable(value = cachePrefix + "unitats", sync = true)
     public List<Unitat> getUnitats() {
         return client.getUnitats();
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "unitatByIdentificador")
+    @Cacheable(value = cachePrefix + "unitatByIdentificador", sync = true)
     public Unitat getUnitatByIdentificador(String identificador) {
         return client.getUnitatByIdentificador(identificador);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "unitatsByNom")
+    @Cacheable(value = cachePrefix + "unitatsByNom", sync = true)
     public List<Unitat> getUnitatsByNom(String nom) {
         return client.getUnitatsByNom(nom);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "unitatsByNomAndIdentificadorAndCodi")
+    @Cacheable(value = cachePrefix + "unitatsByNomAndIdentificadorAndCodi", sync = true)
     public List<Unitat> getUnitatsByNomAndIdentificadorAndCodi(String nom, String identificador, String codiUnitat) {
         return client.getUnitatsByNomAndIdentificadorAndCodi(nom, identificador, codiUnitat);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "unitatsById")
+    @Cacheable(value = cachePrefix + "unitatsById", sync = true)
     public Unitat getUnitatById(long idUnitat) {
         return client.getUnitatById(idUnitat);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "infraestructuraByMarcaAndNumeroDeSerie")
+    @Cacheable(value = cachePrefix + "infraestructuraByMarcaAndNumeroDeSerie", sync = true)
     public Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn) {
         return client.getInfraestructuraByMarcaAndNumeroDeSerie(idMarca, sn);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "infraestructuraById")
+    @Cacheable(value = cachePrefix + "infraestructuraById", sync = true)
     public Infraestructura getInfraestructuraById(long id) {
         return client.getInfraestructuraById(id);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "infraestructuresByUnitat")
+    @Cacheable(value = cachePrefix + "infraestructuresByUnitat", sync = true)
     public List<Infraestructura> getInfraestructuresByUnitat(long idUnitat) {
         return client.getInfraestructuresByUnitat(idUnitat);
     }
@@ -410,56 +410,56 @@ public class EquipsTicClientSpringCachedImpl implements EquipsTicClient {
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "sistemesOperatius")
+    @Cacheable(value = cachePrefix + "sistemesOperatius", sync = true)
     public List<SistemaOperatiu> getSistemesOperatius() {
         return client.getSistemesOperatius();
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "sistemesOperatiusByCategoria")
+    @Cacheable(value = cachePrefix + "sistemesOperatiusByCategoria", sync = true)
     public List<SistemaOperatiu> getSistemesOperatiusByCategoria(long idCategoria) {
         return client.getSistemesOperatiusByCategoria(idCategoria);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "sistemesOperatiusByCodi")
+    @Cacheable(value = cachePrefix + "sistemesOperatiusByCodi", sync = true)
     public List<SistemaOperatiu> getSistemesOperatiusByCodi(String codi) {
         return client.getSistemesOperatiusByCodi(codi);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "sistemesOperatiusByNom")
+    @Cacheable(value = cachePrefix + "sistemesOperatiusByNom", sync = true)
     public List<SistemaOperatiu> getSistemesOperatiusByNom(String nom) {
         return client.getSistemesOperatiusByNom(nom);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "sistemaOperatiuById")
+    @Cacheable(value = cachePrefix + "sistemaOperatiuById", sync = true)
     public SistemaOperatiu getSistemaOperatiuById(long idSistemaOperatiu) {
         return client.getSistemaOperatiuById(idSistemaOperatiu);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "usuariInfraestructuraById")
+    @Cacheable(value = cachePrefix + "usuariInfraestructuraById", sync = true)
     public UsuariInfraestructura getUsuariInfraestructura(long idUsuariInfraestructura) {
         return client.getUsuariInfraestructura(idUsuariInfraestructura);
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "usuarisInfraestructura")
+    @Cacheable(value = cachePrefix + "usuarisInfraestructura", sync = true)
     public List<UsuariInfraestructura> getUsuarisInfraestructura() {
         return client.getUsuarisInfraestructura();
     }
 
     /** {@inheritDoc} */
     @Override
-    @Cacheable(cachePrefix + "usuarisInfraestructuraByNom")
+    @Cacheable(value = cachePrefix + "usuarisInfraestructuraByNom", sync = true)
     public List<UsuariInfraestructura> getUsuarisInfraestructuraByNom(String nom) {
         return client.getUsuarisInfraestructuraByNom(nom);
     }
