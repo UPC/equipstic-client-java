@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,6 +18,7 @@ public class TipusXarxaDaoImpl extends RestDao implements TipusXarxaDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getTipusXarxa")
     public List<TipusXarxa> getTipusXarxa() {
         List<TipusXarxa> result = get("/tipusXarxa", new ParameterizedTypeReference<Response<List<TipusXarxa>>>() {
         });
@@ -24,6 +26,7 @@ public class TipusXarxaDaoImpl extends RestDao implements TipusXarxaDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getTipusXarxaById")
     public TipusXarxa getTipusXarxaById(long idTipusXarxa) {
         return get("/tipusXarxa/{id}", new ParameterizedTypeReference<Response<TipusXarxa>>() {
         }, idTipusXarxa);

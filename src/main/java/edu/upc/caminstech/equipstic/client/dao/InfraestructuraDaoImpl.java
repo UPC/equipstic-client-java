@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -50,6 +52,7 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getInfraestructuraByMarcaAndNumeroDeSerie")
     public Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn) {
         Assert.notNull(sn, "El número de sèrie no pot ser null");
         Infraestructura i = get("/infraestructura/cerca/marca/{idMarca}/sn/{sn}",
@@ -60,6 +63,7 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getInfraestructuraById")
     public Infraestructura getInfraestructuraById(long id) {
         Infraestructura i = get("/infraestructura/{id}", new ParameterizedTypeReference<Response<Infraestructura>>() {
         }, id);
@@ -68,6 +72,7 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getInfraestructuresByUnitat")
     public List<Infraestructura> getInfraestructuresByUnitat(long idUnitat) {
         List<Infraestructura> result = get("/infraestructura/cerca/unitat/{idUnitat}",
                 new ParameterizedTypeReference<Response<List<Infraestructura>>>() {
@@ -79,6 +84,8 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     }
 
     @Override
+    @CacheEvict(cacheNames = { CacheUtils.PREFIX + "getInfraestructuraByMarcaAndNumeroDeSerie",
+            CacheUtils.PREFIX + "getInfraestructuraById", CacheUtils.PREFIX + "getInfraestructuresByUnitat" })
     public Infraestructura altaInfraestructura(Infraestructura infraestructura) {
         HttpEntity<Infraestructura> req = preparaRequest(infraestructura);
 
@@ -95,6 +102,8 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     }
 
     @Override
+    @CacheEvict(cacheNames = { CacheUtils.PREFIX + "getInfraestructuraByMarcaAndNumeroDeSerie",
+            CacheUtils.PREFIX + "getInfraestructuraById", CacheUtils.PREFIX + "getInfraestructuresByUnitat" })
     public void baixaInfraestructura(long id) {
         /*
          * Fem servir 'Object' com a tipus parametritzat perquè en el DELETE
@@ -108,6 +117,24 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
             throw new EquipsTicClientException(response,
                     "Error en esborrar la infraestructura: " + response.getMessage());
         }
+    }
+
+    @Override
+    @CacheEvict(cacheNames = { CacheUtils.PREFIX + "getInfraestructuraByMarcaAndNumeroDeSerie",
+            CacheUtils.PREFIX + "getInfraestructuraById", CacheUtils.PREFIX + "getInfraestructuresByUnitat" })
+    public Infraestructura modificaInfraestructura(Infraestructura infraestructura) {
+        HttpEntity<Infraestructura> req = preparaRequest(infraestructura);
+
+        ResponseEntity<Response<Infraestructura>> rp = getRestTemplate().exchange(
+                getBaseUri() + "/infraestructura/{id}", HttpMethod.PUT, req,
+                new ParameterizedTypeReference<Response<Infraestructura>>() {
+                }, infraestructura.getIdentificador());
+
+        Response<Infraestructura> response = rp.getBody();
+        if (response.isSuccess()) {
+            return response.getData();
+        }
+        throw new EquipsTicClientException(response, "Error en modificar la infraestructura: " + response.getMessage());
     }
 
     /**
@@ -171,19 +198,4 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
         return new HttpEntity<>(infraestructura, headers);
     }
 
-    @Override
-    public Infraestructura modificaInfraestructura(Infraestructura infraestructura) {
-        HttpEntity<Infraestructura> req = preparaRequest(infraestructura);
-
-        ResponseEntity<Response<Infraestructura>> rp = getRestTemplate().exchange(
-                getBaseUri() + "/infraestructura/{id}", HttpMethod.PUT, req,
-                new ParameterizedTypeReference<Response<Infraestructura>>() {
-                }, infraestructura.getIdentificador());
-
-        Response<Infraestructura> response = rp.getBody();
-        if (response.isSuccess()) {
-            return response.getData();
-        }
-        throw new EquipsTicClientException(response, "Error en modificar la infraestructura: " + response.getMessage());
-    }
 }

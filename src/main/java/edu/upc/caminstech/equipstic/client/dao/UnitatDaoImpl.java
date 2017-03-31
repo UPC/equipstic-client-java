@@ -3,6 +3,7 @@ package edu.upc.caminstech.equipstic.client.dao;
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,6 +17,7 @@ public class UnitatDaoImpl extends RestDao implements UnitatDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getUnitats")
     public List<Unitat> getUnitats() {
         List<Unitat> result = get("/unitat", new ParameterizedTypeReference<Response<List<Unitat>>>() {
         });
@@ -23,6 +25,7 @@ public class UnitatDaoImpl extends RestDao implements UnitatDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getUnitatByIdentificador")
     public Unitat getUnitatByIdentificador(String identificador) {
         if (identificador == null) {
             throw new IllegalArgumentException("L'identificador de la unitat no pot ser null");
@@ -33,6 +36,7 @@ public class UnitatDaoImpl extends RestDao implements UnitatDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getUnitatsByNom")
     public List<Unitat> getUnitatsByNom(String nom) {
         if (nom == null) {
             throw new IllegalArgumentException("El nom de la unitat no pot ser null");
@@ -43,12 +47,14 @@ public class UnitatDaoImpl extends RestDao implements UnitatDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getUnitatById")
     public Unitat getUnitatById(long idUnitat) {
         return get("/unitat/{id}", new ParameterizedTypeReference<Response<Unitat>>() {
         }, idUnitat);
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getUnitatsByNomAndIdentificadorAndCodi")
     public List<Unitat> getUnitatsByNomAndIdentificadorAndCodi(String nom, String identificador, String codiUnitat) {
         if (nom == null) {
             throw new IllegalArgumentException("El nom de la unitat no pot ser null");

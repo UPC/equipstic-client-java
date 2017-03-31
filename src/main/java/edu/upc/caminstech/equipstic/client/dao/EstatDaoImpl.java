@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,6 +19,7 @@ public class EstatDaoImpl extends RestDao implements EstatDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getEstats")
     public List<Estat> getEstats() {
         List<Estat> result = get("/estat", new ParameterizedTypeReference<Response<List<Estat>>>() {
         });
@@ -25,6 +27,7 @@ public class EstatDaoImpl extends RestDao implements EstatDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getEstatsByCodi")
     public Estat getEstatByCodi(String codiEstat) {
         if (codiEstat == null) {
             throw new IllegalArgumentException("El codi de l'estat no pot ser null");
@@ -34,6 +37,7 @@ public class EstatDaoImpl extends RestDao implements EstatDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getEstatsByNom")
     public List<Estat> getEstatsByNom(String nomEstat) {
         if (nomEstat == null) {
             throw new IllegalArgumentException("El nom de l'estat no pot ser null");
@@ -44,6 +48,7 @@ public class EstatDaoImpl extends RestDao implements EstatDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getEstatById")
     public Estat getEstatById(long idEstat) {
         return get("/estat/{id}", new ParameterizedTypeReference<Response<Estat>>() {
         }, idEstat);

@@ -3,6 +3,7 @@ package edu.upc.caminstech.equipstic.client.dao;
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,6 +17,7 @@ public class EdificiDaoImpl extends RestDao implements EdificiDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getEdificis")
     public List<Edifici> getEdificis() {
         List<Edifici> result = get("/edifici", new ParameterizedTypeReference<Response<List<Edifici>>>() {
         });
@@ -23,12 +25,14 @@ public class EdificiDaoImpl extends RestDao implements EdificiDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getEdificiById")
     public Edifici getEdificiById(long idEdifici) {
         return get("/edifici/{id}", new ParameterizedTypeReference<Response<Edifici>>() {
         }, idEdifici);
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getEdificiByCodiAndCodiCampus")
     public Edifici getEdificiByCodiAndCodiCampus(String codiEdifici, String codiCampus) {
         if (codiEdifici == null) {
             throw new IllegalArgumentException("El codi de l'edifici no pot ser null");

@@ -3,6 +3,7 @@ package edu.upc.caminstech.equipstic.client.dao;
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,6 +17,7 @@ public class TipusUsDaoImpl extends RestDao implements TipusUsDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getTipusUs")
     public List<TipusUs> getTipusUs() {
         List<TipusUs> result = get("/tipusUs", new ParameterizedTypeReference<Response<List<TipusUs>>>() {
         });
@@ -23,6 +25,7 @@ public class TipusUsDaoImpl extends RestDao implements TipusUsDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getTipusUsByUnitat")
     public List<TipusUs> getTipusUsByUnitat(long idUnitat) {
         List<TipusUs> result = get("/tipusUs/cerca/unitat/{idUnitat}",
                 new ParameterizedTypeReference<Response<List<TipusUs>>>() {
@@ -31,6 +34,7 @@ public class TipusUsDaoImpl extends RestDao implements TipusUsDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getTipusUsById")
     public TipusUs getTipusUsById(long idTipusUs) {
         return get("/tipusUs/{idTipusUs}", new ParameterizedTypeReference<Response<TipusUs>>() {
         }, idTipusUs);

@@ -3,6 +3,7 @@ package edu.upc.caminstech.equipstic.client.dao;
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,6 +17,7 @@ public class TipusInfraestructuraDaoImpl extends RestDao implements TipusInfraes
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getTipusInfraestructura")
     public List<TipusInfraestructura> getTipusInfraestructura() {
         List<TipusInfraestructura> result = get("/tipusInfraestructura",
                 new ParameterizedTypeReference<Response<List<TipusInfraestructura>>>() {
@@ -24,6 +26,7 @@ public class TipusInfraestructuraDaoImpl extends RestDao implements TipusInfraes
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getTipusInfraestructuraByCategoria")
     public List<TipusInfraestructura> getTipusInfraestructuraByCategoria(long idCategoria) {
         List<TipusInfraestructura> result = get("/tipusInfraestructura/cerca/categoria/{idCategoria}",
                 new ParameterizedTypeReference<Response<List<TipusInfraestructura>>>() {
@@ -32,6 +35,7 @@ public class TipusInfraestructuraDaoImpl extends RestDao implements TipusInfraes
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getTipusInfraestructuraByCodi")
     public TipusInfraestructura getTipusInfraestructuraBycodi(String codi) {
         if (codi == null) {
             throw new IllegalArgumentException("El codi del tipus no pot ser null");
@@ -42,6 +46,7 @@ public class TipusInfraestructuraDaoImpl extends RestDao implements TipusInfraes
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getTipusInfraestructuraByNom")
     public List<TipusInfraestructura> getTipusInfraestructuraByNom(String nom) {
         if (nom == null) {
             throw new IllegalArgumentException("El nom del tipus no pot ser null");
@@ -53,6 +58,7 @@ public class TipusInfraestructuraDaoImpl extends RestDao implements TipusInfraes
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getTipusInfraestructuraById")
     public TipusInfraestructura getTipusInfraestructuraById(long idTipus) {
         return get("/tipusInfraestructura/{id}", new ParameterizedTypeReference<Response<TipusInfraestructura>>() {
         }, idTipus);

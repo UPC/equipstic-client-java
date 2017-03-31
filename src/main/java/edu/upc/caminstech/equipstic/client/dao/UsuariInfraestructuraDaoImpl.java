@@ -3,6 +3,7 @@ package edu.upc.caminstech.equipstic.client.dao;
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,6 +17,7 @@ public class UsuariInfraestructuraDaoImpl extends RestDao implements UsuariInfra
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getUsuariInfraestructura")
     public UsuariInfraestructura getUsuariInfraestructura(long idUsuariInfraestructura) {
         return get("/usuariInfraestructura/{idUsuariInfraestructura}",
                 new ParameterizedTypeReference<Response<UsuariInfraestructura>>() {
@@ -23,6 +25,7 @@ public class UsuariInfraestructuraDaoImpl extends RestDao implements UsuariInfra
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getUsuarisInfraestructura")
     public List<UsuariInfraestructura> getUsuarisInfraestructura() {
         List<UsuariInfraestructura> result = get("/usuariInfraestructura",
                 new ParameterizedTypeReference<Response<List<UsuariInfraestructura>>>() {
@@ -31,6 +34,7 @@ public class UsuariInfraestructuraDaoImpl extends RestDao implements UsuariInfra
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getUsuarisInfraestructuraByNom")
     public List<UsuariInfraestructura> getUsuarisInfraestructuraByNom(String nom) {
         if (nom == null) {
             throw new IllegalArgumentException("El nom de l'usuari no pot ser null");

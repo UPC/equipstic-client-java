@@ -3,6 +3,7 @@ package edu.upc.caminstech.equipstic.client.dao;
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,6 +17,7 @@ public class AmbitDaoImpl extends RestDao implements AmbitDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getAmbits")
     public List<Ambit> getAmbits() {
         List<Ambit> result = get("/ambit", new ParameterizedTypeReference<Response<List<Ambit>>>() {
         });
@@ -23,6 +25,7 @@ public class AmbitDaoImpl extends RestDao implements AmbitDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getAmbitsByNom")
     public List<Ambit> getAmbitsByNom(String nomAmbit) {
         if (nomAmbit == null) {
             throw new IllegalArgumentException("El nom de l'àmbit no pot ser null");
@@ -33,6 +36,7 @@ public class AmbitDaoImpl extends RestDao implements AmbitDao {
     }
 
     @Override
+    @Cacheable(CacheUtils.PREFIX + "getAmbitById")
     public Ambit getAmbitById(long idAmbit) {
         return get("/ambit/{id}", new ParameterizedTypeReference<Response<Ambit>>() {
         }, idAmbit);

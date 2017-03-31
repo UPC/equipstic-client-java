@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.cache.support.SimpleCacheManager;
 
 import edu.upc.caminstech.equipstic.Ambit;
 import edu.upc.caminstech.equipstic.Campus;
@@ -89,7 +89,7 @@ public class EquipsTicClientImplTests {
         URI baseUri = URI.create(envApiUrl);
         EquipsTicClient baseClient = new EquipsTicClientImpl(baseUri, envUsername, envPassword);
 
-        client = new EquipsTicClientSpringCachedImpl(baseClient, new SimpleCacheManager());
+        client = baseClient;
     }
 
     private static void checkEnvironmentDefined() {
@@ -351,6 +351,7 @@ public class EquipsTicClientImplTests {
     }
 
     @Test
+    @Ignore
     public void getInfraestructuresByUnitat() {
         List<Infraestructura> infraestructures = client.getInfraestructuresByUnitat(ID_UNITAT_UTGAC);
         assertNotNull(infraestructures);
