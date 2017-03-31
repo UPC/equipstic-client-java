@@ -20,6 +20,11 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Classe per instanciar la {@link RestTemplate} que utilitza el client.
+ * <p>
+ * Aquesta classe és d'ús intern de la llibreria, i no és útil per als usuaris.
+ */
 public abstract class EquipsTicRestTemplateBuilder {
 
     public static RestTemplate createRestTemplate(URI baseUri, String username, String password, TimeZone timeZone) {
@@ -64,10 +69,9 @@ public abstract class EquipsTicRestTemplateBuilder {
     }
 
     private static ObjectMapper getObjectMapper(RestTemplate template) {
-        Optional<HttpMessageConverter<?>> converter = template.getMessageConverters().stream()
-                .filter(c -> c instanceof MappingJackson2HttpMessageConverter).findFirst();
-        if (converter.isPresent()) {
-            return ((MappingJackson2HttpMessageConverter) converter.get()).getObjectMapper();
+        MappingJackson2HttpMessageConverter converter = getJacksonMessageConverterIfPresent(template);
+        if (converter != null) {
+            return converter.getObjectMapper();
         }
         return null;
     }
@@ -80,13 +84,20 @@ public abstract class EquipsTicRestTemplateBuilder {
      * valor "text/plain" quan hauria de ser "application/json".
      */
     private static void fixSupportedMediaTypes(RestTemplate template) {
-        Optional<HttpMessageConverter<?>> converter = template.getMessageConverters().stream()
-                .filter(c -> c instanceof MappingJackson2HttpMessageConverter).findFirst();
-        if (converter.isPresent()) {
-            MappingJackson2HttpMessageConverter jsonConverter = (MappingJackson2HttpMessageConverter) converter.get();
-            jsonConverter.setSupportedMediaTypes(Arrays.asList(
+        MappingJackson2HttpMessageConverter converter = getJacksonMessageConverterIfPresent(template);
+        if (converter != null) {
+            converter.setSupportedMediaTypes(Arrays.asList(
                     new MediaType("application", "json", MappingJackson2HttpMessageConverter.DEFAULT_CHARSET),
                     new MediaType("text", "plain", MappingJackson2HttpMessageConverter.DEFAULT_CHARSET)));
         }
+    }
+
+    private static MappingJackson2HttpMessageConverter getJacksonMessageConverterIfPresent(RestTemplate template) {
+        Optional<HttpMessageConverter<?>> converter = template.getMessageConverters().stream()
+                .filter(c -> c instanceof MappingJackson2HttpMessageConverter).findFirst();
+        if (converter.isPresent()) {
+            return (MappingJackson2HttpMessageConverter) converter.get();
+        }
+        return null;
     }
 }
