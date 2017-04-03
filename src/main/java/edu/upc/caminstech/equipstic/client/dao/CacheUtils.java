@@ -1,5 +1,8 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
+/**
+ * Classe d'ús intern de la llibreria.
+ */
 public abstract class CacheUtils {
 
     /**

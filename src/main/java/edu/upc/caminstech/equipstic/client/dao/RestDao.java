@@ -14,20 +14,21 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientException;
 import edu.upc.caminstech.equipstic.client.Response;
 
 /**
- * Aquesta classe és d'ús intern de la llibreria.
+ * Classe d'ús intern de la llibreria.
  */
 public class RestDao {
 
     private final URI baseUri;
     private final RestTemplate restTemplate;
 
-    public RestDao(URI baseUri, RestTemplate restTemplate) {
-        this.baseUri = baseUri;
-        this.restTemplate = restTemplate;
+    public RestDao(EquipsTicClientConfiguration config) {
+        this.baseUri = config.getBaseUri();
+        this.restTemplate = config.getRestTemplate();
     }
 
     public URI getBaseUri() {

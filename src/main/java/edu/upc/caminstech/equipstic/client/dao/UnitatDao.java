@@ -4,6 +4,9 @@ import java.util.List;
 
 import edu.upc.caminstech.equipstic.Unitat;
 
+/**
+ * Interfície d'ús intern de la llibreria.
+ */
 public interface UnitatDao {
 
     List<Unitat> getUnitats();

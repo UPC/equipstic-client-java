@@ -4,6 +4,9 @@ import java.util.List;
 
 import edu.upc.caminstech.equipstic.Infraestructura;
 
+/**
+ * Interfície d'ús intern de la llibreria.
+ */
 public interface InfraestructuraDao {
 
     Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn);

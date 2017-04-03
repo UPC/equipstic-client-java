@@ -4,6 +4,9 @@ import java.util.List;
 
 import edu.upc.caminstech.equipstic.SistemaOperatiu;
 
+/**
+ * Interfície d'ús intern de la llibreria.
+ */
 public interface SistemaOperatiuDao {
 
     List<SistemaOperatiu> getSistemesOperatius();
