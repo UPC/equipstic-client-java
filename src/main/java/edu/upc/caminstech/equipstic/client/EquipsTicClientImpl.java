@@ -67,13 +67,13 @@ import edu.upc.caminstech.equipstic.client.dao.UsuariInfraestructuraDaoImpl;
  * ...
  * </pre>
  * 
- * <h2>Si feu servir Spring Framework</h2> La llibreria està definida de tal
- * forma que, si definiu un <em>Spring Bean</em> de tipus
- * {@link EquipsTicClientConfiguration} en la vostra aplicació, Spring ho
- * detectarà i automàticament disposareu d'un {@link EquipsTicClient} que podeu
- * injectar en la vostra aplicació. A més, si teniu configurada una caché amb
- * Spring (per exemple amb l'anotació @{@link EnableCaching}), el client
- * configurat la farà servir.
+ * <h2>Si feu servir Spring Framework</h2> La llibreria
+ * {@code equipstic-client-java} és compatible amb Spring, de tal forma que, si
+ * definiu un <em>Spring Bean</em> de tipus {@link EquipsTicClientConfiguration}
+ * en la vostra aplicació, Spring ho detectarà i automàticament disposareu d'un
+ * {@link EquipsTicClient} que podeu injectar en la vostra aplicació. A més, si
+ * teniu configurada la caché amb Spring (per exemple amb
+ * l'anotació @{@link EnableCaching}), el client la farà servir.
  * <p>
  * Configuració via Spring Framework (exemple):
  * 
