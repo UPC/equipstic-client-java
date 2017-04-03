@@ -1,9 +1,9 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
-import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
@@ -12,8 +12,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
-import org.springframework.web.client.RestTemplate;
 
 import edu.upc.caminstech.equipstic.Edifici;
 import edu.upc.caminstech.equipstic.Estat;
@@ -23,9 +23,14 @@ import edu.upc.caminstech.equipstic.SistemaOperatiu;
 import edu.upc.caminstech.equipstic.TipusInfraestructura;
 import edu.upc.caminstech.equipstic.Unitat;
 import edu.upc.caminstech.equipstic.UsuariInfraestructura;
+import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientException;
 import edu.upc.caminstech.equipstic.client.Response;
 
+/**
+ * Classe d'ús intern de la llibreria.
+ */
+@Repository
 public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDao {
 
     private final EdificiDao edificiDao;
@@ -36,11 +41,12 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     private final UnitatDao unitatDao;
     private final UsuariInfraestructuraDao usuariInfraestructuraDao;
 
-    public InfraestructuraDaoImpl(URI baseUri, RestTemplate restTemplate, EdificiDao edificiDao, EstatDao estatDao,
+    @Autowired
+    public InfraestructuraDaoImpl(EquipsTicClientConfiguration config, EdificiDao edificiDao, EstatDao estatDao,
             MarcaDao marcaDao, SistemaOperatiuDao sistemaOperatiuDao, TipusInfraestructuraDao tipusInfraestructuraDao,
             UnitatDao unitatDao, UsuariInfraestructuraDao usuariInfraestructuraDao) {
 
-        super(baseUri, restTemplate);
+        super(config);
 
         this.edificiDao = edificiDao;
         this.estatDao = estatDao;

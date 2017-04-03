@@ -1,19 +1,25 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
-import java.net.URI;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.stereotype.Repository;
 
 import edu.upc.caminstech.equipstic.Categoria;
+import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.Response;
 
+/**
+ * Classe d'ús intern de la llibreria.
+ */
+@Repository
 public class CategoriaDaoImpl extends RestDao implements CategoriaDao {
 
-    public CategoriaDaoImpl(URI baseUri, RestTemplate restTemplate) {
-        super(baseUri, restTemplate);
+    @Autowired
+    public CategoriaDaoImpl(EquipsTicClientConfiguration config) {
+        super(config);
     }
 
     @Override

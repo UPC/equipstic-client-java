@@ -27,9 +27,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public abstract class EquipsTicRestTemplateBuilder {
 
+    /**
+     * La TimeZone que fa servir el servidor d'EquipsTIC.
+     * <p>
+     * Com que la API d'EquipsTIC no inclou el timezone en el format de les
+     * dates, la llibreria Jackson (de)serialitza els valors interpretant que
+     * les dates estan per defecte en el timezone UTC. Però això no és correcte,
+     * perquè sembla que el servidor EquipsTIC retorna les dates en el timezone
+     * CET.
+     */
+    private static final TimeZone EQUIPSTIC_SERVER_TIMEZONE = TimeZone.getTimeZone("Europe/Madrid");
+
     public static RestTemplate createRestTemplate(URI baseUri, String username, String password, TimeZone timeZone) {
         HttpClient httpClient = prepareHttpClient(baseUri, username, password);
         return prepareRestTemplate(httpClient, timeZone);
+    }
+
+    public static RestTemplate createRestTemplate(URI baseUri, String username, String password) {
+        return createRestTemplate(baseUri, username, password, EQUIPSTIC_SERVER_TIMEZONE);
     }
 
     /**

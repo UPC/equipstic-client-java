@@ -1,21 +1,27 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.stereotype.Repository;
 
 import edu.upc.caminstech.equipstic.SistemaOperatiu;
+import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.Response;
 
+/**
+ * Classe d'ús intern de la llibreria.
+ */
+@Repository
 public class SistemaOperatiuDaoImpl extends RestDao implements SistemaOperatiuDao {
 
-    public SistemaOperatiuDaoImpl(URI baseUri, RestTemplate restTemplate) {
-        super(baseUri, restTemplate);
+    @Autowired
+    public SistemaOperatiuDaoImpl(EquipsTicClientConfiguration config) {
+        super(config);
     }
 
     @Override

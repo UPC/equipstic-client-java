@@ -1,10 +1,11 @@
 package edu.upc.caminstech.equipstic.client;
 
-import java.net.URI;
 import java.util.List;
-import java.util.TimeZone;
 
-import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
 import edu.upc.caminstech.equipstic.Ambit;
 import edu.upc.caminstech.equipstic.Campus;
@@ -47,97 +48,154 @@ import edu.upc.caminstech.equipstic.client.dao.UsuariInfraestructuraDao;
 import edu.upc.caminstech.equipstic.client.dao.UsuariInfraestructuraDaoImpl;
 
 /**
- * Una implementació per defecte del client.
+ * Implementació bàsica d'un client de la API EquipsTIC.
  * <p>
- * Molt probablement preferiu la versió amb <em>caché</em>
- * {@link EquipsTicClientSpringCachedImpl}.
+ * La manera d'instanciar un client depén de si feu servir
+ * <a href="https://projects.spring.io/spring-framework/">Spring Framework</a>
+ * en la vostra aplicació o no.
+ * <h2>Si no feu servir Spring Framework</h2>
  * <p>
- * Exemple d'utilització:
- * <p>
- * <code>
- * URI uri = URI.create("https://example.com/paht_to_api"); //veure manual SOA <br>
- * EquipsTicClientImpl client = new EquipsTicClientImpl(uri, "soa_user", "soa_password")); <br>
+ * Exemple d'utilització si no feu servir l'Spring Framework:
+ * 
+ * <pre>
+ * EquipsTicClientConfiguration config = new EquipsTicClientConfiguration(baseUri, username, password);
+ * EquipsTicClient client = new EquipsTicClientImpl(config);
+ * 
  * List&lt;Campus&gt; campus = client.getCampus();
- * </code>
+ * Unitat unitat = client.getUnitatByIdentificador("UTGAC");
+ * String nom = unitat.getNom();
+ * ...
+ * </pre>
+ * 
+ * <h2>Si feu servir Spring Framework</h2> La llibreria està definida de tal
+ * forma que, si definiu un <em>Spring Bean</em> de tipus
+ * {@link EquipsTicClientConfiguration} en la vostra aplicació, Spring ho
+ * detectarà i automàticament disposareu d'un {@link EquipsTicClient} que podeu
+ * injectar en la vostra aplicació. A més, si teniu configurada una caché amb
+ * Spring (per exemple amb l'anotació @{@link EnableCaching}), el client
+ * configurat la farà servir.
+ * <p>
+ * Configuració via Spring Framework (exemple):
+ * 
+ * <pre>
+ * &#64;Configuration
+ * &#64;EnableCaching
+ * &#64;ComponentScan(basePackageClasses = { EquipsTicClient.class })
+ * public class LaMevaConfiguracio {
+ * 
+ *     &#64;Bean
+ *     EquipsTicClientConfiguration getClientConfig( //
+ *             &#64;Value("${equipstic.soa.url}") String baseUri, //
+ *             &#64;Value("${equipstic.soa.username}") String username, //
+ *             &#64;Value("${equipstic.soa.password}") String password) throws URISyntaxException {
+ * 
+ *         return new EquipsTicClientConfiguration(baseUri, username, password);
+ *     }
+ * }
+ * </pre>
+ * 
+ * Noteu que cal incloure l'anotació @{@link ComponentScan} per tal que Spring
+ * autodetecti els components de la llibreria equipstic-client-java necessaris
+ * per configurar el Bean del client.
+ * <p>
+ * Després, a la vostra aplicació (exemple):
+ * 
+ * <pre>
+ * 
+ * &#64;Service
+ * public class ElMeuServei {
+ * 
+ *     &#64;Autowired
+ *     private EquipsTicClient client;
+ * 
+ *     public void elMeuMetode() {
+ *         List&lt;Edifici&gt; edificis = client.getEdificis();
+ *         ...
+ *     }
+ * }
+ * </pre>
  * 
  * @see EquipsTicClient
+ * @see EquipsTicClientConfiguration
  */
+@Component
 public class EquipsTicClientImpl implements EquipsTicClient {
 
-    private final AmbitDao ambitDao;
-    private final CampusDao campusDao;
-    private final CategoriaDao categoriaDao;
-    private final EdificiDao edificiDao;
-    private final EstatDao estatDao;
-    private final InfraestructuraDao infraestructuraDao;
-    private final MarcaDao marcaDao;
-    private final SistemaOperatiuDao sistemaOperatiuDao;
-    private final TipusInfraestructuraDao tipusInfraestructuraDao;
-    private final TipusUsDao tipusUsDao;
-    private final TipusXarxaDao tipusXarxaDao;
-    private final UnitatDao unitatDao;
-    private final UsuariInfraestructuraDao usuariInfraestructuraDao;
+    @Autowired
+    private AmbitDao ambitDao;
 
-    /**
-     * El TimeZone que fa servir el servidor d'EquipsTIC.
-     */
-    private static final TimeZone EQUIPSTIC_SERVER_TIMEZONE = TimeZone.getTimeZone("Europe/Madrid");
+    @Autowired
+    private CampusDao campusDao;
 
-    /**
-     * Crea una nova instància del client.
-     * <p>
-     * El client retornat codifica/descodifica les dates fent servir el TimeZone
-     * que utilitza el servidor EquipsTIC de la UPC. Si voleu configurar un
-     * altre {@code TimeZone}, feu servir el
-     * {@link #EquipsTicClientImpl(URI, String, String, TimeZone) constructor
-     * alternatiu}.
-     *
-     * @param baseUri
-     *            la URL de la API, tal com indica la documentació del bus SOA.
-     *            Es pot fer servir tant la URL de desenvolupament com la de
-     *            producció.
-     * @param username
-     *            el nostre usuari al bus SOA (ha de tenir accés a la API).
-     * @param password
-     *            la nostra contrasenya al bus SOA.
-     */
-    public EquipsTicClientImpl(URI baseUri, String username, String password) {
-        this(baseUri, username, password, EQUIPSTIC_SERVER_TIMEZONE);
+    @Autowired
+    private CategoriaDao categoriaDao;
+
+    @Autowired
+    private EdificiDao edificiDao;
+
+    @Autowired
+    private EstatDao estatDao;
+
+    @Autowired
+    private InfraestructuraDao infraestructuraDao;
+
+    @Autowired
+    private MarcaDao marcaDao;
+
+    @Autowired
+    private SistemaOperatiuDao sistemaOperatiuDao;
+
+    @Autowired
+    private TipusInfraestructuraDao tipusInfraestructuraDao;
+
+    @Autowired
+    private TipusUsDao tipusUsDao;
+
+    @Autowired
+    private TipusXarxaDao tipusXarxaDao;
+
+    @Autowired
+    private UnitatDao unitatDao;
+
+    @Autowired
+    private UsuariInfraestructuraDao usuariInfraestructuraDao;
+
+    public EquipsTicClientImpl() {
     }
 
     /**
-     * Crea una nova instància del client.
-     *
-     * @param baseUri
-     *            la URL de la API, tal com indica la documentació del bus SOA.
-     *            Es pot fer servir tant la URL de desenvolupament com la de
-     *            producció.
-     * @param username
-     *            el nostre usuari al bus SOA (ha de tenir accés a la API).
-     * @param password
-     *            la nostra contrasenya al bus SOA.
-     * @param timeZone
-     *            el {@code TimeZone} que fa servir el servidor d'EquipsTIC.
+     * Constructor a partir d'una configuració.
+     * 
+     * @param config
+     *            la configuració del client.
+     * @see EquipsTicClientConfiguration
      */
-    public EquipsTicClientImpl(URI baseUri, String username, String password, TimeZone timeZone) {
-        RestTemplate restTemplate = EquipsTicRestTemplateBuilder.createRestTemplate(baseUri, username, password,
-                timeZone);
+    public EquipsTicClientImpl(EquipsTicClientConfiguration config) {
+        ambitDao = new AmbitDaoImpl(config);
+        campusDao = new CampusDaoImpl(config);
+        categoriaDao = new CategoriaDaoImpl(config);
+        edificiDao = new EdificiDaoImpl(config);
+        estatDao = new EstatDaoImpl(config);
+        marcaDao = new MarcaDaoImpl(config);
+        sistemaOperatiuDao = new SistemaOperatiuDaoImpl(config);
+        tipusInfraestructuraDao = new TipusInfraestructuraDaoImpl(config);
+        tipusUsDao = new TipusUsDaoImpl(config);
+        tipusXarxaDao = new TipusXarxaDaoImpl(config);
+        unitatDao = new UnitatDaoImpl(config);
+        usuariInfraestructuraDao = new UsuariInfraestructuraDaoImpl(config);
 
-        ambitDao = new AmbitDaoImpl(baseUri, restTemplate);
-        campusDao = new CampusDaoImpl(baseUri, restTemplate);
-        categoriaDao = new CategoriaDaoImpl(baseUri, restTemplate);
-        edificiDao = new EdificiDaoImpl(baseUri, restTemplate);
-        estatDao = new EstatDaoImpl(baseUri, restTemplate);
-        marcaDao = new MarcaDaoImpl(baseUri, restTemplate);
-        sistemaOperatiuDao = new SistemaOperatiuDaoImpl(baseUri, restTemplate);
-        tipusInfraestructuraDao = new TipusInfraestructuraDaoImpl(baseUri, restTemplate);
-        tipusUsDao = new TipusUsDaoImpl(baseUri, restTemplate);
-        tipusXarxaDao = new TipusXarxaDaoImpl(baseUri, restTemplate);
-        unitatDao = new UnitatDaoImpl(baseUri, restTemplate);
-        usuariInfraestructuraDao = new UsuariInfraestructuraDaoImpl(baseUri, restTemplate);
+        infraestructuraDao = new InfraestructuraDaoImpl(config, edificiDao, estatDao, marcaDao, sistemaOperatiuDao,
+                tipusInfraestructuraDao, unitatDao, usuariInfraestructuraDao);
+    }
 
-        infraestructuraDao = new InfraestructuraDaoImpl(baseUri, restTemplate, edificiDao, estatDao, marcaDao,
-                sistemaOperatiuDao, tipusInfraestructuraDao, unitatDao, usuariInfraestructuraDao);
+    @Autowired
+    public void setAmbitDao(AmbitDao ambitDao) {
+        this.ambitDao = ambitDao;
+    }
+
+    @Autowired
+    public void setCampusDao(CampusDao campusDao) {
+        this.campusDao = campusDao;
     }
 
     @Override

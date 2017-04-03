@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
 
-import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
@@ -78,7 +78,7 @@ public class EquipsTicClientImplTests {
     private static EquipsTicClient client;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp() throws URISyntaxException {
         /*
          * Els tests d'aquesta classe només s'executaran en cas que estiguin
          * definides les variables d'entorn necessàries per a la configuració
@@ -86,8 +86,8 @@ public class EquipsTicClientImplTests {
          */
         checkEnvironmentDefined();
 
-        URI baseUri = URI.create(envApiUrl);
-        EquipsTicClient baseClient = new EquipsTicClientImpl(baseUri, envUsername, envPassword);
+        EquipsTicClientConfiguration config = new EquipsTicClientConfiguration(envApiUrl, envUsername, envPassword);
+        EquipsTicClient baseClient = new EquipsTicClientImpl(config);
 
         client = baseClient;
     }
@@ -351,7 +351,7 @@ public class EquipsTicClientImplTests {
     }
 
     @Test
-    @Ignore
+    @Ignore // si no es fa servir caché aquest test és molt lent
     public void getInfraestructuresByUnitat() {
         List<Infraestructura> infraestructures = client.getInfraestructuresByUnitat(ID_UNITAT_UTGAC);
         assertNotNull(infraestructures);
