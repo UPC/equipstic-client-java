@@ -32,13 +32,14 @@ public class UnitatDaoImpl extends RestDao implements UnitatDao {
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getUnitatByIdentificador")
-    public Unitat getUnitatByIdentificador(String identificador) {
+    public List<Unitat> getUnitatByIdentificador(String identificador) {
         if (identificador == null) {
             throw new IllegalArgumentException("L'identificador de la unitat no pot ser null");
         }
 
-        return get("/unitat/cerca/identificador/{identificador}", new ParameterizedTypeReference<Response<Unitat>>() {
-        }, identificador);
+        return get("/unitat/cerca/identificador/{identificador}",
+                new ParameterizedTypeReference<Response<List<Unitat>>>() {
+                }, identificador);
     }
 
     @Override

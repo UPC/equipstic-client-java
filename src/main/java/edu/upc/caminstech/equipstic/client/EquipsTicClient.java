@@ -192,7 +192,7 @@ public interface EquipsTicClient {
      *
      * @see Unitat#getIdentificador()
      */
-    Unitat getUnitatByIdentificador(String identificador);
+    List<Unitat> getUnitatsByIdentificador(String identificador);
 
     /**
      * Cerca d'unitats a partir del nom.

@@ -2,7 +2,14 @@ package edu.upc.caminstech.equipstic.client;
 
 import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 
 import java.net.URISyntaxException;
@@ -296,8 +303,9 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getUnitatByIdentificador() {
-        Unitat unitat = client.getUnitatByIdentificador(IDENTIFICADOR_UNITAT_UTGAC);
-        assertEquals(IDENTIFICADOR_UNITAT_UTGAC, unitat.getIdentificador());
+        List<Unitat> unitats = client.getUnitatsByIdentificador(IDENTIFICADOR_UNITAT_UTGAC);
+        assertFalse(unitats.isEmpty());
+        assertTrue(unitats.stream().allMatch(u -> IDENTIFICADOR_UNITAT_UTGAC.equals(u.getIdentificador())));
     }
 
     @Test

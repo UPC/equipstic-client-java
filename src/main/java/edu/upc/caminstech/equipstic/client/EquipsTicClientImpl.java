@@ -345,7 +345,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public Unitat getUnitatByIdentificador(String identificador) {
+    public List<Unitat> getUnitatsByIdentificador(String identificador) {
         return unitatDao.getUnitatByIdentificador(identificador);
     }
 

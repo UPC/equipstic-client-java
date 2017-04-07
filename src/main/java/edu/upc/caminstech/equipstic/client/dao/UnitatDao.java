@@ -11,7 +11,7 @@ public interface UnitatDao {
 
     List<Unitat> getUnitats();
 
-    Unitat getUnitatByIdentificador(String identificador);
+    List<Unitat> getUnitatByIdentificador(String identificador);
 
     List<Unitat> getUnitatsByNom(String nom);
 
