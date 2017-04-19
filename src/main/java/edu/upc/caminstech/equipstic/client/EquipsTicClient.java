@@ -53,6 +53,16 @@ public interface EquipsTicClient {
     Ambit getAmbitById(long idAmbit);
 
     /**
+     * Cerca d'àmbits per codi.
+     */
+    List<Ambit> getAmbitsByCodi(String codiAmbit);
+
+    /**
+     * Cerca d'àmbits per categoria.
+     */
+    List<Ambit> getAmbitsByCategoria(long idCategoria);
+
+    /**
      * Retorna tots els campus existents.
      */
     List<Campus> getCampus();

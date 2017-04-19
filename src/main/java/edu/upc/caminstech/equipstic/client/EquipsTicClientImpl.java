@@ -214,6 +214,16 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
+    public List<Ambit> getAmbitsByCodi(String codiAmbit) {
+        return ambitDao.getAmbitsByCodi(codiAmbit);
+    }
+
+    @Override
+    public List<Ambit> getAmbitsByCategoria(long idCategoria) {
+        return ambitDao.getAmbitsByCategoria(idCategoria);
+    }
+
+    @Override
     public List<Campus> getCampus() {
         return campusDao.getCampus();
     }

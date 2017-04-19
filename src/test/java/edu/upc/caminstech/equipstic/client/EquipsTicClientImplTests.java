@@ -79,6 +79,7 @@ public class EquipsTicClientImplTests {
     private static final String CODI_ESTAT_BAIXA = "BAIXA";
     private static final String CODI_EDIFICI_VERTEX = "VX";
     private static final String CODI_UNITAT_UTGAC = "171";
+    private static final String CODI_AMBIT_SALA_TECNICA = "SALA_TEC";
     private static final String NOM_UNITAT_UTGAC = "Utg de l'Àmbit de Camins";
     private static final String IDENTIFICADOR_UNITAT_UTGAC = "UTGAC";
 
@@ -128,6 +129,36 @@ public class EquipsTicClientImplTests {
         Ambit a = client.getAmbitById(ID_AMBIT_LT_PAS);
         assertNotNull(a);
         assertEquals(ID_AMBIT_LT_PAS, a.getIdAmbit());
+    }
+
+    @Test
+    public void getAmbitsByCodi() {
+        List<Ambit> ambits = client.getAmbitsByCodi(CODI_AMBIT_SALA_TECNICA);
+        assertNotNull(ambits);
+        assertFalse(ambits.isEmpty());
+        assertTrue(ambits.stream().allMatch(a -> StringUtils.equalsIgnoreCase(CODI_AMBIT_SALA_TECNICA, a.getCodi())));
+    }
+
+    @Test
+    public void getAmbitsByCodiNotFound() {
+        List<Ambit> ambits = client.getAmbitsByCodi("dummy");
+        assertNotNull(ambits);
+        assertTrue(ambits.isEmpty());
+    }
+
+    @Test
+    public void getAmbitsByCategoria() {
+        long idCategoria = ID_CATEGORIA_SERVIDOR;
+        List<Ambit> ambits = client.getAmbitsByCategoria(idCategoria);
+        assertNotNull(ambits);
+        assertTrue(ambits.stream().allMatch(a -> idCategoria == a.getCategoriaInfraestructura().getIdCategoria()));
+    }
+
+    @Test
+    public void getAmbitsByCategoriaNotFound() {
+        List<Ambit> ambits = client.getAmbitsByCategoria(0);
+        assertNotNull(ambits);
+        assertTrue(ambits.isEmpty());
     }
 
     @Test

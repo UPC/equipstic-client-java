@@ -15,4 +15,8 @@ public interface AmbitDao {
 
     Ambit getAmbitById(long idAmbit);
 
+    List<Ambit> getAmbitsByCodi(String codiAmbit);
+
+    List<Ambit> getAmbitsByCategoria(long idCategoria);
+
 }
