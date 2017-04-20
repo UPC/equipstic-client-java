@@ -183,9 +183,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
         tipusXarxaDao = new TipusXarxaDaoImpl(config);
         unitatDao = new UnitatDaoImpl(config);
         usuariInfraestructuraDao = new UsuariInfraestructuraDaoImpl(config);
-
-        infraestructuraDao = new InfraestructuraDaoImpl(config, edificiDao, estatDao, marcaDao, sistemaOperatiuDao,
-                tipusInfraestructuraDao, unitatDao, usuariInfraestructuraDao);
+        infraestructuraDao = new InfraestructuraDaoImpl(config);
     }
 
     @Autowired
@@ -390,13 +388,13 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn) {
-        return infraestructuraDao.getInfraestructuraByMarcaAndNumeroDeSerie(idMarca, sn);
+    public Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn, boolean ambDetalls) {
+        return infraestructuraDao.getInfraestructuraByMarcaAndNumeroDeSerie(idMarca, sn, ambDetalls);
     }
 
     @Override
-    public Infraestructura getInfraestructuraById(long id) {
-        return infraestructuraDao.getInfraestructuraById(id);
+    public Infraestructura getInfraestructuraById(long id, boolean ambDetalls) {
+        return infraestructuraDao.getInfraestructuraById(id, ambDetalls);
     }
 
     @Override

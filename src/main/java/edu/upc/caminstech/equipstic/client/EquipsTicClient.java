@@ -225,13 +225,35 @@ public interface EquipsTicClient {
 
     /**
      * Retorna una infraestructura a partir de la marca i el número de sèrie.
+     * 
+     * @param idMarca
+     *            l'identificador de la marca
+     * @param sn
+     *            el número de sèrie
+     * @param ambDetalls
+     *            indica si l'objecte retornat ha d'ha estar completament
+     *            inicialitzat. Si és {@code false}, els atributs complexos
+     *            només tindran inicialitzat l'identificador (i la resta
+     *            d'atributs a null). Altrament, els atributs estaran
+     *            completament inicialitzats, però l'operació pot ser més
+     *            costosa perquè caldrà fer més crides al servidor d'EquipsTIC.
      */
-    Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn);
+    Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn, boolean ambDetalls);
 
     /**
      * Retorna una infraestructura a partir del seu identificador.
+     * 
+     * @param id
+     *            l'identificador de l'estructura a obtenir.
+     * @param ambDetalls
+     *            indica si l'objecte retornat ha d'ha estar completament
+     *            inicialitzat. Si és {@code false}, els atributs complexos
+     *            només tindran inicialitzat l'identificador (i la resta
+     *            d'atributs a null). Altrament, els atributs estaran
+     *            completament inicialitzats, però l'operació pot ser més
+     *            costosa perquè caldrà fer més crides al servidor d'EquipsTIC.
      */
-    Infraestructura getInfraestructuraById(long id);
+    Infraestructura getInfraestructuraById(long id, boolean ambDetalls);
 
     /**
      * Cerca d'infraestructures a partir d'una unitat.

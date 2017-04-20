@@ -370,14 +370,14 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getInfraestructuraById() {
-        Infraestructura infraestructura = client.getInfraestructuraById(ID_INFRAESTRUCTURA);
+        Infraestructura infraestructura = client.getInfraestructuraById(ID_INFRAESTRUCTURA, false);
         assertNotNull(infraestructura);
         assertEquals(ID_INFRAESTRUCTURA, infraestructura.getIdentificador());
     }
 
     @Test
     public void getInfraestructuraByIdNotFound() {
-        Infraestructura i = client.getInfraestructuraById(123);
+        Infraestructura i = client.getInfraestructuraById(123, false);
         assertNull(i);
     }
 
@@ -385,7 +385,7 @@ public class EquipsTicClientImplTests {
     public void getInfraestructuraByMarcaAndNumeroDeSerie() {
         long idMarca = 2;
         String sn = "7MQ48Z1";
-        Infraestructura infraestructura = client.getInfraestructuraByMarcaAndNumeroDeSerie(idMarca, sn);
+        Infraestructura infraestructura = client.getInfraestructuraByMarcaAndNumeroDeSerie(idMarca, sn, false);
         assertNotNull(infraestructura);
     }
 

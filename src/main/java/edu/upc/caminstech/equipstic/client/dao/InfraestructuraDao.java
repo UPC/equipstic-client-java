@@ -9,9 +9,9 @@ import edu.upc.caminstech.equipstic.Infraestructura;
  */
 public interface InfraestructuraDao {
 
-    Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn);
+    Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn, boolean ambDetalls);
 
-    Infraestructura getInfraestructuraById(long id);
+    Infraestructura getInfraestructuraById(long id, boolean ambDetalls);
 
     List<Infraestructura> getInfraestructuresByUnitat(long idUnitat);
 

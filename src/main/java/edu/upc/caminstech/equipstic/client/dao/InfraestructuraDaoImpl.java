@@ -15,14 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
-import edu.upc.caminstech.equipstic.Edifici;
-import edu.upc.caminstech.equipstic.Estat;
 import edu.upc.caminstech.equipstic.Infraestructura;
-import edu.upc.caminstech.equipstic.Marca;
-import edu.upc.caminstech.equipstic.SistemaOperatiu;
-import edu.upc.caminstech.equipstic.TipusInfraestructura;
-import edu.upc.caminstech.equipstic.Unitat;
-import edu.upc.caminstech.equipstic.UsuariInfraestructura;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientException;
 import edu.upc.caminstech.equipstic.client.Response;
@@ -33,47 +26,30 @@ import edu.upc.caminstech.equipstic.client.Response;
 @Repository
 public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDao {
 
-    private final EdificiDao edificiDao;
-    private final EstatDao estatDao;
-    private final MarcaDao marcaDao;
-    private final SistemaOperatiuDao sistemaOperatiuDao;
-    private final TipusInfraestructuraDao tipusInfraestructuraDao;
-    private final UnitatDao unitatDao;
-    private final UsuariInfraestructuraDao usuariInfraestructuraDao;
-
     @Autowired
-    public InfraestructuraDaoImpl(EquipsTicClientConfiguration config, EdificiDao edificiDao, EstatDao estatDao,
-            MarcaDao marcaDao, SistemaOperatiuDao sistemaOperatiuDao, TipusInfraestructuraDao tipusInfraestructuraDao,
-            UnitatDao unitatDao, UsuariInfraestructuraDao usuariInfraestructuraDao) {
-
+    public InfraestructuraDaoImpl(EquipsTicClientConfiguration config) {
         super(config);
-
-        this.edificiDao = edificiDao;
-        this.estatDao = estatDao;
-        this.marcaDao = marcaDao;
-        this.sistemaOperatiuDao = sistemaOperatiuDao;
-        this.tipusInfraestructuraDao = tipusInfraestructuraDao;
-        this.unitatDao = unitatDao;
-        this.usuariInfraestructuraDao = usuariInfraestructuraDao;
     }
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getInfraestructuraByMarcaAndNumeroDeSerie")
-    public Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn) {
+    public Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn, boolean ambDetalls) {
         Assert.notNull(sn, "El número de sèrie no pot ser null");
         Infraestructura i = get("/infraestructura/cerca/marca/{idMarca}/sn/{sn}",
                 new ParameterizedTypeReference<Response<Infraestructura>>() {
                 }, idMarca, sn);
-        ompleCampsNoInicialitzatsInfraestructura(i);
+        if (i != null && ambDetalls) {
+            return getInfraestructuraById(i.getIdentificador(), ambDetalls);
+        }
         return i;
     }
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getInfraestructuraById")
-    public Infraestructura getInfraestructuraById(long id) {
-        Infraestructura i = get("/infraestructura/{id}", new ParameterizedTypeReference<Response<Infraestructura>>() {
+    public Infraestructura getInfraestructuraById(long id, boolean ambDetalls) {
+        String url = ambDetalls ? "/infraestructura/{id}/detalls" : "/infraestructura/{id}";
+        Infraestructura i = get(url, new ParameterizedTypeReference<Response<Infraestructura>>() {
         }, id);
-        ompleCampsNoInicialitzatsInfraestructura(i);
         return i;
     }
 
@@ -83,9 +59,6 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
         List<Infraestructura> result = get("/infraestructura/cerca/unitat/{idUnitat}",
                 new ParameterizedTypeReference<Response<List<Infraestructura>>>() {
                 }, idUnitat);
-        if (result != null) {
-            result.stream().forEach(i -> ompleCampsNoInicialitzatsInfraestructura(i));
-        }
         return sorted(result);
     }
 
@@ -141,46 +114,6 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
             return response.getData();
         }
         throw new EquipsTicClientException(response, "Error en modificar la infraestructura: " + response.getMessage());
-    }
-
-    /**
-     * Inicialitza els atributs d'una infraestructura que corresponen a objectes
-     * JSON que només tenen inicialitzat l'identificador.
-     * 
-     * @param infra
-     *            la infraestructura
-     */
-    private void ompleCampsNoInicialitzatsInfraestructura(Infraestructura infra) {
-        if (infra == null) {
-            return;
-        }
-        Marca marca = marcaDao.getMarcaById(infra.getMarca().getIdMarca());
-        TipusInfraestructura tipusInfraestructura = tipusInfraestructuraDao
-                .getTipusInfraestructuraById(infra.getTipusInfraestructura().getIdTipus());
-        Estat estat = estatDao.getEstatById(infra.getEstat().getIdEstat());
-        Unitat unitat = unitatDao.getUnitatById(infra.getUnitat().getIdUnitat());
-        Edifici edifici = edificiDao.getEdificiById(infra.getEdifici().getIdEdifici());
-        Estat estatValidacio = estatDao.getEstatById(infra.getEstatValidacio().getIdEstat());
-        Unitat unitatGestora = unitatDao.getUnitatById(infra.getUnitatGestora().getIdUnitat());
-        Unitat unitatDestinataria = (infra.getUnitatDestinataria() != null)
-                ? unitatDao.getUnitatById(infra.getUnitatDestinataria().getIdUnitat()) : null;
-        SistemaOperatiu sistemaOperatiu = (infra.getSistemaOperatiu() != null)
-                ? sistemaOperatiuDao.getSistemaOperatiuById(infra.getSistemaOperatiu().getIdSistemaOperatiu()) : null;
-        UsuariInfraestructura usuariInfraestructura = (infra.getUsuariInfraestructura() != null)
-                ? usuariInfraestructuraDao
-                        .getUsuariInfraestructura(infra.getUsuariInfraestructura().getIdUsuariInfraestructura())
-                : null;
-
-        infra.setMarca(marca);
-        infra.setTipusInfraestructura(tipusInfraestructura);
-        infra.setEstat(estat);
-        infra.setUnitat(unitat);
-        infra.setEdifici(edifici);
-        infra.setEstatValidacio(estatValidacio);
-        infra.setUnitatGestora(unitatGestora);
-        infra.setUnitatDestinataria(unitatDestinataria);
-        infra.setSistemaOperatiu(sistemaOperatiu);
-        infra.setUsuariInfraestructura(usuariInfraestructura);
     }
 
     /**
