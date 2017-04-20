@@ -47,7 +47,7 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     @Override
     @Cacheable(CacheUtils.PREFIX + "getInfraestructuraById")
     public Infraestructura getInfraestructuraById(long id, boolean ambDetalls) {
-        String url = ambDetalls ? "/infraestructura/{id}/detalls" : "/infraestructura/{id}";
+        String url = ambDetalls ? "/infraestructura/{id}/detall" : "/infraestructura/{id}";
         Infraestructura i = get(url, new ParameterizedTypeReference<Response<Infraestructura>>() {
         }, id);
         return i;
