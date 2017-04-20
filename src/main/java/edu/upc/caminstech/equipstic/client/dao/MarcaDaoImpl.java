@@ -20,7 +20,7 @@ import edu.upc.caminstech.equipstic.client.Response;
 @Repository
 public class MarcaDaoImpl extends RestDao implements MarcaDao {
 
-    private Logger logger = LoggerFactory.getLogger(MarcaDaoImpl.class);
+    protected final Logger logger = LoggerFactory.getLogger(MarcaDaoImpl.class);
 
     @Autowired
     public MarcaDaoImpl(EquipsTicClientConfiguration config) {
@@ -30,7 +30,6 @@ public class MarcaDaoImpl extends RestDao implements MarcaDao {
     @Override
     @Cacheable(CacheUtils.PREFIX + "getMarques")
     public List<Marca> getMarques() {
-        logger.debug("getMarques()");
         List<Marca> result = get("/marca", new ParameterizedTypeReference<Response<List<Marca>>>() {
         });
         return (result != null) ? result : new ArrayList<>();
@@ -39,7 +38,6 @@ public class MarcaDaoImpl extends RestDao implements MarcaDao {
     @Override
     @Cacheable(CacheUtils.PREFIX + "getMarquesByNom")
     public List<Marca> getMarquesByNom(String nom) {
-        logger.debug("getMarquesByNom()");
         if (nom == null) {
             throw new IllegalArgumentException("El nom de la marca no pot ser null");
         }
@@ -51,7 +49,6 @@ public class MarcaDaoImpl extends RestDao implements MarcaDao {
     @Override
     @Cacheable(CacheUtils.PREFIX + "getMarcaById")
     public Marca getMarcaById(long idMarca) {
-        logger.debug("getMarcaById()");
         return get("/marca/{id}", new ParameterizedTypeReference<Response<Marca>>() {
         }, idMarca);
     }
