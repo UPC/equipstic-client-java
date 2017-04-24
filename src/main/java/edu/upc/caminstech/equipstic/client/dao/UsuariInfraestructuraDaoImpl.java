@@ -17,6 +17,14 @@ import edu.upc.caminstech.equipstic.client.Response;
 @Repository
 public class UsuariInfraestructuraDaoImpl extends RestDao implements UsuariInfraestructuraDao {
 
+    private static final ParameterizedTypeReference<Response<List<UsuariInfraestructura>>> RESPONSE_LIST_USUARIINFRAESTRUCTURA_TYPEREF = //
+            new ParameterizedTypeReference<Response<List<UsuariInfraestructura>>>() {
+            };
+
+    private static final ParameterizedTypeReference<Response<UsuariInfraestructura>> RESPONSE_USUARIINFRAESTRUCTURA_TYPEREF = //
+            new ParameterizedTypeReference<Response<UsuariInfraestructura>>() {
+            };
+
     @Autowired
     public UsuariInfraestructuraDaoImpl(EquipsTicClientConfiguration config) {
         super(config);
@@ -25,17 +33,14 @@ public class UsuariInfraestructuraDaoImpl extends RestDao implements UsuariInfra
     @Override
     @Cacheable(CacheUtils.PREFIX + "getUsuariInfraestructura")
     public UsuariInfraestructura getUsuariInfraestructura(long idUsuariInfraestructura) {
-        return get("/usuariInfraestructura/{idUsuariInfraestructura}",
-                new ParameterizedTypeReference<Response<UsuariInfraestructura>>() {
-                }, idUsuariInfraestructura);
+        return get("/usuariInfraestructura/{idUsuariInfraestructura}", RESPONSE_USUARIINFRAESTRUCTURA_TYPEREF,
+                idUsuariInfraestructura);
     }
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getUsuarisInfraestructura")
     public List<UsuariInfraestructura> getUsuarisInfraestructura() {
-        List<UsuariInfraestructura> result = get("/usuariInfraestructura",
-                new ParameterizedTypeReference<Response<List<UsuariInfraestructura>>>() {
-                });
+        List<UsuariInfraestructura> result = get("/usuariInfraestructura", RESPONSE_LIST_USUARIINFRAESTRUCTURA_TYPEREF);
         return sorted(result);
     }
 
@@ -46,8 +51,7 @@ public class UsuariInfraestructuraDaoImpl extends RestDao implements UsuariInfra
             throw new IllegalArgumentException("El nom de l'usuari no pot ser null");
         }
         List<UsuariInfraestructura> result = get("/usuariInfraestructura/cerca/nom/{nom}",
-                new ParameterizedTypeReference<Response<List<UsuariInfraestructura>>>() {
-                }, nom);
+                RESPONSE_LIST_USUARIINFRAESTRUCTURA_TYPEREF, nom);
         return sorted(result);
     }
 

@@ -18,6 +18,14 @@ import edu.upc.caminstech.equipstic.client.Response;
 @Repository
 public class AmbitDaoImpl extends RestDao implements AmbitDao {
 
+    private static final ParameterizedTypeReference<Response<List<Ambit>>> RESPONSE_LIST_AMBIT_TYPEREF = //
+            new ParameterizedTypeReference<Response<List<Ambit>>>() {
+            };
+
+    private static final ParameterizedTypeReference<Response<Ambit>> RESPONSE_AMBIT_TYPEREF = //
+            new ParameterizedTypeReference<Response<Ambit>>() {
+            };
+
     @Autowired
     public AmbitDaoImpl(EquipsTicClientConfiguration config) {
         super(config);
@@ -26,8 +34,7 @@ public class AmbitDaoImpl extends RestDao implements AmbitDao {
     @Override
     @Cacheable(CacheUtils.PREFIX + "getAmbits")
     public List<Ambit> getAmbits() {
-        List<Ambit> result = get("/ambit", new ParameterizedTypeReference<Response<List<Ambit>>>() {
-        });
+        List<Ambit> result = get("/ambit", RESPONSE_LIST_AMBIT_TYPEREF);
         return sorted(result);
     }
 
@@ -37,16 +44,14 @@ public class AmbitDaoImpl extends RestDao implements AmbitDao {
         if (nomAmbit == null) {
             throw new IllegalArgumentException("El nom de l'àmbit no pot ser null");
         }
-        List<Ambit> result = get("/ambit/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Ambit>>>() {
-        }, nomAmbit);
+        List<Ambit> result = get("/ambit/cerca/nom/{nom}", RESPONSE_LIST_AMBIT_TYPEREF, nomAmbit);
         return sorted(result);
     }
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getAmbitById")
     public Ambit getAmbitById(long idAmbit) {
-        return get("/ambit/{id}", new ParameterizedTypeReference<Response<Ambit>>() {
-        }, idAmbit);
+        return get("/ambit/{id}", RESPONSE_AMBIT_TYPEREF, idAmbit);
     }
 
     @Override
@@ -55,17 +60,14 @@ public class AmbitDaoImpl extends RestDao implements AmbitDao {
         if (StringUtils.isBlank(codiAmbit)) {
             throw new IllegalArgumentException("El codi de l'àmbit no pot ser null");
         }
-        List<Ambit> result = get("/ambit/cerca/codi/{codi}", new ParameterizedTypeReference<Response<List<Ambit>>>() {
-        }, codiAmbit);
+        List<Ambit> result = get("/ambit/cerca/codi/{codi}", RESPONSE_LIST_AMBIT_TYPEREF, codiAmbit);
         return sorted(result);
     }
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getAmbitsByCategoria")
     public List<Ambit> getAmbitsByCategoria(long idCategoria) {
-        List<Ambit> result = get("/ambit/cerca/categoria/{idCategoria}",
-                new ParameterizedTypeReference<Response<List<Ambit>>>() {
-                }, idCategoria);
+        List<Ambit> result = get("/ambit/cerca/categoria/{idCategoria}", RESPONSE_LIST_AMBIT_TYPEREF, idCategoria);
         return sorted(result);
     }
 

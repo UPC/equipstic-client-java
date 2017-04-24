@@ -17,6 +17,10 @@ import edu.upc.caminstech.equipstic.client.Response;
 @Repository
 public class TipusUsDaoImpl extends RestDao implements TipusUsDao {
 
+    private static final ParameterizedTypeReference<Response<List<TipusUs>>> RESPONSE_LIST_TIPUSUS_TYPEREF = //
+            new ParameterizedTypeReference<Response<List<TipusUs>>>() {
+            };
+
     @Autowired
     public TipusUsDaoImpl(EquipsTicClientConfiguration config) {
         super(config);
@@ -25,17 +29,14 @@ public class TipusUsDaoImpl extends RestDao implements TipusUsDao {
     @Override
     @Cacheable(CacheUtils.PREFIX + "getTipusUs")
     public List<TipusUs> getTipusUs() {
-        List<TipusUs> result = get("/tipusUs", new ParameterizedTypeReference<Response<List<TipusUs>>>() {
-        });
+        List<TipusUs> result = get("/tipusUs", RESPONSE_LIST_TIPUSUS_TYPEREF);
         return sorted(result);
     }
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getTipusUsByUnitat")
     public List<TipusUs> getTipusUsByUnitat(long idUnitat) {
-        List<TipusUs> result = get("/tipusUs/cerca/unitat/{idUnitat}",
-                new ParameterizedTypeReference<Response<List<TipusUs>>>() {
-                }, idUnitat);
+        List<TipusUs> result = get("/tipusUs/cerca/unitat/{idUnitat}", RESPONSE_LIST_TIPUSUS_TYPEREF, idUnitat);
         return sorted(result);
     }
 

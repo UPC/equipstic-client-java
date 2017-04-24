@@ -22,6 +22,14 @@ public class MarcaDaoImpl extends RestDao implements MarcaDao {
 
     protected final Logger logger = LoggerFactory.getLogger(MarcaDaoImpl.class);
 
+    private static final ParameterizedTypeReference<Response<List<Marca>>> RESPONSE_LIST_MARCA_TYPEREF = //
+            new ParameterizedTypeReference<Response<List<Marca>>>() {
+            };
+
+    private static final ParameterizedTypeReference<Response<Marca>> RESPONSE_MARCA_TYPEREF = //
+            new ParameterizedTypeReference<Response<Marca>>() {
+            };
+
     @Autowired
     public MarcaDaoImpl(EquipsTicClientConfiguration config) {
         super(config);
@@ -30,8 +38,7 @@ public class MarcaDaoImpl extends RestDao implements MarcaDao {
     @Override
     @Cacheable(CacheUtils.PREFIX + "getMarques")
     public List<Marca> getMarques() {
-        List<Marca> result = get("/marca", new ParameterizedTypeReference<Response<List<Marca>>>() {
-        });
+        List<Marca> result = get("/marca", RESPONSE_LIST_MARCA_TYPEREF);
         return (result != null) ? result : new ArrayList<>();
     }
 
@@ -41,16 +48,14 @@ public class MarcaDaoImpl extends RestDao implements MarcaDao {
         if (nom == null) {
             throw new IllegalArgumentException("El nom de la marca no pot ser null");
         }
-        List<Marca> result = get("/marca/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Marca>>>() {
-        }, nom);
+        List<Marca> result = get("/marca/cerca/nom/{nom}", RESPONSE_LIST_MARCA_TYPEREF, nom);
         return (result != null) ? result : new ArrayList<>();
     }
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getMarcaById")
     public Marca getMarcaById(long idMarca) {
-        return get("/marca/{id}", new ParameterizedTypeReference<Response<Marca>>() {
-        }, idMarca);
+        return get("/marca/{id}", RESPONSE_MARCA_TYPEREF, idMarca);
     }
 
 }

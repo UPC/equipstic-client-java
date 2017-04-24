@@ -17,6 +17,14 @@ import edu.upc.caminstech.equipstic.client.Response;
 @Repository
 public class CampusDaoImpl extends RestDao implements CampusDao {
 
+    private static final ParameterizedTypeReference<Response<List<Campus>>> RESPONSE_LIST_CAMPUS_TYPEREF = //
+            new ParameterizedTypeReference<Response<List<Campus>>>() {
+            };
+
+    private static final ParameterizedTypeReference<Response<Campus>> RESPONSE_CAMPUS_TYPEREF = //
+            new ParameterizedTypeReference<Response<Campus>>() {
+            };
+
     @Autowired
     public CampusDaoImpl(EquipsTicClientConfiguration config) {
         super(config);
@@ -25,8 +33,7 @@ public class CampusDaoImpl extends RestDao implements CampusDao {
     @Override
     @Cacheable(CacheUtils.PREFIX + "getCampus")
     public List<Campus> getCampus() {
-        List<Campus> result = get("/campus", new ParameterizedTypeReference<Response<List<Campus>>>() {
-        });
+        List<Campus> result = get("/campus", RESPONSE_LIST_CAMPUS_TYPEREF);
         return sorted(result);
     }
 
@@ -36,15 +43,13 @@ public class CampusDaoImpl extends RestDao implements CampusDao {
         if (codiCampus == null) {
             throw new IllegalArgumentException("El codi del campus no pot ser null");
         }
-        return get("/campus/cerca/codi/{codi}", new ParameterizedTypeReference<Response<Campus>>() {
-        }, codiCampus);
+        return get("/campus/cerca/codi/{codi}", RESPONSE_CAMPUS_TYPEREF, codiCampus);
     }
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getCampusById")
     public Campus getCampusById(long idCampus) {
-        return get("/campus/{id}", new ParameterizedTypeReference<Response<Campus>>() {
-        }, idCampus);
+        return get("/campus/{id}", RESPONSE_CAMPUS_TYPEREF, idCampus);
     }
 
 }

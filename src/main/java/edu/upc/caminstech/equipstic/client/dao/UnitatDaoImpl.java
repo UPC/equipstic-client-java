@@ -17,6 +17,14 @@ import edu.upc.caminstech.equipstic.client.Response;
 @Repository
 public class UnitatDaoImpl extends RestDao implements UnitatDao {
 
+    private static final ParameterizedTypeReference<Response<Unitat>> RESPONSE_UNITAT_TYPEREF = //
+            new ParameterizedTypeReference<Response<Unitat>>() {
+            };
+
+    private static final ParameterizedTypeReference<Response<List<Unitat>>> RESPONSE_LIST_UNITAT_TYPEREF = //
+            new ParameterizedTypeReference<Response<List<Unitat>>>() {
+            };
+
     @Autowired
     public UnitatDaoImpl(EquipsTicClientConfiguration config) {
         super(config);
@@ -25,8 +33,7 @@ public class UnitatDaoImpl extends RestDao implements UnitatDao {
     @Override
     @Cacheable(CacheUtils.PREFIX + "getUnitats")
     public List<Unitat> getUnitats() {
-        List<Unitat> result = get("/unitat", new ParameterizedTypeReference<Response<List<Unitat>>>() {
-        });
+        List<Unitat> result = get("/unitat", RESPONSE_LIST_UNITAT_TYPEREF);
         return sorted(result);
     }
 
@@ -37,9 +44,7 @@ public class UnitatDaoImpl extends RestDao implements UnitatDao {
             throw new IllegalArgumentException("L'identificador de la unitat no pot ser null");
         }
 
-        return get("/unitat/cerca/identificador/{identificador}",
-                new ParameterizedTypeReference<Response<List<Unitat>>>() {
-                }, identificador);
+        return get("/unitat/cerca/identificador/{identificador}", RESPONSE_LIST_UNITAT_TYPEREF, identificador);
     }
 
     @Override
@@ -48,16 +53,14 @@ public class UnitatDaoImpl extends RestDao implements UnitatDao {
         if (nom == null) {
             throw new IllegalArgumentException("El nom de la unitat no pot ser null");
         }
-        List<Unitat> result = get("/unitat/cerca/nom/{nom}", new ParameterizedTypeReference<Response<List<Unitat>>>() {
-        }, nom);
+        List<Unitat> result = get("/unitat/cerca/nom/{nom}", RESPONSE_LIST_UNITAT_TYPEREF, nom);
         return sorted(result);
     }
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getUnitatById")
     public Unitat getUnitatById(long idUnitat) {
-        return get("/unitat/{id}", new ParameterizedTypeReference<Response<Unitat>>() {
-        }, idUnitat);
+        return get("/unitat/{id}", RESPONSE_UNITAT_TYPEREF, idUnitat);
     }
 
     @Override
@@ -74,8 +77,7 @@ public class UnitatDaoImpl extends RestDao implements UnitatDao {
         }
 
         List<Unitat> result = get("/unitat/cerca/nom/{nom}/identificador/{identificador}/codi/{codi}",
-                new ParameterizedTypeReference<Response<List<Unitat>>>() {
-                }, nom, identificador, codiUnitat);
+                RESPONSE_LIST_UNITAT_TYPEREF, nom, identificador, codiUnitat);
 
         return sorted(result);
     }

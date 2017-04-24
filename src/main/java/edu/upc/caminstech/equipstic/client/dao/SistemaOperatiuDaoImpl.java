@@ -19,6 +19,14 @@ import edu.upc.caminstech.equipstic.client.Response;
 @Repository
 public class SistemaOperatiuDaoImpl extends RestDao implements SistemaOperatiuDao {
 
+    private static final ParameterizedTypeReference<Response<SistemaOperatiu>> RESPONSE_SISTEMAOPERATIU_TYPEREF = //
+            new ParameterizedTypeReference<Response<SistemaOperatiu>>() {
+            };
+
+    private static final ParameterizedTypeReference<Response<List<SistemaOperatiu>>> RESPONSE_LIST_SISTEMAOPERATIU_TYPEREF = //
+            new ParameterizedTypeReference<Response<List<SistemaOperatiu>>>() {
+            };
+
     @Autowired
     public SistemaOperatiuDaoImpl(EquipsTicClientConfiguration config) {
         super(config);
@@ -27,9 +35,7 @@ public class SistemaOperatiuDaoImpl extends RestDao implements SistemaOperatiuDa
     @Override
     @Cacheable(CacheUtils.PREFIX + "getSistemesOperatius")
     public List<SistemaOperatiu> getSistemesOperatius() {
-        List<SistemaOperatiu> result = get("/sistemaOperatiu",
-                new ParameterizedTypeReference<Response<List<SistemaOperatiu>>>() {
-                });
+        List<SistemaOperatiu> result = get("/sistemaOperatiu", RESPONSE_LIST_SISTEMAOPERATIU_TYPEREF);
         return (result != null) ? sorted(result) : new ArrayList<>();
     }
 
@@ -37,8 +43,7 @@ public class SistemaOperatiuDaoImpl extends RestDao implements SistemaOperatiuDa
     @Cacheable(CacheUtils.PREFIX + "getSistemesOperatiusByCategoria")
     public List<SistemaOperatiu> getSistemesOperatiusByCategoria(long idCategoria) {
         List<SistemaOperatiu> result = get("/sistemaOperatiu/cerca/categoria/{idCategoria}",
-                new ParameterizedTypeReference<Response<List<SistemaOperatiu>>>() {
-                }, idCategoria);
+                RESPONSE_LIST_SISTEMAOPERATIU_TYPEREF, idCategoria);
         return (result != null) ? sorted(result) : new ArrayList<>();
     }
 
@@ -48,9 +53,8 @@ public class SistemaOperatiuDaoImpl extends RestDao implements SistemaOperatiuDa
         if (StringUtils.isBlank(codi)) {
             throw new IllegalArgumentException("parameter 'codi' can not be blank");
         }
-        List<SistemaOperatiu> result = get("/sistemaOperatiu/cerca/codi/{codi}",
-                new ParameterizedTypeReference<Response<List<SistemaOperatiu>>>() {
-                }, codi);
+        List<SistemaOperatiu> result = get("/sistemaOperatiu/cerca/codi/{codi}", RESPONSE_LIST_SISTEMAOPERATIU_TYPEREF,
+                codi);
         return (result != null) ? sorted(result) : new ArrayList<>();
     }
 
@@ -60,17 +64,15 @@ public class SistemaOperatiuDaoImpl extends RestDao implements SistemaOperatiuDa
         if (StringUtils.isBlank(nom)) {
             throw new IllegalArgumentException("parameter 'nom' can not be blank");
         }
-        List<SistemaOperatiu> result = get("/sistemaOperatiu/cerca/nom/{nom}",
-                new ParameterizedTypeReference<Response<List<SistemaOperatiu>>>() {
-                }, nom);
+        List<SistemaOperatiu> result = get("/sistemaOperatiu/cerca/nom/{nom}", RESPONSE_LIST_SISTEMAOPERATIU_TYPEREF,
+                nom);
         return (result != null) ? sorted(result) : new ArrayList<>();
     }
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getSistemaOperatiuById")
     public SistemaOperatiu getSistemaOperatiuById(long idSistemaOperatiu) {
-        return get("/sistemaOperatiu/{id}", new ParameterizedTypeReference<Response<SistemaOperatiu>>() {
-        }, idSistemaOperatiu);
+        return get("/sistemaOperatiu/{id}", RESPONSE_SISTEMAOPERATIU_TYPEREF, idSistemaOperatiu);
     }
 
 }

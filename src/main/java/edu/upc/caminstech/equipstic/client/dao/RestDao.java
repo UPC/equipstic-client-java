@@ -54,10 +54,16 @@ public class RestDao {
             return null;
         }
 
-        if (response == null || !response.isSuccess()) {
-            String errorMsg = String.format("Error en obtenir el recurs: [urlParams: %s, response: %s]",
-                    Arrays.toString(urlParams), Objects.toString(response));
-            throw new EquipsTicClientException(response, errorMsg);
+        if (response == null) {
+            String errorMsg = String.format("Error en obtenir el recurs: [url: %s, urlParams: %s, response: %s]", url,
+                    Arrays.toString(urlParams), response);
+            throw new EquipsTicClientException(entity, response, errorMsg);
+        }
+        if (!response.isSuccess()) {
+            String errorMsg = String.format(
+                    "Error en obtenir el recurs: [url: %s, urlParams: %s, entity: %s, body: %s]", url,
+                    Arrays.toString(urlParams), Objects.toString(entity), Objects.toString(entity.getBody()));
+            throw new EquipsTicClientException(entity, response, errorMsg);
         }
         return (response != null) ? response.getData() : null;
     }

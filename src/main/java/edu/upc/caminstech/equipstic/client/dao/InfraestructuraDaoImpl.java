@@ -26,6 +26,18 @@ import edu.upc.caminstech.equipstic.client.Response;
 @Repository
 public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDao {
 
+    private static final ParameterizedTypeReference<Response<Infraestructura>> RESPONSE_INFRAESTRUCTURA_TYPEREF = //
+            new ParameterizedTypeReference<Response<Infraestructura>>() {
+            };
+
+    private static final ParameterizedTypeReference<Response<List<Infraestructura>>> RESPONSE_LIST_INFRAESTRUCTURA_TYPEREF = //
+            new ParameterizedTypeReference<Response<List<Infraestructura>>>() {
+            };
+
+    private static final ParameterizedTypeReference<Response<Object>> RESPONSE_OBJECT_TYPEREF = //
+            new ParameterizedTypeReference<Response<Object>>() {
+            };
+
     @Autowired
     public InfraestructuraDaoImpl(EquipsTicClientConfiguration config) {
         super(config);
@@ -35,9 +47,8 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     @Cacheable(CacheUtils.PREFIX + "getInfraestructuraByMarcaAndNumeroDeSerie")
     public Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn, boolean ambDetalls) {
         Assert.notNull(sn, "El número de sèrie no pot ser null");
-        Infraestructura i = get("/infraestructura/cerca/marca/{idMarca}/sn/{sn}",
-                new ParameterizedTypeReference<Response<Infraestructura>>() {
-                }, idMarca, sn);
+        Infraestructura i = get("/infraestructura/cerca/marca/{idMarca}/sn/{sn}", RESPONSE_INFRAESTRUCTURA_TYPEREF,
+                idMarca, sn);
         if (i != null && ambDetalls) {
             return getInfraestructuraById(i.getIdentificador(), ambDetalls);
         }
@@ -48,8 +59,7 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     @Cacheable(CacheUtils.PREFIX + "getInfraestructuraById")
     public Infraestructura getInfraestructuraById(long id, boolean ambDetalls) {
         String url = ambDetalls ? "/infraestructura/{id}/detall" : "/infraestructura/{id}";
-        Infraestructura i = get(url, new ParameterizedTypeReference<Response<Infraestructura>>() {
-        }, id);
+        Infraestructura i = get(url, RESPONSE_INFRAESTRUCTURA_TYPEREF, id);
         return i;
     }
 
@@ -57,8 +67,7 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     @Cacheable(CacheUtils.PREFIX + "getInfraestructuresByUnitat")
     public List<Infraestructura> getInfraestructuresByUnitat(long idUnitat) {
         List<Infraestructura> result = get("/infraestructura/cerca/unitat/{idUnitat}",
-                new ParameterizedTypeReference<Response<List<Infraestructura>>>() {
-                }, idUnitat);
+                RESPONSE_LIST_INFRAESTRUCTURA_TYPEREF, idUnitat);
         return sorted(result);
     }
 
@@ -69,15 +78,14 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
         HttpEntity<Infraestructura> req = preparaRequest(infraestructura);
 
         ResponseEntity<Response<Infraestructura>> rp = getRestTemplate().exchange(getBaseUri() + "/infraestructura",
-                HttpMethod.POST, req, new ParameterizedTypeReference<Response<Infraestructura>>() {
-                });
+                HttpMethod.POST, req, RESPONSE_INFRAESTRUCTURA_TYPEREF);
 
         Response<Infraestructura> response = rp.getBody();
         if (response.isSuccess()) {
             return response.getData();
         }
 
-        throw new EquipsTicClientException(response, "Error en crear la infraestructura: " + response.getMessage());
+        throw new EquipsTicClientException(rp, response, "Error en crear la infraestructura: " + response.getMessage());
     }
 
     @Override
@@ -89,11 +97,10 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
          * l'objecte inclós a la Response és null i no ens importa el seu tipus.
          */
         ResponseEntity<Response<Object>> rp = getRestTemplate().exchange(getBaseUri() + "/infraestructura/{id}",
-                HttpMethod.DELETE, null, new ParameterizedTypeReference<Response<Object>>() {
-                }, id);
+                HttpMethod.DELETE, null, RESPONSE_OBJECT_TYPEREF, id);
         Response<Object> response = rp.getBody();
         if (!response.isSuccess()) {
-            throw new EquipsTicClientException(response,
+            throw new EquipsTicClientException(rp, response,
                     "Error en esborrar la infraestructura: " + response.getMessage());
         }
     }
@@ -105,15 +112,15 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
         HttpEntity<Infraestructura> req = preparaRequest(infraestructura);
 
         ResponseEntity<Response<Infraestructura>> rp = getRestTemplate().exchange(
-                getBaseUri() + "/infraestructura/{id}", HttpMethod.PUT, req,
-                new ParameterizedTypeReference<Response<Infraestructura>>() {
-                }, infraestructura.getIdentificador());
+                getBaseUri() + "/infraestructura/{id}", HttpMethod.PUT, req, RESPONSE_INFRAESTRUCTURA_TYPEREF,
+                infraestructura.getIdentificador());
 
         Response<Infraestructura> response = rp.getBody();
         if (response.isSuccess()) {
             return response.getData();
         }
-        throw new EquipsTicClientException(response, "Error en modificar la infraestructura: " + response.getMessage());
+        throw new EquipsTicClientException(rp, response,
+                "Error en modificar la infraestructura: " + response.getMessage());
     }
 
     /**
