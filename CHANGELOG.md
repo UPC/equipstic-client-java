@@ -1,3 +1,11 @@
+v2.0.0 / 2017-04-28
+===================
+
+* Importants refactoritzacions al client (no compatible amb la versió anterior!).
+* Es fa servir la APIv2 d'EquipsTIC.
+* Millorada la detecció d'errors del servidor.
+* Actualitzat a Spring Boot 1.5.2.
+
 v1.2.0 / 2017-02-15
 ===================
 

@@ -18,7 +18,7 @@ Al vostre projecte, indiqueu la dependència del client en el vostre fitxer `pom
     <dependency>
         <groupId>edu.upc.caminstech</groupId>
         <artifactId>equipstic-java</artifactId>
-        <version>1.0.0</version>   <!-- canvieu-ho per la versió que toqui -->
+        <version>2.0.0</version>   <!-- canvieu-ho per la versió que toqui -->
     </dependency>
 
 ## Documentació
