@@ -150,9 +150,12 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getAmbitsByCategoriaNotFound() {
-        List<Ambit> ambits = client.getAmbitsByCategoria(0);
-        assertNotNull(ambits);
-        assertTrue(ambits.isEmpty());
+        try {
+            client.getAmbitsByCategoria(0);
+            fail("Hauria de llançar una excepció");
+        } catch (EquipsTicClientException e) {
+            assertEquals("L'estat no coincideix " + e.toString(), HttpStatus.NOT_FOUND, e.getStatus().orElse(null));
+        }
     }
 
     @Test
@@ -372,10 +375,10 @@ public class EquipsTicClientImplTests {
     @Test
     public void getInfraestructuraByIdNotFound() {
         try {
-            Infraestructura i = client.getInfraestructuraById(0, false);
+            client.getInfraestructuraById(0, false);
             fail("Hauria s'haver llançat una excepció");
         } catch (EquipsTicClientException e) {
-            assertEquals(HttpStatus.NOT_FOUND, e.getStatus());
+            assertEquals(HttpStatus.NOT_FOUND, e.getStatus().orElse(null));
         }
     }
 
@@ -421,7 +424,7 @@ public class EquipsTicClientImplTests {
             client.baixaInfraestructura(0);
             fail("S'hauria d'haver llançat una excepció");
         } catch (EquipsTicClientException e) {
-            assertEquals(HttpStatus.NOT_FOUND, e.getStatus());
+            assertEquals(HttpStatus.NOT_FOUND, e.getStatus().orElse(null));
         }
     }
 

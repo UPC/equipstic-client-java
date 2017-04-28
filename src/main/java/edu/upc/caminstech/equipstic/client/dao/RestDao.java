@@ -3,6 +3,7 @@ package edu.upc.caminstech.equipstic.client.dao;
 import static java.util.stream.Collectors.toList;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,19 +51,22 @@ public class RestDao {
     public <T> T get(String url, ParameterizedTypeReference<Response<T>> typeReference, Object... urlParams) {
         ResponseEntity<Response<T>> entity = null;
 
+        String requestDetails = String.format("[url: %s, urlParams: %s, typeReference: %s]", baseUri + url,
+                Arrays.toString(urlParams), typeReference);
+
         try {
             entity = restTemplate.exchange(baseUri + url, HttpMethod.GET, null, typeReference, urlParams);
         } catch (HttpClientErrorException e) {
             switch (e.getStatusCode()) {
             case NOT_FOUND:
-                throw new EquipsTicClientException("No s'ha trobat el recurs", e);
+                throw new EquipsTicClientException("No s'ha trobat el recurs " + requestDetails, e);
             case UNAUTHORIZED:
-                throw new EquipsTicClientException("No teniu privilegis per accedir al recurs", e);
+                throw new EquipsTicClientException("No teniu privilegis per accedir al recurs " + requestDetails, e);
             default:
-                throw new EquipsTicClientException("S'ha produït un error", e);
+                throw new EquipsTicClientException("S'ha produït un error " + requestDetails, e);
             }
         } catch (HttpServerErrorException e) {
-            throw new EquipsTicClientException("El servidor ha generat un error", e);
+            throw new EquipsTicClientException("El servidor ha generat un error " + requestDetails, e);
         }
 
         return entity.getBody().getData();
