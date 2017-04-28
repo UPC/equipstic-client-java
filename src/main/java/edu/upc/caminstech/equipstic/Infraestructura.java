@@ -9,6 +9,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import edu.upc.caminstech.equipstic.json.MultiFormatDateDeserializer;
 
 @JsonInclude(Include.NON_NULL)
 public class Infraestructura implements Comparable<Infraestructura> {
@@ -85,7 +88,7 @@ public class Infraestructura implements Comparable<Infraestructura> {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataCanviWorkflow;
     private Estat estatAnteriorWorkflow;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    // @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date dataCarrega;
 
     public long getIdentificador() {
@@ -288,10 +291,12 @@ public class Infraestructura implements Comparable<Infraestructura> {
         this.proveidorManteniment = proveidorManteniment;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     public Date getDataCarrega() {
         return dataCarrega;
     }
 
+    @JsonDeserialize(using = MultiFormatDateDeserializer.class)
     public void setDataCarrega(Date dataCarrega) {
         this.dataCarrega = dataCarrega;
     }
