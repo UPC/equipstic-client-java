@@ -92,17 +92,7 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     @CacheEvict(cacheNames = { CacheUtils.PREFIX + "getInfraestructuraByMarcaAndNumeroDeSerie",
             CacheUtils.PREFIX + "getInfraestructuraById", CacheUtils.PREFIX + "getInfraestructuresByUnitat" })
     public void baixaInfraestructura(long id) {
-        /*
-         * Fem servir 'Object' com a tipus parametritzat perquè en el DELETE
-         * l'objecte inclós a la Response és null i no ens importa el seu tipus.
-         */
-        ResponseEntity<Response<Object>> rp = getRestTemplate().exchange(getBaseUri() + "/infraestructura/{id}",
-                HttpMethod.DELETE, null, RESPONSE_OBJECT_TYPEREF, id);
-        Response<Object> response = rp.getBody();
-        if (!response.isSuccess()) {
-            throw new EquipsTicClientException(rp, response,
-                    "Error en esborrar la infraestructura: " + response.getMessage());
-        }
+        delete("/infraestructura/{id}", RESPONSE_OBJECT_TYPEREF, id);
     }
 
     @Override

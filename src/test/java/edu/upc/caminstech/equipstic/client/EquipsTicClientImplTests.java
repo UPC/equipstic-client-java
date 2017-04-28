@@ -2,14 +2,7 @@ package edu.upc.caminstech.equipstic.client;
 
 import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
 
 import java.net.URISyntaxException;
@@ -22,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.http.HttpStatus;
 
 import edu.upc.caminstech.equipstic.Ambit;
 import edu.upc.caminstech.equipstic.Campus;
@@ -423,8 +417,7 @@ public class EquipsTicClientImplTests {
             client.baixaInfraestructura(0);
             fail("S'hauria d'haver llançat una excepció");
         } catch (EquipsTicClientException e) {
-            assertFalse(e.getResponse().isSuccess());
-            assertEquals("L'equip no existeix.", e.getResponse().getMessage());
+            assertEquals(HttpStatus.NOT_FOUND, e.getStatus());
         }
     }
 

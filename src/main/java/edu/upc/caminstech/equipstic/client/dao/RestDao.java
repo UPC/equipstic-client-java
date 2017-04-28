@@ -3,15 +3,16 @@ package edu.upc.caminstech.equipstic.client.dao;
 import static java.util.stream.Collectors.toList;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
@@ -22,6 +23,8 @@ import edu.upc.caminstech.equipstic.client.Response;
  * Classe d'ús intern de la llibreria.
  */
 public class RestDao {
+
+    protected final Logger logger = LoggerFactory.getLogger(RestDao.class);
 
     private final URI baseUri;
     private final RestTemplate restTemplate;
@@ -44,28 +47,32 @@ public class RestDao {
      * {@link RestTemplate}.
      */
     public <T> T get(String url, ParameterizedTypeReference<Response<T>> typeReference, Object... urlParams) {
+        ResponseEntity<Response<T>> entity = null;
 
-        ResponseEntity<Response<T>> entity = restTemplate.exchange(baseUri + url, HttpMethod.GET, null, typeReference,
-                urlParams);
-
-        Response<T> response = entity.getBody();
-
-        if (response != null && StringUtils.containsIgnoreCase(response.getMessage(), "no existeix")) {
-            return null;
+        try {
+            entity = restTemplate.exchange(baseUri + url, HttpMethod.GET, null, typeReference, urlParams);
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                return null;
+            }
         }
 
-        if (response == null) {
-            String errorMsg = String.format("Error en obtenir el recurs: [url: %s, urlParams: %s, response: %s]", url,
-                    Arrays.toString(urlParams), response);
-            throw new EquipsTicClientException(entity, response, errorMsg);
+        return entity.getBody().getData();
+    }
+
+    /**
+     * Mètode auxiliar que encapsula crides DELETE a la API, via
+     * {@link RestTemplate}.
+     */
+    public <T> void delete(String url, ParameterizedTypeReference<Response<T>> typeReference, Object... urlParams) {
+        try {
+            restTemplate.exchange(baseUri + url, HttpMethod.DELETE, null, typeReference, urlParams);
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                throw new EquipsTicClientException(e);
+            }
+            throw e;
         }
-        if (!response.isSuccess()) {
-            String errorMsg = String.format(
-                    "Error en obtenir el recurs: [url: %s, urlParams: %s, entity: %s, body: %s]", url,
-                    Arrays.toString(urlParams), Objects.toString(entity), Objects.toString(entity.getBody()));
-            throw new EquipsTicClientException(entity, response, errorMsg);
-        }
-        return (response != null) ? response.getData() : null;
     }
 
     /**
