@@ -85,7 +85,7 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
             return response.getData();
         }
 
-        throw new EquipsTicClientException(rp, response, "Error en crear la infraestructura: " + response.getMessage());
+        throw new EquipsTicClientException(rp, "Error en crear la infraestructura: " + response.getMessage());
     }
 
     @Override
@@ -109,8 +109,7 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
         if (response.isSuccess()) {
             return response.getData();
         }
-        throw new EquipsTicClientException(rp, response,
-                "Error en modificar la infraestructura: " + response.getMessage());
+        throw new EquipsTicClientException(rp, "Error en modificar la infraestructura: " + response.getMessage());
     }
 
     /**

@@ -371,8 +371,12 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getInfraestructuraByIdNotFound() {
-        Infraestructura i = client.getInfraestructuraById(123, false);
-        assertNull(i);
+        try {
+            Infraestructura i = client.getInfraestructuraById(0, false);
+            fail("Hauria s'haver llançat una excepció");
+        } catch (EquipsTicClientException e) {
+            assertEquals(HttpStatus.NOT_FOUND, e.getStatus());
+        }
     }
 
     @Test

@@ -6,7 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientResponseException;
 
 /**
  * Excepció del Client que exposa la resposta retornada pel servidor.
@@ -18,70 +18,66 @@ public class EquipsTicClientException extends RuntimeException {
 
     private static final long serialVersionUID = 5559008561162893859L;
 
-    private final Response<?> response;
-    private final HttpStatus status;
-    private final HttpHeaders headers;
+    private final RestClientResponseException cause;
+    private final ResponseEntity<?> entity;
 
-    public EquipsTicClientException(ResponseEntity<?> entity, Response<?> response) {
+    public EquipsTicClientException(RestClientResponseException cause) {
+        super(cause);
+        this.cause = cause;
+        this.entity = null;
+    }
+
+    public EquipsTicClientException(String message, RestClientResponseException cause) {
+        super(message, cause);
+        this.cause = cause;
+        this.entity = null;
+    }
+
+    public EquipsTicClientException(ResponseEntity<?> entity) {
         super();
         Assert.notNull(entity, "Entity can not be null");
-        this.response = response;
-        this.status = entity.getStatusCode();
-        this.headers = entity.getHeaders();
+        this.entity = entity;
+        this.cause = null;
     }
 
-    public EquipsTicClientException(ResponseEntity<?> entity, Response<?> response, String message) {
+    public EquipsTicClientException(ResponseEntity<?> entity, String message) {
         super(message);
         Assert.notNull(entity, "Entity can not be null");
-        this.response = response;
-        this.status = entity.getStatusCode();
-        this.headers = entity.getHeaders();
+        this.entity = entity;
+        this.cause = null;
     }
 
-    public EquipsTicClientException(ResponseEntity<?> entity, Response<?> response, Throwable cause) {
-        super(cause);
-        Assert.notNull(entity, "Entity can not be null");
-        this.response = response;
-        this.status = entity.getStatusCode();
-        this.headers = entity.getHeaders();
-    }
-
-    public EquipsTicClientException(ResponseEntity<?> entity, Response<?> response, String message, Throwable cause) {
+    public EquipsTicClientException(ResponseEntity<?> entity, String message, RestClientResponseException cause) {
         super(message, cause);
         Assert.notNull(entity, "Entity can not be null");
-        this.response = response;
-        this.status = entity.getStatusCode();
-        this.headers = entity.getHeaders();
-    }
-
-    public EquipsTicClientException(HttpClientErrorException e) {
-        super(e);
-        this.response = null;
-        this.status = e.getStatusCode();
-        this.headers = e.getResponseHeaders();
+        this.entity = entity;
+        this.cause = cause;
     }
 
     /**
-     * Retorna la resposta del servidor.
-     */
-    public Optional<Response<?>> getResponse() {
-        return Optional.ofNullable(response);
-    }
-
-    /**
-     * Retorna l'status HTTP de la resposta del servidor.
-     * 
-     * @return
+     * Retorna el codi d'estat HTTP de la resposta del servidor.
      */
     public HttpStatus getStatus() {
-        return status;
+        int code = (cause != null) ? cause.getRawStatusCode() : entity.getStatusCodeValue();
+        return HttpStatus.valueOf(code);
     }
 
     /**
-     * Retorna els headers de la resposta del servidor.
+     * Retorna les capçaleres de la resposta del servidor.
      */
-    public HttpHeaders getHeaders() {
-        return headers;
+    public Optional<HttpHeaders> getHeaders() {
+        return Optional.ofNullable(cause).map(RestClientResponseException::getResponseHeaders);
     }
 
+    /**
+     * Retorna el cos de la resposta del servidor.
+     */
+    public Optional<String> getBody() {
+        return Optional.ofNullable(cause).map(RestClientResponseException::getResponseBodyAsString);
+    }
+
+    @Override
+    public String getMessage() {
+        return String.format("%s: %s - %s", super.getMessage(), getStatus(), cause.getStatusText());
+    }
 }

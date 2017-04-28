@@ -13,6 +13,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
@@ -52,9 +53,16 @@ public class RestDao {
         try {
             entity = restTemplate.exchange(baseUri + url, HttpMethod.GET, null, typeReference, urlParams);
         } catch (HttpClientErrorException e) {
-            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-                return null;
+            switch (e.getStatusCode()) {
+            case NOT_FOUND:
+                throw new EquipsTicClientException("No s'ha trobat el recurs", e);
+            case UNAUTHORIZED:
+                throw new EquipsTicClientException("No teniu privilegis per accedir al recurs", e);
+            default:
+                throw new EquipsTicClientException("S'ha produït un error", e);
             }
+        } catch (HttpServerErrorException e) {
+            throw new EquipsTicClientException("El servidor ha generat un error", e);
         }
 
         return entity.getBody().getData();
@@ -76,12 +84,11 @@ public class RestDao {
     }
 
     /**
-     * Ordena la llista donada (<em>null-safe</em>).
+     * Mètode auxiliar <em>null-safe</em> per ordenar llistes genèriques.
      * 
      * @param list
-     *            la llista a ordenar; pot ser {@code null}.
-     * @return la llista ordenada, o bé una llista buida si
-     *         {@code list == null}.
+     *            la llista a ordenar (pot ser {@code null}).
+     * @return la llista ordenada (pot estar buida).
      */
     public static <T extends Comparable<T>> List<T> sorted(List<T> list) {
         if (list == null) {
