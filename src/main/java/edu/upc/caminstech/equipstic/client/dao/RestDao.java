@@ -95,6 +95,10 @@ public class RestDao {
      * @return la llista ordenada (pot estar buida).
      */
     public static <T extends Comparable<T>> List<T> sorted(List<T> list) {
+        /**
+         * TODO: Aquest mètode s'hauria de moure a una altra classe, ja que és
+         * massa genèric.
+         */
         if (list == null) {
             return Collections.emptyList();
         }
