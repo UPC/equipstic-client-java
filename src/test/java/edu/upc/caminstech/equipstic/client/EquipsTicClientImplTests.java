@@ -35,8 +35,9 @@ import edu.upc.caminstech.equipstic.fixtures.InfraestructuraFixtures;
 /**
  * Tests d'integració per a la classe {@link EquipsTicClientImpl}.
  * <p>
- * TODO: S'ha de refactoritzar aquesta classe per fer <em>mocking</em> del
- * servidor.
+ * TODO: S'ha de refactoritzar aquesta classe per aïllar els tests-la de l'accés
+ * a la xarxa mitjançant
+ * <a href="https://en.wikipedia.org/wiki/Test_double">dobles</a>.
  */
 public class EquipsTicClientImplTests {
 
