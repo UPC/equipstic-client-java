@@ -1,3 +1,13 @@
+v2.2.1 / 2017-05-05
+===================
+
+* Aquesta versió és la "v2.2.1" ja que, erròniament, es va anotar 
+  la versió "2.0.0" amb el tag "v2.2.0" en comptes del "v2.0.0".
+* S'han afegit més tests.
+* S'ha refactoritzat la gestió d'excepcions per tractar de manera uniforme
+  alguns errors que no calia distingir entre sí.
+* Refactoritzacions per millorar la legibilitat del codi en els tests.
+
 v2.0.0 / 2017-04-28
 ===================
 
