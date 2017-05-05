@@ -1,7 +1,6 @@
 package edu.upc.caminstech.equipstic.client;
 
-import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
-import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
 
@@ -12,6 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hamcrest.CustomTypeSafeMatcher;
+import org.hamcrest.Matcher;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -53,7 +54,7 @@ public class EquipsTicClientImplTests {
 
     // alguns valors per fer servir als tests
 
-    private static final int ID_INFRAESTRUCTURA = 16137;
+    private static final long ID_INFRAESTRUCTURA = 16137;
     private static final long ID_CATEGORIA_SERVIDOR = 1;
     private static final long ID_ESTAT_EN_GARANTIA_CENTRALITZAT = 1;
     private static final long ID_TIPUS_IMPRESSORA = 6;
@@ -63,6 +64,7 @@ public class EquipsTicClientImplTests {
     private static final long ID_EDIFICI_B2 = 36;
     private static final long ID_MARCA_IBM = 45;
     private static final long ID_UNITAT_UTGAC = 79;
+    private static final long ID_UNITAT_SERVEI_GESTIO_ACADEMICA = 3;
     private static final long ID_SISTEMA_OPERATIU_LINUX = 2;
     private static final long ID_AMBIT_LT_PAS = 39;
     private static final String CODI_CAMPUS_NORD = "ND";
@@ -109,100 +111,104 @@ public class EquipsTicClientImplTests {
     @Test
     public void getAmbits() {
         List<Ambit> ambits = client.getAmbits();
-        assertFalse(ambits.isEmpty());
+
+        assertThat(ambits, not(empty()));
     }
 
     @Test
     public void getAmbitsByNom() {
         List<Ambit> ambits = client.getAmbitsByNom(NOM_AMBIT_LT_PAS);
-        assertFalse(ambits.isEmpty());
-        assertTrue(ambits.stream().allMatch(a -> a.getNom().equals(NOM_AMBIT_LT_PAS)));
+
+        assertThat(ambits, not(empty()));
+        assertThat(ambits, everyItem(hasProperty("nom", equalTo(NOM_AMBIT_LT_PAS))));
     }
 
     @Test
     public void getAmbitById() {
         Ambit a = client.getAmbitById(ID_AMBIT_LT_PAS);
-        assertNotNull(a);
-        assertEquals(ID_AMBIT_LT_PAS, a.getIdAmbit());
+
+        assertThat(a.getIdAmbit(), is(ID_AMBIT_LT_PAS));
     }
 
     @Test
     public void getAmbitsByCodi() {
         List<Ambit> ambits = client.getAmbitsByCodi(CODI_AMBIT_SALA_TECNICA);
-        assertNotNull(ambits);
-        assertFalse(ambits.isEmpty());
-        assertTrue(ambits.stream().allMatch(a -> StringUtils.equalsIgnoreCase(CODI_AMBIT_SALA_TECNICA, a.getCodi())));
+
+        assertThat(ambits, not(empty()));
+        assertThat(ambits, everyItem(hasProperty("codi", equalToIgnoringCase(CODI_AMBIT_SALA_TECNICA))));
     }
 
     @Test
     public void getAmbitsByCodiNotFound() {
         List<Ambit> ambits = client.getAmbitsByCodi("dummy");
-        assertNotNull(ambits);
-        assertTrue(ambits.isEmpty());
+
+        assertThat(ambits, empty());
     }
 
     @Test
     public void getAmbitsByCategoria() {
         long idCategoria = ID_CATEGORIA_SERVIDOR;
         List<Ambit> ambits = client.getAmbitsByCategoria(idCategoria);
-        assertNotNull(ambits);
-        assertTrue(ambits.stream().allMatch(a -> idCategoria == a.getCategoriaInfraestructura().getIdCategoria()));
+
+        assertThat(ambits, not(empty()));
+        assertThat(ambits,
+                everyItem(hasProperty("categoriaInfraestructura", hasProperty("idCategoria", equalTo(idCategoria)))));
     }
 
     @Test
     public void getAmbitsByCategoriaNotFound() {
-        try {
-            client.getAmbitsByCategoria(0);
-            fail("Hauria de llançar una excepció");
-        } catch (EquipsTicClientException e) {
-            assertEquals("L'estat no coincideix " + e.toString(), HttpStatus.NOT_FOUND, e.getStatus().orElse(null));
-        }
+        List<Ambit> ambits = client.getAmbitsByCategoria(0);
+
+        assertThat(ambits, empty());
     }
 
     @Test
     public void getCampus() {
         List<Campus> campus = client.getCampus();
-        assertFalse(campus.isEmpty());
+
+        assertThat(campus, not(empty()));
     }
 
     @Test
     public void getCampusByCodi() {
         Campus campus = client.getCampusByCodi(CODI_CAMPUS_NORD);
-        assertEquals(CODI_CAMPUS_NORD, campus.getCodi());
+
+        assertThat(campus.getCodi(), is(CODI_CAMPUS_NORD));
     }
 
     @Test
     public void getCampusById() {
         Campus campus = client.getCampusById(ID_CAMPUS_NORD);
-        assertEquals(ID_CAMPUS_NORD, campus.getIdCampus());
+
+        assertThat(campus.getIdCampus(), is(ID_CAMPUS_NORD));
     }
 
     @Test
     public void getCategories() {
         List<Categoria> categories = client.getCategories();
-        assertFalse(categories.isEmpty());
+
+        assertThat(categories, not(empty()));
     }
 
     @Test
     public void getCategoriaById() {
         Categoria c = client.getCategoriaById(ID_CATEGORIA_SERVIDOR);
-        assertNotNull(c);
-        assertEquals(ID_CATEGORIA_SERVIDOR, c.getIdCategoria());
+
+        assertThat(c.getIdCategoria(), is(ID_CATEGORIA_SERVIDOR));
     }
 
     @Test
     public void getEdificis() {
         List<Edifici> edificis = client.getEdificis();
-        assertFalse(edificis.isEmpty());
+
+        assertThat(edificis, not(empty()));
     }
 
     @Test
     public void getEdificiById() {
         Edifici edifici = client.getEdificiById(ID_EDIFICI_B2);
 
-        assertNotNull(edifici);
-        assertEquals(ID_EDIFICI_B2, edifici.getIdEdifici());
-        assertNotNull(edifici.getCampus());
+        assertThat(edifici.getIdEdifici(), is(ID_EDIFICI_B2));
     }
 
     @Test
@@ -211,50 +217,53 @@ public class EquipsTicClientImplTests {
         String codiCampus = CODI_CAMPUS_NORD;
         Edifici edifici = client.getEdificiByCodiAndCodiCampus(codiEdifici, codiCampus);
 
-        assertNotNull(edifici);
-        assertEquals(codiEdifici, edifici.getCodi());
-        assertEquals(codiCampus, edifici.getCampus().getCodi());
+        assertThat(edifici, hasProperty("codi", equalTo(codiEdifici)));
+        assertThat(edifici, hasProperty("campus", hasProperty("codi", equalTo(codiCampus))));
     }
 
     @Test
     public void getEstats() {
         List<Estat> estats = client.getEstats();
-        assertFalse(estats.isEmpty());
+
+        assertThat(estats, not(empty()));
     }
 
     @Test
     public void getEstatByCodi() {
         String codi = CODI_ESTAT_BAIXA;
         Estat estat = client.getEstatByCodi(codi);
-        assertNotNull(estat);
-        assertEquals(codi, estat.getCodi());
+
+        assertThat(estat, hasProperty("codi", equalTo(codi)));
     }
 
     @Test
     public void getEstatsByNom() {
         List<Estat> estats = client.getEstatsByNom(NOM_ESTAT_BAIXA);
-        assertFalse(estats.isEmpty());
+
+        assertThat(estats, not(empty()));
     }
 
     @Test
     public void getEstatById() {
         long idEstat = ID_ESTAT_EN_GARANTIA_CENTRALITZAT;
         Estat estat = client.getEstatById(idEstat);
-        assertNotNull(estat);
-        assertEquals(idEstat, estat.getIdEstat());
+
+        assertThat(estat.getIdEstat(), is(idEstat));
     }
 
     @Test
     public void getMarques() {
         List<Marca> marques = client.getMarques();
-        assertFalse(marques.isEmpty());
+
+        assertThat(marques, not(empty()));
     }
 
     @Test
     public void getMarquesByNom() {
         List<Marca> marques = client.getMarquesByNom(NOM_MARCA_IBM);
-        assertFalse(marques.isEmpty());
-        assertTrue(marques.stream().allMatch(m -> containsIgnoreCase(m.getNom(), NOM_MARCA_IBM)));
+
+        assertThat(marques, not(empty()));
+        assertThat(marques, everyItem(hasProperty("nom", equalToIgnoringCase(NOM_MARCA_IBM))));
     }
 
     @Test
@@ -266,90 +275,103 @@ public class EquipsTicClientImplTests {
     @Test
     public void getTipusInfraestructura() {
         List<TipusInfraestructura> tipus = client.getTipusInfraestructura();
-        assertFalse(tipus.isEmpty());
+
+        assertThat(tipus, not(empty()));
     }
 
     @Test
     public void getTipusInfraestructuraByCategoria() {
         List<TipusInfraestructura> tipus = client.getTipusInfraestructuraByCategoria(ID_CATEGORIA_SERVIDOR);
-        assertFalse(tipus.isEmpty());
+
+        assertThat(tipus, not(empty()));
     }
 
     @Test
     public void getTipusInfraestructuraByCodi() {
         TipusInfraestructura tipus = client.getTipusInfraestructuraBycodi(CODI_TIPUS_IMPRESSORA);
-        assertEquals(CODI_TIPUS_IMPRESSORA, tipus.getCodi());
+
+        assertThat(tipus.getCodi(), is(CODI_TIPUS_IMPRESSORA));
     }
 
     @Test
     public void getTipusInfraestructuraByNom() {
         List<TipusInfraestructura> tipus = client.getTipusInfraestructuraByNom(NOM_TIPUS_IMPRESSORA);
-        assertFalse(tipus.isEmpty());
+
+        assertThat(tipus, not(empty()));
     }
 
     @Test
     public void getTipusInfraestructuraById() {
         TipusInfraestructura tipus = client.getTipusInfraestructuraById(ID_TIPUS_IMPRESSORA);
-        assertEquals(ID_TIPUS_IMPRESSORA, tipus.getIdTipus());
+
+        assertThat(tipus.getIdTipus(), is(ID_TIPUS_IMPRESSORA));
     }
 
     @Test
     public void getTipusUs() {
         List<TipusUs> tipus = client.getTipusUs();
-        assertFalse(tipus.isEmpty());
+
+        assertThat(tipus, not(empty()));
     }
 
     @Test
     public void getTipusUsByUnitat() {
-        Unitat unitat = new Unitat(ID_UNITAT_UTGAC);
-        List<TipusUs> tipus = client.getTipusUsByUnitat(ID_UNITAT_UTGAC);
-        assertTrue(tipus.stream().allMatch(t -> t.equals(unitat)));
+        Unitat unitat = new Unitat(ID_UNITAT_SERVEI_GESTIO_ACADEMICA);
+        List<TipusUs> tipus = client.getTipusUsByUnitat(ID_UNITAT_SERVEI_GESTIO_ACADEMICA);
+
+        assertThat(tipus, not(empty()));
+        assertThat(tipus, everyItem(hasProperty("unitat", equalTo(unitat))));
     }
 
     @Test
     public void getTipusUsById() {
         TipusUs tipus = client.getTipusUsById(ID_TIPUS_US_DOCENCIA);
-        assertEquals(ID_TIPUS_US_DOCENCIA, tipus.getIdTipusUs());
+
+        assertThat(tipus.getIdTipusUs(), equalTo(ID_TIPUS_US_DOCENCIA));
     }
 
     @Test
     public void getTipusXarxa() {
         List<TipusXarxa> tipus = client.getTipusXarxa();
-        assertFalse(tipus.isEmpty());
+
+        assertThat(tipus, not(empty()));
     }
 
     @Test
     public void getTipusXarxaById() {
         TipusXarxa tipus = client.getTipusXarxaById(ID_TIPUS_XARXA_TRONCAL);
-        assertEquals(ID_TIPUS_XARXA_TRONCAL, tipus.getIdTipusXarxa());
+
+        assertThat(tipus.getIdTipusXarxa(), equalTo(ID_TIPUS_XARXA_TRONCAL));
     }
 
     @Test
     public void getUnitats() {
         List<Unitat> unitats = client.getUnitats();
-        assertFalse(unitats.isEmpty());
+
+        assertThat(unitats, not(empty()));
     }
 
     @Test
     public void getUnitatByIdentificador() {
         List<Unitat> unitats = client.getUnitatsByIdentificador(IDENTIFICADOR_UNITAT_UTGAC);
-        assertFalse(unitats.isEmpty());
-        assertTrue(unitats.stream().allMatch(u -> IDENTIFICADOR_UNITAT_UTGAC.equals(u.getIdentificador())));
+
+        assertThat(unitats, not(empty()));
+        assertThat(unitats, everyItem(hasProperty("identificador", equalTo(IDENTIFICADOR_UNITAT_UTGAC))));
     }
 
     @Test
     public void getUnitatsByNom() {
         List<Unitat> unitats = client.getUnitatsByNom(NOM_UNITAT_UTGAC);
-        assertFalse(unitats.isEmpty());
-        for (Unitat u : unitats) {
-            assertThat(u.getNom(), equalToIgnoringCase(NOM_UNITAT_UTGAC));
-        }
+
+        assertThat(unitats, not(empty()));
+        assertThat(unitats, everyItem(hasProperty("nom", equalToIgnoringCase(NOM_UNITAT_UTGAC))));
     }
 
     @Test
     public void getUnitatById() {
         Unitat unitat = client.getUnitatById(ID_UNITAT_UTGAC);
-        assertEquals(ID_UNITAT_UTGAC, unitat.getIdUnitat());
+
+        assertThat(unitat.getIdUnitat(), is(ID_UNITAT_UTGAC));
     }
 
     @Test
@@ -358,19 +380,20 @@ public class EquipsTicClientImplTests {
         String identificador = IDENTIFICADOR_UNITAT_UTGAC;
         String codi = CODI_UNITAT_UTGAC;
         List<Unitat> unitats = client.getUnitatsByNomAndIdentificadorAndCodi(nom, identificador, codi);
-        assertFalse(unitats.isEmpty());
-        for (Unitat u : unitats) {
-            assertThat(u.getNom(), equalToIgnoringCase(nom));
-            assertEquals(identificador, u.getIdentificador());
-            assertEquals(codi, u.getCodiUnitat());
-        }
+
+        assertThat(unitats, not(empty()));
+        assertThat(unitats,
+                everyItem(allOf( //
+                        hasProperty("nom", equalToIgnoringCase(nom)), //
+                        hasProperty("identificador", is(identificador)), //
+                        hasProperty("codiUnitat", is(codi)))));
     }
 
     @Test
     public void getInfraestructuraById() {
         Infraestructura infraestructura = client.getInfraestructuraById(ID_INFRAESTRUCTURA, false);
-        assertNotNull(infraestructura);
-        assertEquals(ID_INFRAESTRUCTURA, infraestructura.getIdentificador());
+
+        assertThat(infraestructura.getIdentificador(), equalTo(ID_INFRAESTRUCTURA));
     }
 
     @Test
@@ -388,16 +411,18 @@ public class EquipsTicClientImplTests {
         long idMarca = 2;
         String sn = "7MQ48Z1";
         Infraestructura infraestructura = client.getInfraestructuraByMarcaAndNumeroDeSerie(idMarca, sn, false);
-        assertNotNull(infraestructura);
+
+        assertThat(infraestructura, notNullValue());
     }
 
     @Test
     @Ignore // si no es fa servir caché aquest test és molt lent
     public void getInfraestructuresByUnitat() {
         List<Infraestructura> infraestructures = client.getInfraestructuresByUnitat(ID_UNITAT_UTGAC);
-        assertNotNull(infraestructures);
-        assertFalse(infraestructures.isEmpty());
-        assertTrue(infraestructures.stream().allMatch(i -> i.getUnitat().getIdUnitat() == ID_UNITAT_UTGAC));
+
+        assertThat(infraestructures, not(empty()));
+        assertThat(infraestructures,
+                everyItem(hasProperty("unitat", hasProperty("idUnitat", equalTo(ID_UNITAT_UTGAC)))));
     }
 
     @Test
@@ -406,12 +431,12 @@ public class EquipsTicClientImplTests {
         Infraestructura creada = null;
         try {
             creada = client.altaInfraestructura(i);
-            assertNotNull(creada);
+
             assertEquals(i.getMarca(), creada.getMarca());
             assertEquals(i.getNumeroSerie(), creada.getNumeroSerie());
             assertEquals("dataCompra", i.getDataCompra(), creada.getDataCompra());
             assertEquals("dataFinalGarantia", i.getDataFinalGarantia(), creada.getDataFinalGarantia());
-            assertNotEquals(0, creada.getIdentificador());
+            assertThat(creada.getIdentificador(), is(not(0)));
         } finally {
             if (creada != null) {
                 client.baixaInfraestructura(creada.getIdentificador());
@@ -435,17 +460,13 @@ public class EquipsTicClientImplTests {
         Infraestructura i = null;
         try {
             i = client.altaInfraestructura(fixture);
-
-            assertEquals(fixture.getDataFinalGarantia(), i.getDataFinalGarantia());
-
             i.setDataTramitFactura(InfraestructuraFixtures.dateFixture(2017, Month.JANUARY, 2));
 
             Infraestructura nova = client.modificaInfraestructura(i);
 
-            assertNotNull(nova);
-            assertEquals("L'identificador no hauria de canviar", i.getIdentificador(), nova.getIdentificador());
-            assertEquals(fixture.getDataFinalGarantia(), nova.getDataFinalGarantia());
-            assertEquals(i.getDataTramitFactura(), nova.getDataTramitFactura());
+            assertThat("L'identificador no hauria de canviar", nova.getIdentificador(), equalTo(i.getIdentificador()));
+            assertThat(nova.getDataFinalGarantia(), equalTo(fixture.getDataFinalGarantia()));
+            assertThat(nova.getDataTramitFactura(), equalTo(i.getDataTramitFactura()));
         } finally {
             if (i != null) {
                 client.baixaInfraestructura(i.getIdentificador());
@@ -456,12 +477,14 @@ public class EquipsTicClientImplTests {
     @Test
     public void getSistemesOperatius() {
         List<SistemaOperatiu> sistemesOperatius = client.getSistemesOperatius();
-        assertFalse(sistemesOperatius.isEmpty());
+
+        assertThat(sistemesOperatius, not(empty()));
     }
 
     @Test
     public void getSistemesOperatiusByCategoria() {
         List<SistemaOperatiu> sistemesOperatius = client.getSistemesOperatiusByCategoria(ID_CATEGORIA_SERVIDOR);
+
         assertFalse(sistemesOperatius.isEmpty());
         assertTrue(sistemesOperatius.parallelStream()
                 .allMatch(so -> so.getCategoriaInfraestructura().getIdCategoria() == ID_CATEGORIA_SERVIDOR));
@@ -470,6 +493,7 @@ public class EquipsTicClientImplTests {
     @Test
     public void getSistemesOperatiusByCodi() {
         List<SistemaOperatiu> sistemesOperatius = client.getSistemesOperatiusByCodi("LINUX");
+
         assertFalse(sistemesOperatius.isEmpty());
         assertTrue(sistemesOperatius.parallelStream()
                 .allMatch(so -> StringUtils.containsIgnoreCase(so.getCodi(), "LINUX")));
@@ -478,7 +502,8 @@ public class EquipsTicClientImplTests {
     @Test
     public void getSistemesOperatiusByNom() {
         List<SistemaOperatiu> sistemesOperatius = client.getSistemesOperatiusByNom("Linux");
-        assertFalse(sistemesOperatius.isEmpty());
+
+        assertThat(sistemesOperatius, not(empty()));
         assertTrue(sistemesOperatius.parallelStream()
                 .allMatch(so -> StringUtils.containsIgnoreCase(so.getNom(), "Linux")));
     }
@@ -486,39 +511,44 @@ public class EquipsTicClientImplTests {
     @Test
     public void getSistemaOperatiuById() {
         SistemaOperatiu so = client.getSistemaOperatiuById(ID_SISTEMA_OPERATIU_LINUX);
-        assertNotNull(so);
-        assertEquals(ID_SISTEMA_OPERATIU_LINUX, so.getIdSistemaOperatiu());
+
+        assertThat(so.getIdSistemaOperatiu(), equalTo(ID_SISTEMA_OPERATIU_LINUX));
     }
 
     @Test
     public void getUsuariInfraestructuraById() {
         UsuariInfraestructura u = client.getUsuariInfraestructura(1L);
-        assertNotNull(u);
-        assertEquals(1L, u.getIdUsuariInfraestructura());
+
+        assertThat(u.getIdUsuariInfraestructura(), is(1L));
     }
 
     @Test
     public void getUsuarisInfraestructura() {
         List<UsuariInfraestructura> list = client.getUsuarisInfraestructura();
-        assertNotNull(list);
-        assertTrue(list.stream().filter(u -> "angel.aguilera".equals(u.getNomUsuari())).findFirst().isPresent());
+
+        assertThat(list, hasItem(hasProperty("nomUsuari", equalTo("angel.aguilera"))));
     }
 
     @Test
     public void getUsuarisInfraestructuraByNom() {
         String nom = "angel.aguilera";
         List<UsuariInfraestructura> list = client.getUsuarisInfraestructuraByNom(nom);
-        assertNotNull(list);
-        assertFalse(list.isEmpty());
-        System.out.println(list);
-        assertTrue(list.stream().allMatch(u -> coincideixNom(u, nom)));
+
+        assertThat(list, not(empty()));
+        assertThat(list,
+                everyItem(anyOf( //
+                        hasProperty("nom", containsSubstringIgnoringCase(nom)),
+                        hasProperty("nomUsuari", containsSubstringIgnoringCase(nom)))));
     }
 
-    /**
-     * Mètode auxiliar per verificar la coincidència d'un
-     * {@link UsuariInfraestructura} amb un nom.
-     */
-    private boolean coincideixNom(UsuariInfraestructura u, String nom) {
-        return containsIgnoreCase(u.getNom(), nom) || containsIgnoreCase(u.getNomUsuari(), nom);
+    private Matcher<String> containsSubstringIgnoringCase(String searchValue) {
+        return new CustomTypeSafeMatcher<String>("a string containing \"" + searchValue + "\" (ignoring case)") {
+
+            @Override
+            protected boolean matchesSafely(String item) {
+                return StringUtils.containsIgnoreCase(item, searchValue);
+            }
+        };
     }
+
 }
