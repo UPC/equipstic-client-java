@@ -65,6 +65,6 @@ public class EquipsTicClientException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return String.format("%s: %s - %s", super.getMessage(), getStatus(), cause.getStatusText());
+        return String.format("%s: %s - %s", super.getMessage(), getStatus().orElse(null), cause.getStatusText());
     }
 }
