@@ -3,7 +3,6 @@ package edu.upc.caminstech.equipstic.client.dao;
 import static java.util.stream.Collectors.toList;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,11 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientException;
@@ -49,27 +47,14 @@ public class RestDao {
      * {@link RestTemplate}.
      */
     public <T> T get(String url, ParameterizedTypeReference<Response<T>> typeReference, Object... urlParams) {
-        ResponseEntity<Response<T>> entity = null;
-
-        String requestDetails = String.format("[url: %s, urlParams: %s, typeReference: %s]", baseUri + url,
-                Arrays.toString(urlParams), typeReference);
-
         try {
-            entity = restTemplate.exchange(baseUri + url, HttpMethod.GET, null, typeReference, urlParams);
-        } catch (HttpClientErrorException e) {
-            switch (e.getStatusCode()) {
-            case NOT_FOUND:
-                throw new EquipsTicClientException("No s'ha trobat el recurs " + requestDetails, e);
-            case UNAUTHORIZED:
-                throw new EquipsTicClientException("No teniu privilegis per accedir al recurs " + requestDetails, e);
-            default:
-                throw new EquipsTicClientException("S'ha produït un error " + requestDetails, e);
-            }
-        } catch (HttpServerErrorException e) {
-            throw new EquipsTicClientException("El servidor ha generat un error " + requestDetails, e);
+            ResponseEntity<Response<T>> entity = restTemplate.exchange(baseUri + url, HttpMethod.GET, null,
+                    typeReference, urlParams);
+            return entity.getBody().getData();
+        } catch (RestClientResponseException e) {
+            String msg = String.format("Error en obtenir el recurs [%s]", getResourcePath(url, urlParams));
+            throw new EquipsTicClientException(msg, e);
         }
-
-        return entity.getBody().getData();
     }
 
     /**
@@ -79,11 +64,9 @@ public class RestDao {
     public <T> void delete(String url, ParameterizedTypeReference<Response<T>> typeReference, Object... urlParams) {
         try {
             restTemplate.exchange(baseUri + url, HttpMethod.DELETE, null, typeReference, urlParams);
-        } catch (HttpClientErrorException e) {
-            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
-                throw new EquipsTicClientException(e);
-            }
-            throw e;
+        } catch (RestClientResponseException e) {
+            String msg = String.format("Error en obtenir el recurs [%s]", getResourcePath(url, urlParams));
+            throw new EquipsTicClientException(msg, e);
         }
     }
 
@@ -104,4 +87,9 @@ public class RestDao {
         }
         return list.stream().sorted().collect(toList());
     }
+
+    private String getResourcePath(String url, Object... urlParams) {
+        return UriComponentsBuilder.fromPath(url).buildAndExpand(urlParams).toUri().toString();
+    }
+
 }
