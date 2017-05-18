@@ -1,3 +1,8 @@
+v2.3.0 / 2017-05-18
+===================
+
+* Les operacions del client que podien retornar null ara retornen un  Optional.
+
 v2.2.1 / 2017-05-05
 ===================
 
