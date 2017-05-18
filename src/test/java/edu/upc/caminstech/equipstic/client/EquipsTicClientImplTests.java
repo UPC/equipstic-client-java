@@ -2,13 +2,10 @@ package edu.upc.caminstech.equipstic.client;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
-import static org.junit.Assume.assumeTrue;
 
 import java.net.URISyntaxException;
 import java.time.Month;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.CustomTypeSafeMatcher;
@@ -26,6 +23,7 @@ import edu.upc.caminstech.equipstic.Estat;
 import edu.upc.caminstech.equipstic.Infraestructura;
 import edu.upc.caminstech.equipstic.Marca;
 import edu.upc.caminstech.equipstic.SistemaOperatiu;
+import edu.upc.caminstech.equipstic.TestUtils;
 import edu.upc.caminstech.equipstic.TipusInfraestructura;
 import edu.upc.caminstech.equipstic.TipusUs;
 import edu.upc.caminstech.equipstic.TipusXarxa;
@@ -37,8 +35,8 @@ import edu.upc.caminstech.equipstic.fixtures.InfraestructuraFixtures;
 /**
  * Tests d'integració per a la classe {@link EquipsTicClientImpl}.
  * <p>
- * TODO: S'ha de refactoritzar aquesta classe per aïllar els tests-la de l'accés
- * a la xarxa mitjançant
+ * TODO: S'ha de refactoritzar aquesta classe per aïllar els tests de l'accés a
+ * la xarxa mitjançant
  * <a href="https://en.wikipedia.org/wiki/Test_double">dobles</a>.
  */
 public class EquipsTicClientImplTests {
@@ -90,23 +88,12 @@ public class EquipsTicClientImplTests {
          * definides les variables d'entorn necessàries per a la configuració
          * del client.
          */
-        checkEnvironmentDefined();
+        TestUtils.assumeAllDefined(ENV_API_URL, ENV_USERNAME_VAR, ENV_PASSWORD_VAR);
 
         EquipsTicClientConfiguration config = new EquipsTicClientConfiguration(envApiUrl, envUsername, envPassword);
         EquipsTicClient baseClient = new EquipsTicClientImpl(config);
 
         client = baseClient;
-    }
-
-    private static void checkEnvironmentDefined() {
-        List<String> varNames = Arrays.asList(ENV_API_URL, ENV_USERNAME_VAR, ENV_PASSWORD_VAR);
-        List<String> values = varNames.stream().map(System::getenv).collect(Collectors.toList());
-        String msg = String.format("No s'ha definit alguna de les variables d'entorn necessàries %s",
-                varNames.toString());
-        boolean allDefined = values.stream().noneMatch(StringUtils::isEmpty);
-
-        // si això no es compleix, s'ignoraran els tests d'aquesta classe
-        assumeTrue(msg, allDefined);
     }
 
     @Test
