@@ -17,8 +17,8 @@ import org.springframework.util.Assert;
 
 import edu.upc.caminstech.equipstic.Infraestructura;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
-import edu.upc.caminstech.equipstic.client.EquipsTicClientException;
 import edu.upc.caminstech.equipstic.client.Response;
+import edu.upc.caminstech.equipstic.client.exception.EquipsTicClientException;
 
 /**
  * Classe d'ús intern de la llibreria.

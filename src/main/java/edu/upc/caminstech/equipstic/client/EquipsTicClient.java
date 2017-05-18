@@ -15,6 +15,7 @@ import edu.upc.caminstech.equipstic.TipusUs;
 import edu.upc.caminstech.equipstic.TipusXarxa;
 import edu.upc.caminstech.equipstic.Unitat;
 import edu.upc.caminstech.equipstic.UsuariInfraestructura;
+import edu.upc.caminstech.equipstic.client.exception.EquipsTicClientException;
 
 /**
  * Interfície base per als clients d'EquipsTIC.

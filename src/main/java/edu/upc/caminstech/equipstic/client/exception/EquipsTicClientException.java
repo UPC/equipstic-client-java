@@ -1,4 +1,4 @@
-package edu.upc.caminstech.equipstic.client;
+package edu.upc.caminstech.equipstic.client.exception;
 
 import java.util.Optional;
 

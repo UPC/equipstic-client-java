@@ -3,6 +3,9 @@ package edu.upc.caminstech.equipstic.client;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+import edu.upc.caminstech.equipstic.client.exception.EquipsTicClientException;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
