@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import edu.upc.caminstech.equipstic.TipusInfraestructura;
 
@@ -13,10 +14,10 @@ public interface TipusInfraestructuraDao {
 
     List<TipusInfraestructura> getTipusInfraestructuraByCategoria(long idCategoria);
 
-    TipusInfraestructura getTipusInfraestructuraBycodi(String codi);
+    Optional<TipusInfraestructura> getTipusInfraestructuraBycodi(String codi);
 
     List<TipusInfraestructura> getTipusInfraestructuraByNom(String nom);
 
-    TipusInfraestructura getTipusInfraestructuraById(long idTipus);
+    Optional<TipusInfraestructura> getTipusInfraestructuraById(long idTipus);
 
 }

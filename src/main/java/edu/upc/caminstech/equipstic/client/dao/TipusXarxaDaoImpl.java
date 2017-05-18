@@ -2,6 +2,7 @@ package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -33,9 +34,10 @@ public class TipusXarxaDaoImpl extends RestDao implements TipusXarxaDao {
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getTipusXarxaById")
-    public TipusXarxa getTipusXarxaById(long idTipusXarxa) {
-        return get("/tipusXarxa/{id}", new ParameterizedTypeReference<Response<TipusXarxa>>() {
+    public Optional<TipusXarxa> getTipusXarxaById(long idTipusXarxa) {
+        TipusXarxa t = get("/tipusXarxa/{id}", new ParameterizedTypeReference<Response<TipusXarxa>>() {
         }, idTipusXarxa);
+        return Optional.ofNullable(t);
     }
 
 }

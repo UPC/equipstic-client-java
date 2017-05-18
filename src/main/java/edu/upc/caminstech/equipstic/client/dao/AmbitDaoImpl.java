@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,9 @@ public class AmbitDaoImpl extends RestDao implements AmbitDao {
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getAmbitById")
-    public Ambit getAmbitById(long idAmbit) {
-        return get("/ambit/{id}", RESPONSE_AMBIT_TYPEREF, idAmbit);
+    public Optional<Ambit> getAmbitById(long idAmbit) {
+        Ambit result = get("/ambit/{id}", RESPONSE_AMBIT_TYPEREF, idAmbit);
+        return Optional.ofNullable(result);
     }
 
     @Override

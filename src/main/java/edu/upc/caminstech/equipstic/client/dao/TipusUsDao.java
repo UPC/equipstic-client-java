@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import edu.upc.caminstech.equipstic.TipusUs;
 
@@ -13,6 +14,6 @@ public interface TipusUsDao {
 
     List<TipusUs> getTipusUsByUnitat(long idUnitat);
 
-    TipusUs getTipusUsById(long idTipusUs);
+    Optional<TipusUs> getTipusUsById(long idTipusUs);
 
 }

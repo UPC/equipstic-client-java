@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -47,11 +48,13 @@ public class TipusInfraestructuraDaoImpl extends RestDao implements TipusInfraes
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getTipusInfraestructuraByCodi")
-    public TipusInfraestructura getTipusInfraestructuraBycodi(String codi) {
+    public Optional<TipusInfraestructura> getTipusInfraestructuraBycodi(String codi) {
         if (codi == null) {
             throw new IllegalArgumentException("El codi del tipus no pot ser null");
         }
-        return get("/tipusInfraestructura/cerca/codi/{codi}", RESPONSE_TIPUSINFRAESTRUCTURA_TYPEREF, codi);
+        TipusInfraestructura t = get("/tipusInfraestructura/cerca/codi/{codi}", RESPONSE_TIPUSINFRAESTRUCTURA_TYPEREF,
+                codi);
+        return Optional.ofNullable(t);
     }
 
     @Override
@@ -67,8 +70,9 @@ public class TipusInfraestructuraDaoImpl extends RestDao implements TipusInfraes
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getTipusInfraestructuraById")
-    public TipusInfraestructura getTipusInfraestructuraById(long idTipus) {
-        return get("/tipusInfraestructura/{id}", RESPONSE_TIPUSINFRAESTRUCTURA_TYPEREF, idTipus);
+    public Optional<TipusInfraestructura> getTipusInfraestructuraById(long idTipus) {
+        TipusInfraestructura t = get("/tipusInfraestructura/{id}", RESPONSE_TIPUSINFRAESTRUCTURA_TYPEREF, idTipus);
+        return Optional.ofNullable(t);
     }
 
 }

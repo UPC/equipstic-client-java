@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import edu.upc.caminstech.equipstic.Unitat;
 
@@ -15,7 +16,7 @@ public interface UnitatDao {
 
     List<Unitat> getUnitatsByNom(String nom);
 
-    Unitat getUnitatById(long idUnitat);
+    Optional<Unitat> getUnitatById(long idUnitat);
 
     List<Unitat> getUnitatsByNomAndIdentificadorAndCodi(String nom, String identificador, String codiUnitat);
 

@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import edu.upc.caminstech.equipstic.Ambit;
 
@@ -13,7 +14,7 @@ public interface AmbitDao {
 
     List<Ambit> getAmbitsByNom(String nomAmbit);
 
-    Ambit getAmbitById(long idAmbit);
+    Optional<Ambit> getAmbitById(long idAmbit);
 
     List<Ambit> getAmbitsByCodi(String codiAmbit);
 

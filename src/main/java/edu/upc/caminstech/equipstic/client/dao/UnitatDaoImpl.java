@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -59,8 +60,9 @@ public class UnitatDaoImpl extends RestDao implements UnitatDao {
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getUnitatById")
-    public Unitat getUnitatById(long idUnitat) {
-        return get("/unitat/{id}", RESPONSE_UNITAT_TYPEREF, idUnitat);
+    public Optional<Unitat> getUnitatById(long idUnitat) {
+        Unitat u = get("/unitat/{id}", RESPONSE_UNITAT_TYPEREF, idUnitat);
+        return Optional.ofNullable(u);
     }
 
     @Override

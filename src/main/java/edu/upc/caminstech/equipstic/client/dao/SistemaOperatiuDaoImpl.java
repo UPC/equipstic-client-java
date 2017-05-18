@@ -2,6 +2,7 @@ package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,8 +72,9 @@ public class SistemaOperatiuDaoImpl extends RestDao implements SistemaOperatiuDa
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getSistemaOperatiuById")
-    public SistemaOperatiu getSistemaOperatiuById(long idSistemaOperatiu) {
-        return get("/sistemaOperatiu/{id}", RESPONSE_SISTEMAOPERATIU_TYPEREF, idSistemaOperatiu);
+    public Optional<SistemaOperatiu> getSistemaOperatiuById(long idSistemaOperatiu) {
+        SistemaOperatiu so = get("/sistemaOperatiu/{id}", RESPONSE_SISTEMAOPERATIU_TYPEREF, idSistemaOperatiu);
+        return Optional.ofNullable(so);
     }
 
 }

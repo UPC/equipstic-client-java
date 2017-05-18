@@ -2,6 +2,7 @@ package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +35,13 @@ public class EstatDaoImpl extends RestDao implements EstatDao {
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getEstatsByCodi")
-    public Estat getEstatByCodi(String codiEstat) {
+    public Optional<Estat> getEstatByCodi(String codiEstat) {
         if (codiEstat == null) {
             throw new IllegalArgumentException("El codi de l'estat no pot ser null");
         }
-        return get("/estat/cerca/codi/{codi}", new ParameterizedTypeReference<Response<Estat>>() {
+        Estat e = get("/estat/cerca/codi/{codi}", new ParameterizedTypeReference<Response<Estat>>() {
         }, codiEstat);
+        return Optional.ofNullable(e);
     }
 
     @Override
@@ -55,9 +57,10 @@ public class EstatDaoImpl extends RestDao implements EstatDao {
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getEstatById")
-    public Estat getEstatById(long idEstat) {
-        return get("/estat/{id}", new ParameterizedTypeReference<Response<Estat>>() {
+    public Optional<Estat> getEstatById(long idEstat) {
+        Estat e = get("/estat/{id}", new ParameterizedTypeReference<Response<Estat>>() {
         }, idEstat);
+        return Optional.ofNullable(e);
     }
 
 }

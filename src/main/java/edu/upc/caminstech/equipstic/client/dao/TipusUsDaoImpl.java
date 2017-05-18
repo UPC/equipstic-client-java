@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -42,9 +43,10 @@ public class TipusUsDaoImpl extends RestDao implements TipusUsDao {
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getTipusUsById")
-    public TipusUs getTipusUsById(long idTipusUs) {
-        return get("/tipusUs/{idTipusUs}", new ParameterizedTypeReference<Response<TipusUs>>() {
+    public Optional<TipusUs> getTipusUsById(long idTipusUs) {
+        TipusUs t = get("/tipusUs/{idTipusUs}", new ParameterizedTypeReference<Response<TipusUs>>() {
         }, idTipusUs);
+        return Optional.ofNullable(t);
     }
 
 }

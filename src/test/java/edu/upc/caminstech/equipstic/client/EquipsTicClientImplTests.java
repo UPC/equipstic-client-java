@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import java.net.URISyntaxException;
 import java.time.Month;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.CustomTypeSafeMatcher;
@@ -113,9 +114,9 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getAmbitById() {
-        Ambit a = client.getAmbitById(ID_AMBIT_LT_PAS);
+        Optional<Ambit> a = client.getAmbitById(ID_AMBIT_LT_PAS);
 
-        assertThat(a.getIdAmbit(), is(ID_AMBIT_LT_PAS));
+        assertThat(a.get().getIdAmbit(), is(ID_AMBIT_LT_PAS));
     }
 
     @Test
@@ -159,16 +160,16 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getCampusByCodi() {
-        Campus campus = client.getCampusByCodi(CODI_CAMPUS_NORD);
+        Optional<Campus> campus = client.getCampusByCodi(CODI_CAMPUS_NORD);
 
-        assertThat(campus.getCodi(), is(CODI_CAMPUS_NORD));
+        assertThat(campus.get().getCodi(), is(CODI_CAMPUS_NORD));
     }
 
     @Test
     public void getCampusById() {
-        Campus campus = client.getCampusById(ID_CAMPUS_NORD);
+        Optional<Campus> campus = client.getCampusById(ID_CAMPUS_NORD);
 
-        assertThat(campus.getIdCampus(), is(ID_CAMPUS_NORD));
+        assertThat(campus.get().getIdCampus(), is(ID_CAMPUS_NORD));
     }
 
     @Test
@@ -180,9 +181,9 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getCategoriaById() {
-        Categoria c = client.getCategoriaById(ID_CATEGORIA_SERVIDOR);
+        Optional<Categoria> c = client.getCategoriaById(ID_CATEGORIA_SERVIDOR);
 
-        assertThat(c.getIdCategoria(), is(ID_CATEGORIA_SERVIDOR));
+        assertThat(c.get().getIdCategoria(), is(ID_CATEGORIA_SERVIDOR));
     }
 
     @Test
@@ -194,19 +195,19 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getEdificiById() {
-        Edifici edifici = client.getEdificiById(ID_EDIFICI_B2);
+        Optional<Edifici> edifici = client.getEdificiById(ID_EDIFICI_B2);
 
-        assertThat(edifici.getIdEdifici(), is(ID_EDIFICI_B2));
+        assertThat(edifici.get().getIdEdifici(), is(ID_EDIFICI_B2));
     }
 
     @Test
     public void getEdificiByCodiAndCodiCampus() {
         String codiEdifici = CODI_EDIFICI_VERTEX;
         String codiCampus = CODI_CAMPUS_NORD;
-        Edifici edifici = client.getEdificiByCodiAndCodiCampus(codiEdifici, codiCampus);
+        Optional<Edifici> edifici = client.getEdificiByCodiAndCodiCampus(codiEdifici, codiCampus);
 
-        assertThat(edifici, hasProperty("codi", equalTo(codiEdifici)));
-        assertThat(edifici, hasProperty("campus", hasProperty("codi", equalTo(codiCampus))));
+        assertThat(edifici.get(), hasProperty("codi", equalTo(codiEdifici)));
+        assertThat(edifici.get(), hasProperty("campus", hasProperty("codi", equalTo(codiCampus))));
     }
 
     @Test
@@ -219,9 +220,9 @@ public class EquipsTicClientImplTests {
     @Test
     public void getEstatByCodi() {
         String codi = CODI_ESTAT_BAIXA;
-        Estat estat = client.getEstatByCodi(codi);
+        Optional<Estat> estat = client.getEstatByCodi(codi);
 
-        assertThat(estat, hasProperty("codi", equalTo(codi)));
+        assertThat(estat.get(), hasProperty("codi", equalTo(codi)));
     }
 
     @Test
@@ -234,9 +235,9 @@ public class EquipsTicClientImplTests {
     @Test
     public void getEstatById() {
         long idEstat = ID_ESTAT_EN_GARANTIA_CENTRALITZAT;
-        Estat estat = client.getEstatById(idEstat);
+        Optional<Estat> estat = client.getEstatById(idEstat);
 
-        assertThat(estat.getIdEstat(), is(idEstat));
+        assertThat(estat.get().getIdEstat(), is(idEstat));
     }
 
     @Test
@@ -256,8 +257,8 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getMarcaById() {
-        Marca marca = client.getMarcaById(ID_MARCA_IBM);
-        assertEquals(ID_MARCA_IBM, marca.getIdMarca());
+        Optional<Marca> marca = client.getMarcaById(ID_MARCA_IBM);
+        assertThat(marca.get().getIdMarca(), is(ID_MARCA_IBM));
     }
 
     @Test
@@ -276,9 +277,9 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getTipusInfraestructuraByCodi() {
-        TipusInfraestructura tipus = client.getTipusInfraestructuraBycodi(CODI_TIPUS_IMPRESSORA);
+        Optional<TipusInfraestructura> tipus = client.getTipusInfraestructuraBycodi(CODI_TIPUS_IMPRESSORA);
 
-        assertThat(tipus.getCodi(), is(CODI_TIPUS_IMPRESSORA));
+        assertThat(tipus.get().getCodi(), is(CODI_TIPUS_IMPRESSORA));
     }
 
     @Test
@@ -290,9 +291,9 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getTipusInfraestructuraById() {
-        TipusInfraestructura tipus = client.getTipusInfraestructuraById(ID_TIPUS_IMPRESSORA);
+        Optional<TipusInfraestructura> tipus = client.getTipusInfraestructuraById(ID_TIPUS_IMPRESSORA);
 
-        assertThat(tipus.getIdTipus(), is(ID_TIPUS_IMPRESSORA));
+        assertThat(tipus.get().getIdTipus(), is(ID_TIPUS_IMPRESSORA));
     }
 
     @Test
@@ -313,9 +314,9 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getTipusUsById() {
-        TipusUs tipus = client.getTipusUsById(ID_TIPUS_US_DOCENCIA);
+        Optional<TipusUs> tipus = client.getTipusUsById(ID_TIPUS_US_DOCENCIA);
 
-        assertThat(tipus.getIdTipusUs(), equalTo(ID_TIPUS_US_DOCENCIA));
+        assertThat(tipus.get().getIdTipusUs(), equalTo(ID_TIPUS_US_DOCENCIA));
     }
 
     @Test
@@ -327,9 +328,9 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getTipusXarxaById() {
-        TipusXarxa tipus = client.getTipusXarxaById(ID_TIPUS_XARXA_TRONCAL);
+        Optional<TipusXarxa> tipus = client.getTipusXarxaById(ID_TIPUS_XARXA_TRONCAL);
 
-        assertThat(tipus.getIdTipusXarxa(), equalTo(ID_TIPUS_XARXA_TRONCAL));
+        assertThat(tipus.get().getIdTipusXarxa(), equalTo(ID_TIPUS_XARXA_TRONCAL));
     }
 
     @Test
@@ -357,9 +358,9 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getUnitatById() {
-        Unitat unitat = client.getUnitatById(ID_UNITAT_UTGAC);
+        Optional<Unitat> unitat = client.getUnitatById(ID_UNITAT_UTGAC);
 
-        assertThat(unitat.getIdUnitat(), is(ID_UNITAT_UTGAC));
+        assertThat(unitat.get().getIdUnitat(), is(ID_UNITAT_UTGAC));
     }
 
     @Test
@@ -379,9 +380,9 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getInfraestructuraById() {
-        Infraestructura infraestructura = client.getInfraestructuraById(ID_INFRAESTRUCTURA, false);
+        Optional<Infraestructura> infraestructura = client.getInfraestructuraById(ID_INFRAESTRUCTURA, false);
 
-        assertThat(infraestructura.getIdentificador(), equalTo(ID_INFRAESTRUCTURA));
+        assertThat(infraestructura.get().getIdentificador(), equalTo(ID_INFRAESTRUCTURA));
     }
 
     @Test
@@ -398,9 +399,11 @@ public class EquipsTicClientImplTests {
     public void getInfraestructuraByMarcaAndNumeroDeSerie() {
         long idMarca = 2;
         String sn = "7MQ48Z1";
-        Infraestructura infraestructura = client.getInfraestructuraByMarcaAndNumeroDeSerie(idMarca, sn, false);
+        Optional<Infraestructura> infraestructura = client.getInfraestructuraByMarcaAndNumeroDeSerie(idMarca, sn,
+                false);
 
-        assertThat(infraestructura, notNullValue());
+        assertThat(infraestructura.get().getMarca().getIdMarca(), is(idMarca));
+        assertThat(infraestructura.get().getNumeroSerie(), is(sn));
     }
 
     @Test
@@ -498,16 +501,16 @@ public class EquipsTicClientImplTests {
 
     @Test
     public void getSistemaOperatiuById() {
-        SistemaOperatiu so = client.getSistemaOperatiuById(ID_SISTEMA_OPERATIU_LINUX);
+        Optional<SistemaOperatiu> so = client.getSistemaOperatiuById(ID_SISTEMA_OPERATIU_LINUX);
 
-        assertThat(so.getIdSistemaOperatiu(), equalTo(ID_SISTEMA_OPERATIU_LINUX));
+        assertThat(so.get().getIdSistemaOperatiu(), equalTo(ID_SISTEMA_OPERATIU_LINUX));
     }
 
     @Test
     public void getUsuariInfraestructuraById() {
-        UsuariInfraestructura u = client.getUsuariInfraestructura(1L);
+        Optional<UsuariInfraestructura> u = client.getUsuariInfraestructura(1L);
 
-        assertThat(u.getIdUsuariInfraestructura(), is(1L));
+        assertThat(u.get().getIdUsuariInfraestructura(), is(1L));
     }
 
     @Test

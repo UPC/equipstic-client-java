@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import edu.upc.caminstech.equipstic.Estat;
 
@@ -11,10 +12,10 @@ public interface EstatDao {
 
     List<Estat> getEstats();
 
-    Estat getEstatByCodi(String codiEstat);
+    Optional<Estat> getEstatByCodi(String codiEstat);
 
     List<Estat> getEstatsByNom(String nomEstat);
 
-    Estat getEstatById(long idEstat);
+    Optional<Estat> getEstatById(long idEstat);
 
 }

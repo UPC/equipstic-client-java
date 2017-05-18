@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -39,17 +40,19 @@ public class CampusDaoImpl extends RestDao implements CampusDao {
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getCampusByCodi")
-    public Campus getCampusByCodi(String codiCampus) {
+    public Optional<Campus> getCampusByCodi(String codiCampus) {
         if (codiCampus == null) {
             throw new IllegalArgumentException("El codi del campus no pot ser null");
         }
-        return get("/campus/cerca/codi/{codi}", RESPONSE_CAMPUS_TYPEREF, codiCampus);
+        Campus result = get("/campus/cerca/codi/{codi}", RESPONSE_CAMPUS_TYPEREF, codiCampus);
+        return Optional.ofNullable(result);
     }
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getCampusById")
-    public Campus getCampusById(long idCampus) {
-        return get("/campus/{id}", RESPONSE_CAMPUS_TYPEREF, idCampus);
+    public Optional<Campus> getCampusById(long idCampus) {
+        Campus result = get("/campus/{id}", RESPONSE_CAMPUS_TYPEREF, idCampus);
+        return Optional.ofNullable(result);
     }
 
 }

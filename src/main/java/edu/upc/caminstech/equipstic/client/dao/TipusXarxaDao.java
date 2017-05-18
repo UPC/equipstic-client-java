@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import edu.upc.caminstech.equipstic.TipusXarxa;
 
@@ -11,6 +12,6 @@ public interface TipusXarxaDao {
 
     List<TipusXarxa> getTipusXarxa();
 
-    TipusXarxa getTipusXarxaById(long idTipusXarxa);
+    Optional<TipusXarxa> getTipusXarxaById(long idTipusXarxa);
 
 }

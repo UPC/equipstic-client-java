@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
@@ -207,7 +208,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public Ambit getAmbitById(long idAmbit) {
+    public Optional<Ambit> getAmbitById(long idAmbit) {
         return ambitDao.getAmbitById(idAmbit);
     }
 
@@ -227,12 +228,12 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public Campus getCampusByCodi(String codiCampus) {
+    public Optional<Campus> getCampusByCodi(String codiCampus) {
         return campusDao.getCampusByCodi(codiCampus);
     }
 
     @Override
-    public Campus getCampusById(long idCampus) {
+    public Optional<Campus> getCampusById(long idCampus) {
         return campusDao.getCampusById(idCampus);
     }
 
@@ -242,7 +243,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public Categoria getCategoriaById(long idCategoria) {
+    public Optional<Categoria> getCategoriaById(long idCategoria) {
         return categoriaDao.getCategoriaById(idCategoria);
     }
 
@@ -252,12 +253,12 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public Edifici getEdificiById(long idEdifici) {
+    public Optional<Edifici> getEdificiById(long idEdifici) {
         return edificiDao.getEdificiById(idEdifici);
     }
 
     @Override
-    public Edifici getEdificiByCodiAndCodiCampus(String codiEdifici, String codiCampus) {
+    public Optional<Edifici> getEdificiByCodiAndCodiCampus(String codiEdifici, String codiCampus) {
         return edificiDao.getEdificiByCodiAndCodiCampus(codiEdifici, codiCampus);
     }
 
@@ -267,7 +268,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public Estat getEstatByCodi(String codiEstat) {
+    public Optional<Estat> getEstatByCodi(String codiEstat) {
         return estatDao.getEstatByCodi(codiEstat);
 
     }
@@ -278,7 +279,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public Estat getEstatById(long idEstat) {
+    public Optional<Estat> getEstatById(long idEstat) {
         return estatDao.getEstatById(idEstat);
     }
 
@@ -293,7 +294,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public Marca getMarcaById(long idMarca) {
+    public Optional<Marca> getMarcaById(long idMarca) {
         return marcaDao.getMarcaById(idMarca);
     }
 
@@ -308,7 +309,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public TipusUs getTipusUsById(long idTipusUs) {
+    public Optional<TipusUs> getTipusUsById(long idTipusUs) {
         return tipusUsDao.getTipusUsById(idTipusUs);
     }
 
@@ -323,7 +324,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public TipusInfraestructura getTipusInfraestructuraBycodi(String codi) {
+    public Optional<TipusInfraestructura> getTipusInfraestructuraBycodi(String codi) {
         return tipusInfraestructuraDao.getTipusInfraestructuraBycodi(codi);
     }
 
@@ -333,7 +334,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public TipusInfraestructura getTipusInfraestructuraById(long idTipus) {
+    public Optional<TipusInfraestructura> getTipusInfraestructuraById(long idTipus) {
         return tipusInfraestructuraDao.getTipusInfraestructuraById(idTipus);
     }
 
@@ -343,7 +344,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public TipusXarxa getTipusXarxaById(long idTipusXarxa) {
+    public Optional<TipusXarxa> getTipusXarxaById(long idTipusXarxa) {
         return tipusXarxaDao.getTipusXarxaById(idTipusXarxa);
     }
 
@@ -368,12 +369,12 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public Unitat getUnitatById(long idUnitat) {
+    public Optional<Unitat> getUnitatById(long idUnitat) {
         return unitatDao.getUnitatById(idUnitat);
     }
 
     @Override
-    public UsuariInfraestructura getUsuariInfraestructura(long idUsuariInfraestructura) {
+    public Optional<UsuariInfraestructura> getUsuariInfraestructura(long idUsuariInfraestructura) {
         return usuariInfraestructuraDao.getUsuariInfraestructura(idUsuariInfraestructura);
     }
 
@@ -388,12 +389,13 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn, boolean ambDetalls) {
+    public Optional<Infraestructura> getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn,
+            boolean ambDetalls) {
         return infraestructuraDao.getInfraestructuraByMarcaAndNumeroDeSerie(idMarca, sn, ambDetalls);
     }
 
     @Override
-    public Infraestructura getInfraestructuraById(long id, boolean ambDetalls) {
+    public Optional<Infraestructura> getInfraestructuraById(long id, boolean ambDetalls) {
         return infraestructuraDao.getInfraestructuraById(id, ambDetalls);
     }
 
@@ -438,7 +440,7 @@ public class EquipsTicClientImpl implements EquipsTicClient {
     }
 
     @Override
-    public SistemaOperatiu getSistemaOperatiuById(long idSistemaOperatiu) {
+    public Optional<SistemaOperatiu> getSistemaOperatiuById(long idSistemaOperatiu) {
         return sistemaOperatiuDao.getSistemaOperatiuById(idSistemaOperatiu);
     }
 

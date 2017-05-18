@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import edu.upc.caminstech.equipstic.UsuariInfraestructura;
 
@@ -9,7 +10,7 @@ import edu.upc.caminstech.equipstic.UsuariInfraestructura;
  */
 public interface UsuariInfraestructuraDao {
 
-    UsuariInfraestructura getUsuariInfraestructura(long idUsuariInfraestructura);
+    Optional<UsuariInfraestructura> getUsuariInfraestructura(long idUsuariInfraestructura);
 
     List<UsuariInfraestructura> getUsuarisInfraestructura();
 

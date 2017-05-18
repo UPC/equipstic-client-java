@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -32,23 +33,25 @@ public class EdificiDaoImpl extends RestDao implements EdificiDao {
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getEdificiById")
-    public Edifici getEdificiById(long idEdifici) {
-        return get("/edifici/{id}", new ParameterizedTypeReference<Response<Edifici>>() {
+    public Optional<Edifici> getEdificiById(long idEdifici) {
+        Edifici e = get("/edifici/{id}", new ParameterizedTypeReference<Response<Edifici>>() {
         }, idEdifici);
+        return Optional.ofNullable(e);
     }
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getEdificiByCodiAndCodiCampus")
-    public Edifici getEdificiByCodiAndCodiCampus(String codiEdifici, String codiCampus) {
+    public Optional<Edifici> getEdificiByCodiAndCodiCampus(String codiEdifici, String codiCampus) {
         if (codiEdifici == null) {
             throw new IllegalArgumentException("El codi de l'edifici no pot ser null");
         }
         if (codiCampus == null) {
             throw new IllegalArgumentException("El codi del campus no pot ser null");
         }
-        return get("/edifici/cerca/codi/{codi}/codicampus/{codiCampus}",
+        Edifici e = get("/edifici/cerca/codi/{codi}/codicampus/{codiCampus}",
                 new ParameterizedTypeReference<Response<Edifici>>() {
                 }, codiEdifici, codiCampus);
+        return Optional.ofNullable(e);
     }
 
 }

@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import edu.upc.caminstech.equipstic.Infraestructura;
 
@@ -9,9 +10,9 @@ import edu.upc.caminstech.equipstic.Infraestructura;
  */
 public interface InfraestructuraDao {
 
-    Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn, boolean ambDetalls);
+    Optional<Infraestructura> getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn, boolean ambDetalls);
 
-    Infraestructura getInfraestructuraById(long id, boolean ambDetalls);
+    Optional<Infraestructura> getInfraestructuraById(long id, boolean ambDetalls);
 
     List<Infraestructura> getInfraestructuresByUnitat(long idUnitat);
 

@@ -2,6 +2,7 @@ package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -45,22 +46,23 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getInfraestructuraByMarcaAndNumeroDeSerie")
-    public Infraestructura getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn, boolean ambDetalls) {
+    public Optional<Infraestructura> getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn,
+            boolean ambDetalls) {
         Assert.notNull(sn, "El número de sèrie no pot ser null");
         Infraestructura i = get("/infraestructura/cerca/marca/{idMarca}/sn/{sn}", RESPONSE_INFRAESTRUCTURA_TYPEREF,
                 idMarca, sn);
         if (i != null && ambDetalls) {
             return getInfraestructuraById(i.getIdentificador(), ambDetalls);
         }
-        return i;
+        return Optional.ofNullable(i);
     }
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getInfraestructuraById")
-    public Infraestructura getInfraestructuraById(long id, boolean ambDetalls) {
+    public Optional<Infraestructura> getInfraestructuraById(long id, boolean ambDetalls) {
         String url = ambDetalls ? "/infraestructura/{id}/detall" : "/infraestructura/{id}";
         Infraestructura i = get(url, RESPONSE_INFRAESTRUCTURA_TYPEREF, id);
-        return i;
+        return Optional.ofNullable(i);
     }
 
     @Override

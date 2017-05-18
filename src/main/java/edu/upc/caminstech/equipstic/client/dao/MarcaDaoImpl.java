@@ -2,6 +2,7 @@ package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,8 +55,9 @@ public class MarcaDaoImpl extends RestDao implements MarcaDao {
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getMarcaById")
-    public Marca getMarcaById(long idMarca) {
-        return get("/marca/{id}", RESPONSE_MARCA_TYPEREF, idMarca);
+    public Optional<Marca> getMarcaById(long idMarca) {
+        Marca m = get("/marca/{id}", RESPONSE_MARCA_TYPEREF, idMarca);
+        return Optional.ofNullable(m);
     }
 
 }

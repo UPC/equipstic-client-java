@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -32,9 +33,10 @@ public class UsuariInfraestructuraDaoImpl extends RestDao implements UsuariInfra
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getUsuariInfraestructura")
-    public UsuariInfraestructura getUsuariInfraestructura(long idUsuariInfraestructura) {
-        return get("/usuariInfraestructura/{idUsuariInfraestructura}", RESPONSE_USUARIINFRAESTRUCTURA_TYPEREF,
-                idUsuariInfraestructura);
+    public Optional<UsuariInfraestructura> getUsuariInfraestructura(long idUsuariInfraestructura) {
+        UsuariInfraestructura u = get("/usuariInfraestructura/{idUsuariInfraestructura}",
+                RESPONSE_USUARIINFRAESTRUCTURA_TYPEREF, idUsuariInfraestructura);
+        return Optional.ofNullable(u);
     }
 
     @Override

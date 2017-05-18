@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -32,9 +33,10 @@ public class CategoriaDaoImpl extends RestDao implements CategoriaDao {
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getCategoriaById")
-    public Categoria getCategoriaById(long idCategoria) {
-        return get("/categoria/{id}", new ParameterizedTypeReference<Response<Categoria>>() {
+    public Optional<Categoria> getCategoriaById(long idCategoria) {
+        Categoria c = get("/categoria/{id}", new ParameterizedTypeReference<Response<Categoria>>() {
         }, idCategoria);
+        return Optional.ofNullable(c);
     }
 
 }
