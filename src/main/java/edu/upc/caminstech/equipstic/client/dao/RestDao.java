@@ -1,10 +1,6 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
-import static java.util.stream.Collectors.toList;
-
 import java.net.URI;
-import java.util.Collections;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,24 +64,6 @@ public class RestDao {
             String msg = String.format("Error en obtenir el recurs [%s]", getResourcePath(url, urlParams));
             throw new EquipsTicClientException(msg, e);
         }
-    }
-
-    /**
-     * Mètode auxiliar <em>null-safe</em> per ordenar llistes genèriques.
-     * 
-     * @param list
-     *            la llista a ordenar (pot ser {@code null}).
-     * @return la llista ordenada (pot estar buida).
-     */
-    public static <T extends Comparable<T>> List<T> sorted(List<T> list) {
-        /**
-         * TODO: Aquest mètode s'hauria de moure a una altra classe, ja que és
-         * massa genèric.
-         */
-        if (list == null) {
-            return Collections.emptyList();
-        }
-        return list.stream().sorted().collect(toList());
     }
 
     private String getResourcePath(String url, Object... urlParams) {

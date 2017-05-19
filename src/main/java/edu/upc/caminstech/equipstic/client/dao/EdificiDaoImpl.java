@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import edu.upc.caminstech.equipstic.Edifici;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.Response;
+import edu.upc.caminstech.equipstic.util.NullSafe;
 
 /**
  * Classe d'ús intern de la llibreria.
@@ -28,7 +29,7 @@ public class EdificiDaoImpl extends RestDao implements EdificiDao {
     public List<Edifici> getEdificis() {
         List<Edifici> result = get("/edifici", new ParameterizedTypeReference<Response<List<Edifici>>>() {
         });
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override

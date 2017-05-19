@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import edu.upc.caminstech.equipstic.TipusUs;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.Response;
+import edu.upc.caminstech.equipstic.util.NullSafe;
 
 /**
  * Classe d'ús intern de la llibreria.
@@ -31,14 +32,14 @@ public class TipusUsDaoImpl extends RestDao implements TipusUsDao {
     @Cacheable(CacheUtils.PREFIX + "getTipusUs")
     public List<TipusUs> getTipusUs() {
         List<TipusUs> result = get("/tipusUs", RESPONSE_LIST_TIPUSUS_TYPEREF);
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getTipusUsByUnitat")
     public List<TipusUs> getTipusUsByUnitat(long idUnitat) {
         List<TipusUs> result = get("/tipusUs/cerca/unitat/{idUnitat}", RESPONSE_LIST_TIPUSUS_TYPEREF, idUnitat);
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override

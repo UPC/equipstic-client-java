@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import edu.upc.caminstech.equipstic.TipusInfraestructura;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.Response;
+import edu.upc.caminstech.equipstic.util.NullSafe;
 
 /**
  * Classe d'ús intern de la llibreria.
@@ -35,7 +36,7 @@ public class TipusInfraestructuraDaoImpl extends RestDao implements TipusInfraes
     @Cacheable(CacheUtils.PREFIX + "getTipusInfraestructura")
     public List<TipusInfraestructura> getTipusInfraestructura() {
         List<TipusInfraestructura> result = get("/tipusInfraestructura", RESPONSE_LIST_TIPUSINFRAESTRUCTURA_TYPEREF);
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class TipusInfraestructuraDaoImpl extends RestDao implements TipusInfraes
     public List<TipusInfraestructura> getTipusInfraestructuraByCategoria(long idCategoria) {
         List<TipusInfraestructura> result = get("/tipusInfraestructura/cerca/categoria/{idCategoria}",
                 RESPONSE_LIST_TIPUSINFRAESTRUCTURA_TYPEREF, idCategoria);
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override
@@ -65,7 +66,7 @@ public class TipusInfraestructuraDaoImpl extends RestDao implements TipusInfraes
         }
         List<TipusInfraestructura> result = get("/tipusInfraestructura/cerca/nom/{nom}",
                 RESPONSE_LIST_TIPUSINFRAESTRUCTURA_TYPEREF, nom);
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override

@@ -4,8 +4,6 @@ import static org.junit.Assert.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -42,25 +40,6 @@ public class RestDaoTests {
         RestTemplate rt = restDao.getRestTemplate();
 
         assertNotNull(rt);
-    }
-
-    @Test
-    public void testSorted() {
-        List<String> list = Arrays.asList("ccc", "bbb", "aaa");
-        List<String> expected = Arrays.asList("aaa", "bbb", "ccc");
-
-        List<String> sorted = RestDao.sorted(list);
-
-        assertEquals(expected, sorted);
-        assertNotEquals(sorted, list); // la llista original es modifica
-    }
-
-    @Test
-    public void testSortedNullList() {
-        List<String> sorted = RestDao.sorted(null);
-
-        assertNotNull(sorted);
-        assertTrue(sorted.isEmpty());
     }
 
     private EquipsTicClientConfiguration createConfigurationFixture(String baseUri) {

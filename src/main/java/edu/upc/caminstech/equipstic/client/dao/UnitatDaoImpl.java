@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import edu.upc.caminstech.equipstic.Unitat;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.Response;
+import edu.upc.caminstech.equipstic.util.NullSafe;
 
 /**
  * Classe d'ús intern de la llibreria.
@@ -35,7 +36,7 @@ public class UnitatDaoImpl extends RestDao implements UnitatDao {
     @Cacheable(CacheUtils.PREFIX + "getUnitats")
     public List<Unitat> getUnitats() {
         List<Unitat> result = get("/unitat", RESPONSE_LIST_UNITAT_TYPEREF);
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class UnitatDaoImpl extends RestDao implements UnitatDao {
             throw new IllegalArgumentException("El nom de la unitat no pot ser null");
         }
         List<Unitat> result = get("/unitat/cerca/nom/{nom}", RESPONSE_LIST_UNITAT_TYPEREF, nom);
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override
@@ -81,7 +82,7 @@ public class UnitatDaoImpl extends RestDao implements UnitatDao {
         List<Unitat> result = get("/unitat/cerca/nom/{nom}/identificador/{identificador}/codi/{codi}",
                 RESPONSE_LIST_UNITAT_TYPEREF, nom, identificador, codiUnitat);
 
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
 }

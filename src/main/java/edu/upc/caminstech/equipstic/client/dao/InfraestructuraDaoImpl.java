@@ -20,6 +20,7 @@ import edu.upc.caminstech.equipstic.Infraestructura;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.Response;
 import edu.upc.caminstech.equipstic.client.exception.EquipsTicClientException;
+import edu.upc.caminstech.equipstic.util.NullSafe;
 
 /**
  * Classe d'ús intern de la llibreria.
@@ -70,7 +71,7 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     public List<Infraestructura> getInfraestructuresByUnitat(long idUnitat) {
         List<Infraestructura> result = get("/infraestructura/cerca/unitat/{idUnitat}",
                 RESPONSE_LIST_INFRAESTRUCTURA_TYPEREF, idUnitat);
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override

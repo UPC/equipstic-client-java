@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import edu.upc.caminstech.equipstic.Campus;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.Response;
+import edu.upc.caminstech.equipstic.util.NullSafe;
 
 /**
  * Classe d'ús intern de la llibreria.
@@ -35,7 +36,7 @@ public class CampusDaoImpl extends RestDao implements CampusDao {
     @Cacheable(CacheUtils.PREFIX + "getCampus")
     public List<Campus> getCampus() {
         List<Campus> result = get("/campus", RESPONSE_LIST_CAMPUS_TYPEREF);
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override

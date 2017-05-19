@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import edu.upc.caminstech.equipstic.Estat;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.Response;
+import edu.upc.caminstech.equipstic.util.NullSafe;
 
 /**
  * Classe d'ús intern de la llibreria.
@@ -30,7 +31,7 @@ public class EstatDaoImpl extends RestDao implements EstatDao {
     public List<Estat> getEstats() {
         List<Estat> result = get("/estat", new ParameterizedTypeReference<Response<List<Estat>>>() {
         });
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override

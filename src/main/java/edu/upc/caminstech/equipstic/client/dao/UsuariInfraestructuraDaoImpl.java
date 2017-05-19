@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import edu.upc.caminstech.equipstic.UsuariInfraestructura;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.Response;
+import edu.upc.caminstech.equipstic.util.NullSafe;
 
 /**
  * Classe d'ús intern de la llibreria.
@@ -43,7 +44,7 @@ public class UsuariInfraestructuraDaoImpl extends RestDao implements UsuariInfra
     @Cacheable(CacheUtils.PREFIX + "getUsuarisInfraestructura")
     public List<UsuariInfraestructura> getUsuarisInfraestructura() {
         List<UsuariInfraestructura> result = get("/usuariInfraestructura", RESPONSE_LIST_USUARIINFRAESTRUCTURA_TYPEREF);
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class UsuariInfraestructuraDaoImpl extends RestDao implements UsuariInfra
         }
         List<UsuariInfraestructura> result = get("/usuariInfraestructura/cerca/nom/{nom}",
                 RESPONSE_LIST_USUARIINFRAESTRUCTURA_TYPEREF, nom);
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
 }

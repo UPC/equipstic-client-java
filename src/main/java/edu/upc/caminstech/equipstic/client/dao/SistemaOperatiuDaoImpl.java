@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import edu.upc.caminstech.equipstic.SistemaOperatiu;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.Response;
+import edu.upc.caminstech.equipstic.util.NullSafe;
 
 /**
  * Classe d'ús intern de la llibreria.
@@ -37,7 +38,7 @@ public class SistemaOperatiuDaoImpl extends RestDao implements SistemaOperatiuDa
     @Cacheable(CacheUtils.PREFIX + "getSistemesOperatius")
     public List<SistemaOperatiu> getSistemesOperatius() {
         List<SistemaOperatiu> result = get("/sistemaOperatiu", RESPONSE_LIST_SISTEMAOPERATIU_TYPEREF);
-        return (result != null) ? sorted(result) : new ArrayList<>();
+        return (result != null) ? NullSafe.sorted(result) : new ArrayList<>();
     }
 
     @Override
@@ -45,7 +46,7 @@ public class SistemaOperatiuDaoImpl extends RestDao implements SistemaOperatiuDa
     public List<SistemaOperatiu> getSistemesOperatiusByCategoria(long idCategoria) {
         List<SistemaOperatiu> result = get("/sistemaOperatiu/cerca/categoria/{idCategoria}",
                 RESPONSE_LIST_SISTEMAOPERATIU_TYPEREF, idCategoria);
-        return (result != null) ? sorted(result) : new ArrayList<>();
+        return (result != null) ? NullSafe.sorted(result) : new ArrayList<>();
     }
 
     @Override
@@ -56,7 +57,7 @@ public class SistemaOperatiuDaoImpl extends RestDao implements SistemaOperatiuDa
         }
         List<SistemaOperatiu> result = get("/sistemaOperatiu/cerca/codi/{codi}", RESPONSE_LIST_SISTEMAOPERATIU_TYPEREF,
                 codi);
-        return (result != null) ? sorted(result) : new ArrayList<>();
+        return (result != null) ? NullSafe.sorted(result) : new ArrayList<>();
     }
 
     @Override
@@ -67,7 +68,7 @@ public class SistemaOperatiuDaoImpl extends RestDao implements SistemaOperatiuDa
         }
         List<SistemaOperatiu> result = get("/sistemaOperatiu/cerca/nom/{nom}", RESPONSE_LIST_SISTEMAOPERATIU_TYPEREF,
                 nom);
-        return (result != null) ? sorted(result) : new ArrayList<>();
+        return (result != null) ? NullSafe.sorted(result) : new ArrayList<>();
     }
 
     @Override

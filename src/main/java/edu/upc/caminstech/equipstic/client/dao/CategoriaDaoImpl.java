@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import edu.upc.caminstech.equipstic.Categoria;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.Response;
+import edu.upc.caminstech.equipstic.util.NullSafe;
 
 /**
  * Classe d'ús intern de la llibreria.
@@ -28,7 +29,7 @@ public class CategoriaDaoImpl extends RestDao implements CategoriaDao {
     public List<Categoria> getCategories() {
         List<Categoria> result = get("/categoria", new ParameterizedTypeReference<Response<List<Categoria>>>() {
         });
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import edu.upc.caminstech.equipstic.Ambit;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.Response;
+import edu.upc.caminstech.equipstic.util.NullSafe;
 
 /**
  * Classe d'ús intern de la llibreria.
@@ -36,7 +37,7 @@ public class AmbitDaoImpl extends RestDao implements AmbitDao {
     @Cacheable(CacheUtils.PREFIX + "getAmbits")
     public List<Ambit> getAmbits() {
         List<Ambit> result = get("/ambit", RESPONSE_LIST_AMBIT_TYPEREF);
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override
@@ -46,7 +47,7 @@ public class AmbitDaoImpl extends RestDao implements AmbitDao {
             throw new IllegalArgumentException("El nom de l'àmbit no pot ser null");
         }
         List<Ambit> result = get("/ambit/cerca/nom/{nom}", RESPONSE_LIST_AMBIT_TYPEREF, nomAmbit);
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override
@@ -63,14 +64,14 @@ public class AmbitDaoImpl extends RestDao implements AmbitDao {
             throw new IllegalArgumentException("El codi de l'àmbit no pot ser null");
         }
         List<Ambit> result = get("/ambit/cerca/codi/{codi}", RESPONSE_LIST_AMBIT_TYPEREF, codiAmbit);
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
     @Override
     @Cacheable(CacheUtils.PREFIX + "getAmbitsByCategoria")
     public List<Ambit> getAmbitsByCategoria(long idCategoria) {
         List<Ambit> result = get("/ambit/cerca/categoria/{idCategoria}", RESPONSE_LIST_AMBIT_TYPEREF, idCategoria);
-        return sorted(result);
+        return NullSafe.sorted(result);
     }
 
 }
