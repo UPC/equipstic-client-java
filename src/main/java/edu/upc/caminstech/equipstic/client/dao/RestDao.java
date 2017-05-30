@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -14,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.Response;
 import edu.upc.caminstech.equipstic.client.exception.EquipsTicClientException;
+import edu.upc.caminstech.equipstic.client.exception.UnauthorizedException;
 
 /**
  * Classe d'ús intern de la llibreria.
@@ -49,6 +51,9 @@ public class RestDao {
             return entity.getBody().getData();
         } catch (RestClientResponseException e) {
             String msg = String.format("Error en obtenir el recurs [%s]", getResourcePath(url, urlParams));
+            if (e.getRawStatusCode() == HttpStatus.UNAUTHORIZED.value()) {
+                throw new UnauthorizedException(msg, e);
+            }
             throw new EquipsTicClientException(msg, e);
         }
     }
