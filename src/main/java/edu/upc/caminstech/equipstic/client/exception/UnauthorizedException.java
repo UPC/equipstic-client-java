@@ -27,4 +27,7 @@ public class UnauthorizedException extends EquipsTicClientException {
         super(entity, message);
     }
 
+    public static UnauthorizedException of(String msg, EquipsTicClientException e) {
+        return new UnauthorizedException(msg, (RestClientResponseException) e.getCause());
+    }
 }
