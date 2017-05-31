@@ -18,16 +18,16 @@ public class EquipsTicClientException extends RuntimeException {
 
     private static final long serialVersionUID = 5559008561162893859L;
 
-    private final RestClientResponseException cause;
+    private final Optional<RestClientResponseException> cause;
 
     public EquipsTicClientException(RestClientResponseException cause) {
         super(cause);
-        this.cause = cause;
+        this.cause = Optional.of(cause);
     }
 
     public EquipsTicClientException(String message, RestClientResponseException cause) {
         super(message, cause);
-        this.cause = cause;
+        this.cause = Optional.of(cause);
     }
 
     public EquipsTicClientException(ResponseEntity<?> entity) {
@@ -46,25 +46,27 @@ public class EquipsTicClientException extends RuntimeException {
      * Retorna el codi d'estat HTTP de la resposta del servidor.
      */
     public Optional<HttpStatus> getStatus() {
-        return Optional.ofNullable(cause).map(c -> HttpStatus.valueOf(c.getRawStatusCode()));
+        return cause.map(c -> HttpStatus.valueOf(c.getRawStatusCode()));
     }
 
     /**
      * Retorna les capçaleres de la resposta del servidor.
      */
     public Optional<HttpHeaders> getHeaders() {
-        return Optional.ofNullable(cause).map(RestClientResponseException::getResponseHeaders);
+        return cause.map(RestClientResponseException::getResponseHeaders);
     }
 
     /**
      * Retorna el cos de la resposta del servidor.
      */
     public Optional<String> getBody() {
-        return Optional.ofNullable(cause).map(RestClientResponseException::getResponseBodyAsString);
+        return cause.map(RestClientResponseException::getResponseBodyAsString);
     }
 
     @Override
     public String getMessage() {
-        return String.format("%s: %s - %s", super.getMessage(), getStatus().orElse(null), cause.getStatusText());
+        return String.format("%s: %s - %s", super.getMessage(), getStatus().orElse(null),
+                cause.map(RestClientResponseException::getStatusText).orElse(null));
     }
+
 }
