@@ -11,6 +11,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,7 @@ import edu.upc.caminstech.equipstic.Infraestructura;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 import edu.upc.caminstech.equipstic.client.Response;
 import edu.upc.caminstech.equipstic.client.exception.EquipsTicClientException;
+import edu.upc.caminstech.equipstic.client.exception.UnauthorizedException;
 import edu.upc.caminstech.equipstic.util.NullSafe;
 
 /**
@@ -69,9 +71,18 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     @Override
     @Cacheable(CacheUtils.PREFIX + "getInfraestructuresByUnitat")
     public List<Infraestructura> getInfraestructuresByUnitat(long idUnitat) {
-        List<Infraestructura> result = get("/infraestructura/cerca/unitat/{idUnitat}",
-                RESPONSE_LIST_INFRAESTRUCTURA_TYPEREF, idUnitat);
-        return NullSafe.sorted(result);
+        try {
+            List<Infraestructura> result = get("/infraestructura/cerca/unitat/{idUnitat}",
+                    RESPONSE_LIST_INFRAESTRUCTURA_TYPEREF, idUnitat);
+            return NullSafe.sorted(result);
+        } catch (EquipsTicClientException e) {
+            if (HttpStatus.BAD_REQUEST.equals(e.getStatus().orElse(null))) {
+                String msg = String.format(
+                        "No teniu privilegis per consultar les infraestructures de la unitat [idUnitat: %s]", idUnitat);
+                throw UnauthorizedException.of(msg, e);
+            }
+            throw e;
+        }
     }
 
     @Override

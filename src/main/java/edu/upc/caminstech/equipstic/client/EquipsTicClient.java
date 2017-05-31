@@ -257,6 +257,10 @@ public interface EquipsTicClient {
 
     /**
      * Cerca d'infraestructures a partir d'una unitat.
+     * <p>
+     * 
+     * @throws UnauthorizedException
+     *             si l'usuari no és un gestor de la unitat donada.
      */
     List<Infraestructura> getInfraestructuresByUnitat(long idUnitat);
 
