@@ -12,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.CustomTypeSafeMatcher;
 import org.hamcrest.Matcher;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 
@@ -407,7 +406,6 @@ public class EquipsTicClientImplTests {
     }
 
     @Test
-    @Ignore // si no es fa servir caché aquest test és molt lent
     public void getInfraestructuresByUnitat() {
         List<Infraestructura> infraestructures = client.getInfraestructuresByUnitat(ID_UNITAT_UTGAC);
 
