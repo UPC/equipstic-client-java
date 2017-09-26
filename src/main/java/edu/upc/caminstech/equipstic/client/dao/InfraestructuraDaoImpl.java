@@ -16,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientResponseException;
 
 import edu.upc.caminstech.equipstic.Infraestructura;
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
@@ -115,9 +117,19 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     public Infraestructura modificaInfraestructura(Infraestructura infraestructura) {
         HttpEntity<Infraestructura> req = preparaRequest(infraestructura);
 
-        ResponseEntity<Response<Infraestructura>> rp = getRestTemplate().exchange(
-                getBaseUri() + "/infraestructura/{id}", HttpMethod.PUT, req, RESPONSE_INFRAESTRUCTURA_TYPEREF,
-                infraestructura.getIdentificador());
+        ResponseEntity<Response<Infraestructura>> rp = null;
+        try {
+            rp = getRestTemplate().exchange(getBaseUri() + "/infraestructura/{id}", HttpMethod.PUT, req,
+                    RESPONSE_INFRAESTRUCTURA_TYPEREF, infraestructura.getIdentificador());
+        } catch (HttpClientErrorException e) {
+            throw new EquipsTicClientException("Error en modificar la infraestructura", e);
+        } catch (RestClientResponseException e) {
+            logger.error(
+                    "EXCEPCIÓ INESPERADA: [rawStatusCode: {}, statusText: {}, responseBodyAsString: {}, responseHeaders: {}]",
+                    e.getRawStatusCode(), e.getStatusText(), e.getResponseBodyAsString(), e.getResponseHeaders());
+            e.printStackTrace();
+            throw e;
+        }
 
         Response<Infraestructura> response = rp.getBody();
         if (response.isSuccess()) {
