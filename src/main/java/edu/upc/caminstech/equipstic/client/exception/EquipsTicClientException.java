@@ -1,5 +1,7 @@
 package edu.upc.caminstech.equipstic.client.exception;
 
+import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.HttpHeaders;
@@ -7,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestClientResponseException;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Excepció del Client que exposa la resposta retornada pel servidor.
@@ -65,8 +70,25 @@ public class EquipsTicClientException extends RuntimeException {
 
     @Override
     public String getMessage() {
+        Optional<String> msg = getResponseMessage();
+
         return String.format("%s: %s - %s", super.getMessage(), getStatus().orElse(null),
-                cause.map(RestClientResponseException::getStatusText).orElse(null));
+                msg.orElse(cause.map(RestClientResponseException::getStatusText).orElse(null)));
+    }
+
+    private Optional<String> getResponseMessage() {
+        if (!cause.isPresent()) {
+            return Optional.ofNullable(null);
+        }
+        String json = cause.get().getResponseBodyAsString();
+
+        try {
+            Map<String, String> map = new ObjectMapper().readValue(json, new TypeReference<Map<String, String>>() {
+            });
+            return Optional.ofNullable(map.get("message"));
+        } catch (IOException e) {
+            return Optional.ofNullable(null);
+        }
     }
 
 }
