@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(Include.NON_NULL)
 public class Infraestructura implements Comparable<Infraestructura> {
@@ -213,6 +214,18 @@ public class Infraestructura implements Comparable<Infraestructura> {
     }
 
     public void setNumeroAd(String numeroAd) {
+        this.numeroAd = numeroAd;
+    }
+
+    /**
+     * Workaround per solventar problema en la deserialització.
+     * 
+     * FIXME: Aquest mètode es pot eliminar quan arreglin el bug pel qual la
+     * operació "GET /infraestructura/{id}/detalls" retorna el camp "numeroAd"
+     * amb un nom erroni (incloent una "s" final).
+     */
+    @JsonProperty("numeroAds")
+    public void setNumeroAds(String numeroAd) {
         this.numeroAd = numeroAd;
     }
 
