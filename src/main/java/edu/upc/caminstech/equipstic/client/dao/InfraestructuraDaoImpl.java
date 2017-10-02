@@ -32,6 +32,10 @@ import edu.upc.caminstech.equipstic.util.NullSafe;
 @Repository
 public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDao {
 
+    private static final String GET_INFRAESTRUCTURES_BY_UNITAT = "getInfraestructuresByUnitat";
+    private static final String GET_INFRAESTRUCTURA_BY_ID = "getInfraestructuraById";
+    private static final String GET_INFRAESTRUCTURA_BY_MARCA_AND_NUMERO_DE_SERIE = "getInfraestructuraByMarcaAndNumeroDeSerie";
+
     private static final ParameterizedTypeReference<Response<Infraestructura>> RESPONSE_INFRAESTRUCTURA_TYPEREF = //
             new ParameterizedTypeReference<Response<Infraestructura>>() {
             };
@@ -50,7 +54,7 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     }
 
     @Override
-    @Cacheable(CacheUtils.PREFIX + "getInfraestructuraByMarcaAndNumeroDeSerie")
+    @Cacheable(CacheUtils.PREFIX + GET_INFRAESTRUCTURA_BY_MARCA_AND_NUMERO_DE_SERIE)
     public Optional<Infraestructura> getInfraestructuraByMarcaAndNumeroDeSerie(long idMarca, String sn,
             boolean ambDetalls) {
         Assert.notNull(sn, "El número de sèrie no pot ser null");
@@ -63,7 +67,7 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     }
 
     @Override
-    @Cacheable(CacheUtils.PREFIX + "getInfraestructuraById")
+    @Cacheable(CacheUtils.PREFIX + GET_INFRAESTRUCTURA_BY_ID)
     public Optional<Infraestructura> getInfraestructuraById(long id, boolean ambDetalls) {
         String url = ambDetalls ? "/infraestructura/{id}/detall" : "/infraestructura/{id}";
         Infraestructura i = get(url, RESPONSE_INFRAESTRUCTURA_TYPEREF, id);
@@ -71,7 +75,7 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     }
 
     @Override
-    @Cacheable(CacheUtils.PREFIX + "getInfraestructuresByUnitat")
+    @Cacheable(CacheUtils.PREFIX + GET_INFRAESTRUCTURES_BY_UNITAT)
     public List<Infraestructura> getInfraestructuresByUnitat(long idUnitat) {
         try {
             List<Infraestructura> result = get("/infraestructura/cerca/unitat/{idUnitat}",
@@ -88,8 +92,9 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     }
 
     @Override
-    @CacheEvict(cacheNames = { CacheUtils.PREFIX + "getInfraestructuraByMarcaAndNumeroDeSerie",
-            CacheUtils.PREFIX + "getInfraestructuraById", CacheUtils.PREFIX + "getInfraestructuresByUnitat" })
+    @CacheEvict(cacheNames = { CacheUtils.PREFIX + GET_INFRAESTRUCTURA_BY_MARCA_AND_NUMERO_DE_SERIE,
+            CacheUtils.PREFIX + GET_INFRAESTRUCTURA_BY_ID,
+            CacheUtils.PREFIX + GET_INFRAESTRUCTURES_BY_UNITAT }, allEntries = true)
     public Infraestructura altaInfraestructura(Infraestructura infraestructura) {
         HttpEntity<Infraestructura> req = preparaRequest(infraestructura);
 
@@ -105,15 +110,17 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     }
 
     @Override
-    @CacheEvict(cacheNames = { CacheUtils.PREFIX + "getInfraestructuraByMarcaAndNumeroDeSerie",
-            CacheUtils.PREFIX + "getInfraestructuraById", CacheUtils.PREFIX + "getInfraestructuresByUnitat" })
+    @CacheEvict(cacheNames = { CacheUtils.PREFIX + GET_INFRAESTRUCTURA_BY_MARCA_AND_NUMERO_DE_SERIE,
+            CacheUtils.PREFIX + GET_INFRAESTRUCTURA_BY_ID,
+            CacheUtils.PREFIX + GET_INFRAESTRUCTURES_BY_UNITAT }, allEntries = true)
     public void baixaInfraestructura(long id) {
         delete("/infraestructura/{id}", RESPONSE_OBJECT_TYPEREF, id);
     }
 
     @Override
-    @CacheEvict(cacheNames = { CacheUtils.PREFIX + "getInfraestructuraByMarcaAndNumeroDeSerie",
-            CacheUtils.PREFIX + "getInfraestructuraById", CacheUtils.PREFIX + "getInfraestructuresByUnitat" })
+    @CacheEvict(cacheNames = { CacheUtils.PREFIX + GET_INFRAESTRUCTURA_BY_MARCA_AND_NUMERO_DE_SERIE,
+            CacheUtils.PREFIX + GET_INFRAESTRUCTURA_BY_ID,
+            CacheUtils.PREFIX + GET_INFRAESTRUCTURES_BY_UNITAT }, allEntries = true)
     public Infraestructura modificaInfraestructura(Infraestructura infraestructura) {
         HttpEntity<Infraestructura> req = preparaRequest(infraestructura);
 
