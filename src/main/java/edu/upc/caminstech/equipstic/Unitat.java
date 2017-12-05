@@ -47,6 +47,9 @@ public class Unitat implements Comparable<Unitat> {
         return idUnitat;
     }
 
+    /**
+     * Retorna el codi UPC de la Unitat Estructural.
+     */
     public String getCodiUnitat() {
         return codiUnitat;
     }
