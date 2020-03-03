@@ -134,7 +134,6 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
             logger.error(
                     "EXCEPCIÓ INESPERADA: [rawStatusCode: {}, statusText: {}, responseBodyAsString: {}, responseHeaders: {}]",
                     e.getRawStatusCode(), e.getStatusText(), e.getResponseBodyAsString(), e.getResponseHeaders());
-            e.printStackTrace();
             throw e;
         }
 
@@ -150,7 +149,7 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
      * <p>
      * La petició es crearà amb els headers (Accept, Content-Type) i el body
      * adients.
-     * 
+     *
      * @param infraestructura
      *            la infraestructura que s'afegirà al body en format JSON. No
      *            pot ser {@code null}.
