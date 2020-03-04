@@ -1,3 +1,16 @@
+
+v4.0.0 / 2020-03-04
+===================
+
+  * Actualitza a Spring Boot 2.1.13.RELEASE
+  * refactor: reusa Setter
+  * fix: trim Marca
+  * sonarLint
+  * sonarLint
+  * sonarLInt
+  * genera missatge de log en l'excepció
+  * fix: maven surefire plugin exception
+
 v2.3.0 / 2017-05-18
 ===================
 
@@ -6,7 +19,7 @@ v2.3.0 / 2017-05-18
 v2.2.1 / 2017-05-05
 ===================
 
-* Aquesta versió és la "v2.2.1" ja que, erròniament, es va anotar 
+* Aquesta versió és la "v2.2.1" ja que, erròniament, es va anotar
   la versió "2.0.0" amb el tag "v2.2.0" en comptes del "v2.0.0".
 * S'han afegit més tests.
 * S'ha refactoritzat la gestió d'excepcions per tractar de manera uniforme
@@ -34,3 +47,4 @@ v1.1.0 / 2017-01-27
 
  * Primera versió estable i completa.
  * Conforme a la versió 1.2d de la API d'EquipsTIC.
+
