@@ -1,5 +1,7 @@
 package edu.upc.caminstech.equipstic;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -17,7 +19,7 @@ public class Marca {
             @JsonProperty(value = "nom", required = false) String nom) {
 
         this.idMarca = idMarca;
-        this.nom = nom;
+        this.nom = StringUtils.trim(nom);
     }
 
     public Marca(long idMarca) {
