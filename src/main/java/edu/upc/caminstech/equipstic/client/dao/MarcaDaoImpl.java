@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
@@ -20,8 +18,6 @@ import edu.upc.caminstech.equipstic.client.Response;
  */
 @Repository
 public class MarcaDaoImpl extends RestDao implements MarcaDao {
-
-    protected final Logger logger = LoggerFactory.getLogger(MarcaDaoImpl.class);
 
     private static final ParameterizedTypeReference<Response<List<Marca>>> RESPONSE_LIST_MARCA_TYPEREF = //
             new ParameterizedTypeReference<Response<List<Marca>>>() {
