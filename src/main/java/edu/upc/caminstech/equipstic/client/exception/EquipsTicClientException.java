@@ -23,7 +23,7 @@ public class EquipsTicClientException extends RuntimeException {
 
     private static final long serialVersionUID = 5559008561162893859L;
 
-    private final Optional<RestClientResponseException> cause;
+    private final transient Optional<RestClientResponseException> cause;
 
     public EquipsTicClientException(RestClientResponseException cause) {
         super(cause);

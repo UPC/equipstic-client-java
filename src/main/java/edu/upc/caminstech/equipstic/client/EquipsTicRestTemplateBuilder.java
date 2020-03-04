@@ -15,6 +15,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,6 +39,10 @@ public abstract class EquipsTicRestTemplateBuilder {
      */
     private static final TimeZone EQUIPSTIC_SERVER_TIMEZONE = TimeZone.getTimeZone("Europe/Madrid");
 
+    private EquipsTicRestTemplateBuilder() {
+        // constructor privat; classe no instanciable
+    }
+
     public static RestTemplate createRestTemplate(URI baseUri, String username, String password, TimeZone timeZone) {
         HttpClient httpClient = prepareHttpClient(baseUri, username, password);
         return prepareRestTemplate(httpClient, timeZone);
@@ -56,9 +61,7 @@ public abstract class EquipsTicRestTemplateBuilder {
         AuthScope authScope = new AuthScope(baseUri.getHost(), baseUri.getPort());
         Credentials credentials = new UsernamePasswordCredentials(username, password);
         credsProvider.setCredentials(authScope, credentials);
-        HttpClient httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
-
-        return httpClient;
+        return HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
     }
 
     private static RestTemplate prepareRestTemplate(HttpClient httpClient, TimeZone timeZone) {
@@ -71,7 +74,7 @@ public abstract class EquipsTicRestTemplateBuilder {
     /**
      * Reconfigura la serialització/deserialització amb Jackson per tenir en
      * compte implícitament el TimeZone indicat.
-     * 
+     *
      * Això és necessari perquè Jackson per defecte fa servir el timezone UTC
      * quan no s'explicita el TimeZone, però sembla que el servidor EquipsTIC fa
      * servir CET ("Europe/Madrid" o equivalent).
@@ -102,8 +105,8 @@ public abstract class EquipsTicRestTemplateBuilder {
         MappingJackson2HttpMessageConverter converter = getJacksonMessageConverterIfPresent(template);
         if (converter != null) {
             converter.setSupportedMediaTypes(Arrays.asList(
-                    new MediaType("application", "json", MappingJackson2HttpMessageConverter.DEFAULT_CHARSET),
-                    new MediaType("text", "plain", MappingJackson2HttpMessageConverter.DEFAULT_CHARSET)));
+                    new MediaType("application", "json", AbstractJackson2HttpMessageConverter.DEFAULT_CHARSET),
+                    new MediaType("text", "plain", AbstractJackson2HttpMessageConverter.DEFAULT_CHARSET)));
         }
     }
 

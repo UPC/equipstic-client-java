@@ -131,10 +131,11 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
         } catch (HttpClientErrorException e) {
             throw new EquipsTicClientException("Error en modificar la infraestructura", e);
         } catch (RestClientResponseException e) {
-            logger.error(
-                    "EXCEPCIÓ INESPERADA: [rawStatusCode: {}, statusText: {}, responseBodyAsString: {}, responseHeaders: {}]",
+            String msg = String.format(
+                    "EXCEPCIÓ INESPERADA: [rawStatusCode: %s, statusText: %s, responseBodyAsString: %s, responseHeaders: %s]",
                     e.getRawStatusCode(), e.getStatusText(), e.getResponseBodyAsString(), e.getResponseHeaders());
-            throw e;
+            logger.error(msg);
+            throw new EquipsTicClientException(msg, e);
         }
 
         Response<Infraestructura> response = rp.getBody();
