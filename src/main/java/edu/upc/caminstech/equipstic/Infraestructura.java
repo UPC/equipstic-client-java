@@ -226,7 +226,7 @@ public class Infraestructura implements Comparable<Infraestructura> {
      */
     @JsonProperty("numeroAds")
     public void setNumeroAds(String numeroAd) {
-        this.numeroAd = numeroAd;
+        setNumeroAd(numeroAd);
     }
 
     public Integer getNumeroCpus() {
