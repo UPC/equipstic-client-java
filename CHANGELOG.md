@@ -1,4 +1,10 @@
 
+4.1.0 / 2020-05-26
+==================
+
+  * Bump version in maven POM -> 4.1.0
+  * Refactor: Add methods to check for required attributes
+
 v4.0.0 / 2020-03-04
 ===================
 
