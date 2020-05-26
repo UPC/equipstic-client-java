@@ -1,6 +1,10 @@
 package edu.upc.caminstech.equipstic;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,8 +12,15 @@ import org.springframework.util.StringUtils;
 
 public class TipusInfraestructuraTests {
 
+    private static final TipusInfraestructura PORTATIL = new TipusInfraestructura(0, "Portatil", "PORTATIL", true,
+            new Categoria(0, "Equip treball", "EQUIP_TREBALL"));
+
+    private static final TipusInfraestructura MONITOR = new TipusInfraestructura(0, "Monitor", "MONITOR", true,
+            new Categoria(0, "Equip treball", "EQUIP_TREBALL"));
+
     private TipusInfraestructura tipus;
     private TipusInfraestructura copia;
+
     private Categoria cat;
 
     @Before
@@ -68,6 +79,16 @@ public class TipusInfraestructuraTests {
     @Test
     public void testHashCode() {
         assertEquals(tipus.hashCode(), copia.hashCode());
+    }
+
+    @Test
+    public void testCalModelCpuForPortatil() {
+        assertTrue(PORTATIL.calModelCpu());
+    }
+
+    @Test
+    public void testCalModelCpuForMonitor() {
+        assertFalse(MONITOR.calModelCpu());
     }
 
 }
