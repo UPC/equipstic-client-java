@@ -14,7 +14,7 @@ public class EdificiTests {
     @Before
     public void setUp() throws Exception {
         campus = new Campus(1, "Campus", "C");
-        edifici = new Edifici(1, "EDIFICI1", "E1", "ADREÇA", "CIUTAT", "1234", campus);
+        edifici = edificiFixture();
     }
 
     @Test
@@ -64,7 +64,7 @@ public class EdificiTests {
 
     @Test
     public void testEquals() {
-        Edifici copy = new Edifici(1, "EDIFICI1", "E1", "ADREÇA", "CIUTAT", "1234", campus);
+        Edifici copy = edificiFixture();
         assertEquals(copy, edifici);
     }
 
@@ -76,8 +76,13 @@ public class EdificiTests {
 
     @Test
     public void testHashCode() {
-        Edifici copy = new Edifici(1, "EDIFICI1", "E1", "ADREÇA", "CIUTAT", "1234", campus);
+        Edifici copy = edificiFixture();
         assertEquals(copy.hashCode(), edifici.hashCode());
     }
+
+    private Edifici edificiFixture() {
+        return new Edifici(1, "EDIFICI1", "E1", "ADREÇA", "CIUTAT", "1234", campus);
+    }
+
 
 }
