@@ -1,7 +1,6 @@
 package edu.upc.caminstech.equipstic;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -97,7 +96,7 @@ public class InfraestructuraTests {
     public void testGetImportCompra() {
         BigDecimal importCompra = BigDecimal.valueOf(1254.56);
         infra.setImportCompra(importCompra);
-        assertTrue(importCompra.compareTo(infra.getImportCompra()) == 0);
+        assertEquals(0, importCompra.compareTo(infra.getImportCompra()));
     }
 
     @Test
@@ -193,14 +192,14 @@ public class InfraestructuraTests {
 
     @Test
     public void testGetEstatValidacio() {
-        Estat estat = new Estat(1, "ESTAT", TipusEstat.VALIDACIO, "E", "EST", true);
+        Estat estat = estatFixture();
         infra.setEstatValidacio(estat);
         assertEquals(estat, infra.getEstatValidacio());
     }
 
     @Test
     public void testGetEstat() {
-        Estat estat = new Estat(1, "ESTAT", TipusEstat.VALIDACIO, "E", "EST", true);
+        Estat estat = estatFixture();
         infra.setEstat(estat);
         assertEquals(estat, infra.getEstat());
     }
@@ -243,14 +242,14 @@ public class InfraestructuraTests {
 
     @Test
     public void testGetUnitatGestora() {
-        Unitat unitat = new Unitat(1, "U", "UNITAT", "Unitat", new Estat(11L));
+        Unitat unitat = unitatFixture();
         infra.setUnitatGestora(unitat);
         assertEquals(unitat, infra.getUnitatGestora());
     }
 
     @Test
     public void testGetUnitat() {
-        Unitat unitat = new Unitat(1, "U", "UNITAT", "Unitat", new Estat(11L));
+        Unitat unitat = unitatFixture();
         infra.setUnitat(unitat);
         assertEquals(unitat, infra.getUnitat());
     }
@@ -288,7 +287,7 @@ public class InfraestructuraTests {
 
     @Test
     public void testGetEstatAnteriorWorkflow() {
-        Estat estat = new Estat(1, "ESTAT", TipusEstat.VALIDACIO, "E", "EST", true);
+        Estat estat = estatFixture();
         infra.setEstatAnteriorWorkflow(estat);
         assertEquals(estat, infra.getEstatAnteriorWorkflow());
     }
@@ -321,4 +320,13 @@ public class InfraestructuraTests {
         String actual = objectMapper.writeValueAsString(i);
         JSONAssert.assertEquals(expected, actual, false);
     }
+
+    private Estat estatFixture() {
+        return new Estat(1, "ESTAT", TipusEstat.VALIDACIO, "E", "EST", true);
+    }
+
+    private Unitat unitatFixture() {
+        return new Unitat(1, "U", "UNITAT", "Unitat", new Estat(11L));
+    }
+
 }
