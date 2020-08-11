@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -192,14 +193,14 @@ public class InfraestructuraTests {
 
     @Test
     public void testGetEstatValidacio() {
-        Estat estat = new Estat(1, "ESTAT", TipusEstat.VALIDACIO, "E", true);
+        Estat estat = new Estat(1, "ESTAT", TipusEstat.VALIDACIO, "E", "EST", true);
         infra.setEstatValidacio(estat);
         assertEquals(estat, infra.getEstatValidacio());
     }
 
     @Test
     public void testGetEstat() {
-        Estat estat = new Estat(1, "ESTAT", TipusEstat.VALIDACIO, "E", true);
+        Estat estat = new Estat(1, "ESTAT", TipusEstat.VALIDACIO, "E", "EST", true);
         infra.setEstat(estat);
         assertEquals(estat, infra.getEstat());
     }
@@ -287,7 +288,7 @@ public class InfraestructuraTests {
 
     @Test
     public void testGetEstatAnteriorWorkflow() {
-        Estat estat = new Estat(1, "ESTAT", TipusEstat.VALIDACIO, "E", true);
+        Estat estat = new Estat(1, "ESTAT", TipusEstat.VALIDACIO, "E", "EST", true);
         infra.setEstatAnteriorWorkflow(estat);
         assertEquals(estat, infra.getEstatAnteriorWorkflow());
     }
