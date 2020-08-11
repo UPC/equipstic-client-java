@@ -157,9 +157,7 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
      * @return
      */
     private HttpEntity<Infraestructura> preparaRequest(Infraestructura infraestructura) {
-        if (infraestructura == null) {
-            throw new IllegalArgumentException("La infraestructura no pot ser null");
-        }
+        Assert.notNull(infraestructura, "La infraestructura no pot ser null");
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
