@@ -118,9 +118,9 @@ public class InfraestructuraTests {
     }
 
     @Test
-    public void testGetNomDns() {
-        infra.setNomDns("nomDNS");
-        assertEquals("nomDNS", infra.getNomDns());
+    public void testGetNom() {
+        infra.setNom("nom");
+        assertEquals("nom", infra.getNom());
     }
 
     @Test

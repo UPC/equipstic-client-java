@@ -57,7 +57,7 @@ public class InfraestructuraFixtures {
         i.setMarca(new Marca(ID_MARCA_DELL));
         i.setModel("model exemple");
         i.setModelCpu("model cpu exemple");
-        i.setNomDns("nom-dns-exemple");
+        i.setNom("nom exemple");
         i.setNomUsuariInfraestructura("nom usuari infraestructura exemple");
         i.setNumeroAd("numero ad exemple");
         i.setNumeroCpus(4);

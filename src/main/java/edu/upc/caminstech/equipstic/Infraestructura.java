@@ -21,7 +21,7 @@ public class Infraestructura implements Comparable<Infraestructura> {
     // atributs obligatoris (comuns)
 
     private long identificador;
-    private String nomDns; // etiquetat com a "Nom" al formulari
+    private String nom;
     private String numeroSerie;
     private TipusInfraestructura tipusInfraestructura; // inclou la Categoria
     private Marca marca;
@@ -200,12 +200,12 @@ public class Infraestructura implements Comparable<Infraestructura> {
         this.modelCpu = modelCpu;
     }
 
-    public String getNomDns() {
-        return nomDns;
+    public String getNom() {
+        return nom;
     }
 
-    public void setNomDns(String nomDns) {
-        this.nomDns = nomDns;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public String getNumeroAd() {
@@ -474,7 +474,7 @@ public class Infraestructura implements Comparable<Infraestructura> {
         if (i == this) {
             return 0;
         }
-        return new CompareToBuilder().append(this.nomDns, i.nomDns).append(this.identificador, i.identificador)
+        return new CompareToBuilder().append(this.nom, i.nom).append(this.identificador, i.identificador)
                 .toComparison();
     }
 
