@@ -124,6 +124,12 @@ public class InfraestructuraTests {
     }
 
     @Test
+    public void testGetNomDns() {
+        infra.setNomDns("nom.example.com");
+        assertEquals("nom.example.com", infra.getNomDns());
+    }
+
+    @Test
     public void testGetNumeroAd() {
         infra.setNumeroAd("numeroAD");
         assertEquals("numeroAD", infra.getNumeroAd());
@@ -317,6 +323,14 @@ public class InfraestructuraTests {
     public void testSerializeDate() throws JsonProcessingException, JSONException {
         Infraestructura i = InfraestructuraFixtures.infraestructuraFixture();
         String expected = "{ \"dataCompra\": \"2016-01-04\" }";
+        String actual = objectMapper.writeValueAsString(i);
+        JSONAssert.assertEquals(expected, actual, false);
+    }
+
+    @Test
+    public void testSerializeNomAndNomDns() throws JsonProcessingException, JSONException {
+        Infraestructura i = InfraestructuraFixtures.infraestructuraFixture();
+        String expected = "{ \"nom\": \"nom exemple\", \"nomDns\": \"nom.example.com\" }";
         String actual = objectMapper.writeValueAsString(i);
         JSONAssert.assertEquals(expected, actual, false);
     }

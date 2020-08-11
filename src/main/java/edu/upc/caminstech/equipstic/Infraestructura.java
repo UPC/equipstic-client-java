@@ -64,6 +64,7 @@ public class Infraestructura implements Comparable<Infraestructura> {
     private Date dataEntrega;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataTramitFactura;
+    private String nomDns;
 
     // atributs opcionals (per a alguns TipusInfraestructura)
 
@@ -206,6 +207,14 @@ public class Infraestructura implements Comparable<Infraestructura> {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public String getNomDns() {
+        return nomDns;
+    }
+
+    public void setNomDns(String nomDns) {
+        this.nomDns = nomDns;
     }
 
     public String getNumeroAd() {

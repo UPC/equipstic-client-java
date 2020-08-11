@@ -58,6 +58,7 @@ public class InfraestructuraFixtures {
         i.setModel("model exemple");
         i.setModelCpu("model cpu exemple");
         i.setNom("nom exemple");
+        i.setNomDns("nom.example.com");
         i.setNomUsuariInfraestructura("nom usuari infraestructura exemple");
         i.setNumeroAd("numero ad exemple");
         i.setNumeroCpus(4);
