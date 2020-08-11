@@ -51,6 +51,7 @@ public class Infraestructura implements Comparable<Infraestructura> {
     private String observacions;
     private Unitat unitatGestora; // etiquetat com a "Unitat TIC" al formulari
     private Unitat unitatDestinataria;
+    private Unitat unitatUTG;
     private TipusUs tipusUs;
     private String numeroInventariUpc;
     private String numeroAd;
@@ -383,6 +384,14 @@ public class Infraestructura implements Comparable<Infraestructura> {
 
     public void setUnitat(Unitat unitat) {
         this.unitat = unitat;
+    }
+
+    public Unitat getUnitatUTG() {
+        return unitatUTG;
+    }
+
+    public void setUnitatUtg(Unitat unitatUTG) {
+        this.unitatUTG = unitatUTG;
     }
 
     public Date getDataCreacio() {

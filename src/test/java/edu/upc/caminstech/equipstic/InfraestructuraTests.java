@@ -340,7 +340,7 @@ public class InfraestructuraTests {
     }
 
     private Unitat unitatFixture() {
-        return new Unitat(1, "U", "UNITAT", "Unitat", new Estat(11L));
+        return new Unitat(1, "U", "UNITAT", "Unitat", new Estat(11L), false);
     }
 
 }
