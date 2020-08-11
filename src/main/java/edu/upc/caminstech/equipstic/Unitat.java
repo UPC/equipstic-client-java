@@ -1,6 +1,8 @@
 package edu.upc.caminstech.equipstic;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -23,6 +25,7 @@ public class Unitat implements Comparable<Unitat> {
     private final String identificador;
     private final String nom;
     private final Estat estat;
+    private final Boolean utg;
 
     @JsonCreator
     public Unitat(//
@@ -30,17 +33,19 @@ public class Unitat implements Comparable<Unitat> {
             @JsonProperty(value = "codiUnitat", required = false) String codiUnitat, //
             @JsonProperty(value = "identificador", required = false) String identificador, //
             @JsonProperty(value = "nom", required = false) String nom,
-            @JsonProperty(value = "estat", required = false) Estat estat) {
+            @JsonProperty(value = "estat", required = false) Estat estat,
+            @JsonProperty(value = "utg", required = false) Boolean utg) {
 
         this.idUnitat = idUnitat;
         this.codiUnitat = codiUnitat;
         this.identificador = identificador;
         this.nom = nom;
         this.estat = estat;
+        this.utg = utg;
     }
 
     public Unitat(long idUnitat) {
-        this(idUnitat, null, null, null, null);
+        this(idUnitat, null, null, null, null, null);
     }
 
     public long getIdUnitat() {
@@ -69,10 +74,13 @@ public class Unitat implements Comparable<Unitat> {
         return estat;
     }
 
+    public Boolean getUtg() {
+        return utg;
+    }
+
     @Override
     public String toString() {
-        return String.format("[Unitat idUnitat: %s, codiUnitat: %s, identificador: %s, nom: %s]", idUnitat, codiUnitat,
-                identificador, nom);
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     @Override
@@ -99,7 +107,10 @@ public class Unitat implements Comparable<Unitat> {
         if (o == this) {
             return 0;
         }
-        return new CompareToBuilder().append(this.identificador, o.identificador).append(this.idUnitat, o.idUnitat)
+        return new CompareToBuilder() //
+                .append(this.identificador, o.identificador) //
+                .append(this.idUnitat, o.idUnitat) //
                 .toComparison();
     }
+
 }

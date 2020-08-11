@@ -1,6 +1,9 @@
 package edu.upc.caminstech.equipstic;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,8 +17,8 @@ public class UnitatTests {
     @Before
     public void setUp() throws Exception {
         Estat estat = new Estat(11L);
-        unitat = new Unitat(1, "171", "UTGAC", "Utg de l'Àmbit de Camins", estat);
-        copia = new Unitat(1, "171", "UTGAC", "Utg de l'Àmbit de Camins", estat);
+        unitat = new Unitat(1, "171", "UTGAC", "Utg de l'Àmbit de Camins", estat, true);
+        copia = new Unitat(1, "171", "UTGAC", "Utg de l'Àmbit de Camins", estat, true);
     }
 
     @Test
@@ -60,7 +63,7 @@ public class UnitatTests {
 
     @Test
     public void testEqualsFalse() {
-        Unitat unitat2 = new Unitat(2, "codi", "ident", "nom", new Estat(11L));
+        Unitat unitat2 = new Unitat(2, "codi", "ident", "nom", new Estat(11L), false);
         assertNotEquals(unitat, unitat2);
     }
 

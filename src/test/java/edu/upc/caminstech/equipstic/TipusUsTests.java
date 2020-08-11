@@ -1,6 +1,9 @@
 package edu.upc.caminstech.equipstic;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +17,7 @@ public class TipusUsTests {
 
     @Before
     public void setUp() throws Exception {
-        unitat = new Unitat(1, "1", "U1", "UNITAT1", new Estat(11L));
+        unitat = new Unitat(1, "1", "U1", "UNITAT1", new Estat(11L), false);
         tipus = new TipusUs(1, "TIPUS_US1", unitat);
         copia = new TipusUs(1, "TIPUS_US1", unitat);
     }
