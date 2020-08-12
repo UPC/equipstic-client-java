@@ -67,6 +67,7 @@ public class Infraestructura implements Comparable<Infraestructura> {
     private Date dataTramitFactura;
     private String nomDns;
     private String financament;
+    private String condicionsGarantia;
 
     // atributs opcionals (per a alguns TipusInfraestructura)
 
@@ -465,6 +466,14 @@ public class Infraestructura implements Comparable<Infraestructura> {
 
     public void setFinancament(String financament) {
         this.financament = financament;
+    }
+
+    public String getCondicionsGarantia() {
+        return condicionsGarantia;
+    }
+
+    public void setCondicionsGarantia(String condicionsGarantia) {
+        this.condicionsGarantia = condicionsGarantia;
     }
 
     @Override
