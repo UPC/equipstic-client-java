@@ -1,7 +1,19 @@
 package edu.upc.caminstech.equipstic.client;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.net.URISyntaxException;
 import java.time.Month;
@@ -370,11 +382,10 @@ public class EquipsTicClientImplTests {
         List<Unitat> unitats = client.getUnitatsByNomAndIdentificadorAndCodi(nom, identificador, codi);
 
         assertThat(unitats, not(empty()));
-        assertThat(unitats,
-                everyItem(allOf( //
-                        hasProperty("nom", equalToIgnoringCase(nom)), //
-                        hasProperty("identificador", is(identificador)), //
-                        hasProperty("codiUnitat", is(codi)))));
+        assertThat(unitats, everyItem(allOf( //
+                hasProperty("nom", equalToIgnoringCase(nom)), //
+                hasProperty("identificador", is(identificador)), //
+                hasProperty("codiUnitat", is(codi)))));
     }
 
     @Test
@@ -474,7 +485,7 @@ public class EquipsTicClientImplTests {
     public void getSistemesOperatiusByCategoria() {
         List<SistemaOperatiu> sistemesOperatius = client.getSistemesOperatiusByCategoria(ID_CATEGORIA_SERVIDOR);
 
-        assertFalse(sistemesOperatius.isEmpty());
+        assertThat(sistemesOperatius, not(empty()));
         assertTrue(sistemesOperatius.parallelStream()
                 .allMatch(so -> so.getCategoriaInfraestructura().getIdCategoria() == ID_CATEGORIA_SERVIDOR));
     }
@@ -483,7 +494,7 @@ public class EquipsTicClientImplTests {
     public void getSistemesOperatiusByCodi() {
         List<SistemaOperatiu> sistemesOperatius = client.getSistemesOperatiusByCodi("LINUX");
 
-        assertFalse(sistemesOperatius.isEmpty());
+        assertThat(sistemesOperatius, not(empty()));
         assertTrue(sistemesOperatius.parallelStream()
                 .allMatch(so -> StringUtils.containsIgnoreCase(so.getCodi(), "LINUX")));
     }
@@ -524,10 +535,9 @@ public class EquipsTicClientImplTests {
         List<UsuariInfraestructura> list = client.getUsuarisInfraestructuraByNom(nom);
 
         assertThat(list, not(empty()));
-        assertThat(list,
-                everyItem(anyOf( //
-                        hasProperty("nom", containsSubstringIgnoringCase(nom)),
-                        hasProperty("nomUsuari", containsSubstringIgnoringCase(nom)))));
+        assertThat(list, everyItem(anyOf( //
+                hasProperty("nom", containsSubstringIgnoringCase(nom)),
+                hasProperty("nomUsuari", containsSubstringIgnoringCase(nom)))));
     }
 
     private Matcher<String> containsSubstringIgnoringCase(String searchValue) {

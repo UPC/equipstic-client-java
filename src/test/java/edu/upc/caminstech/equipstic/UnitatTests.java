@@ -53,7 +53,7 @@ public class UnitatTests {
 
     @Test
     public void testToString() {
-        assertTrue(StringUtils.substringMatch(unitat.toString(), 0, "[Unitat "));
+        assertTrue(StringUtils.substringMatch(unitat.toString(), 0, "Unitat["));
     }
 
     @Test

@@ -1,6 +1,7 @@
 package edu.upc.caminstech.equipstic.client;
 
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.TimeZone;
@@ -15,7 +16,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -104,9 +104,9 @@ public abstract class EquipsTicRestTemplateBuilder {
     private static void fixSupportedMediaTypes(RestTemplate template) {
         MappingJackson2HttpMessageConverter converter = getJacksonMessageConverterIfPresent(template);
         if (converter != null) {
-            converter.setSupportedMediaTypes(Arrays.asList(
-                    new MediaType("application", "json", AbstractJackson2HttpMessageConverter.DEFAULT_CHARSET),
-                    new MediaType("text", "plain", AbstractJackson2HttpMessageConverter.DEFAULT_CHARSET)));
+            converter.setSupportedMediaTypes(Arrays.asList( //
+                    new MediaType("application", "json", StandardCharsets.UTF_8),
+                    new MediaType("text", "plain", StandardCharsets.UTF_8)));
         }
     }
 
