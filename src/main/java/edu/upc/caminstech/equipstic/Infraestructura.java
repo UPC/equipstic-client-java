@@ -66,6 +66,7 @@ public class Infraestructura implements Comparable<Infraestructura> {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataTramitFactura;
     private String nomDns;
+    private String financament;
 
     // atributs opcionals (per a alguns TipusInfraestructura)
 
@@ -456,6 +457,14 @@ public class Infraestructura implements Comparable<Infraestructura> {
 
     public void setEstatAnteriorWorkflow(Estat estatAnteriorWorkflow) {
         this.estatAnteriorWorkflow = estatAnteriorWorkflow;
+    }
+
+    public String getFinancament() {
+        return financament;
+    }
+
+    public void setFinancament(String financament) {
+        this.financament = financament;
     }
 
     @Override
