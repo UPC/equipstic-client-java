@@ -68,6 +68,7 @@ public class Infraestructura implements Comparable<Infraestructura> {
     private String nomDns;
     private String financament;
     private String condicionsGarantia;
+    private String ip;
 
     // atributs opcionals (per a alguns TipusInfraestructura)
 
@@ -474,6 +475,14 @@ public class Infraestructura implements Comparable<Infraestructura> {
 
     public void setCondicionsGarantia(String condicionsGarantia) {
         this.condicionsGarantia = condicionsGarantia;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
     @Override
