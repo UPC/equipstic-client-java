@@ -1,4 +1,13 @@
 
+5.0.0 / 2020-08-13
+==================
+
+  * Upgrade to Spring Boot 2.3.2
+  * Added suport for EquipsTIC API 1.8.1, with the following new attributes:
+    - Estat: acronim
+    - Infraestructura: mac, ip, condicionsGarantia, financament, unitatUTG, nomDns
+    - Unitat: utg
+
 4.1.0 / 2020-05-26
 ==================
 
