@@ -69,6 +69,7 @@ public class Infraestructura implements Comparable<Infraestructura> {
     private String financament;
     private String condicionsGarantia;
     private String ip;
+    private String mac;
 
     // atributs opcionals (per a alguns TipusInfraestructura)
 
@@ -481,8 +482,23 @@ public class Infraestructura implements Comparable<Infraestructura> {
         return ip;
     }
 
+    /**
+     * TODO: Implementar validació abans de l'assignació. Es podria utilitzar
+     * per exemple {@link InetAddressValidator} de Apache Commons Validator.
+     */
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public String getMac() {
+        return mac;
+    }
+
+    /**
+     * TODO: Implementar validació abans de l'assignació.
+     */
+    public void setMac(String mac) {
+        this.mac = mac;
     }
 
     @Override
