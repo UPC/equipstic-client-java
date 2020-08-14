@@ -1,4 +1,10 @@
 
+5.1.0 / 2020-08-14
+==================
+
+  * Update to Spring Boot -> 2.3.3
+  * New method Unitat.formattedName()
+
 5.0.0 / 2020-08-13
 ==================
 
