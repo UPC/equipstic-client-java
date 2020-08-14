@@ -78,6 +78,10 @@ public class Unitat implements Comparable<Unitat> {
         return utg;
     }
 
+    public String formattedName() {
+        return String.format("%s - %s - %s", codiUnitat, identificador, nom);
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
