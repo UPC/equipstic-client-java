@@ -1,4 +1,9 @@
 
+5.1.1 / 2020-08-17
+==================
+
+  * Fix setter name Infraestructura.setUnitatUTG(u)
+
 5.1.0 / 2020-08-14
 ==================
 
