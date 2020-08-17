@@ -332,7 +332,6 @@ public class InfraestructuraTests {
         Infraestructura i = InfraestructuraFixtures.infraestructuraFixture();
         String expected = "{ \"unitatUTG\": { \"idUnitat\": " + InfraestructuraFixtures.ID_UNITAT_UTGAC + " } }";
         String actual = objectMapper.writeValueAsString(i);
-        System.out.println(actual);
         JSONAssert.assertEquals(expected, actual, false);
     }
 
