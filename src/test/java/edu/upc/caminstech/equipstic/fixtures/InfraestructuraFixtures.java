@@ -76,6 +76,7 @@ public class InfraestructuraFixtures {
         i.setUnitat(unitatFixture());
         i.setUnitatDestinataria(unitatFixture());
         i.setUnitatGestora(unitatFixture());
+        i.setUnitatUTG(unitatFixture());
         i.setUsuari(null);
         i.setUsuariInfraestructura(null);
 

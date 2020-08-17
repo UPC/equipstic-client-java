@@ -394,7 +394,7 @@ public class Infraestructura implements Comparable<Infraestructura> {
         return unitatUTG;
     }
 
-    public void setUnitatUtg(Unitat unitatUTG) {
+    public void setUnitatUTG(Unitat unitatUTG) {
         this.unitatUTG = unitatUTG;
     }
 

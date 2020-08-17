@@ -328,6 +328,15 @@ public class InfraestructuraTests {
     }
 
     @Test
+    public void testSerializeUnitatUTG() throws JsonProcessingException, JSONException {
+        Infraestructura i = InfraestructuraFixtures.infraestructuraFixture();
+        String expected = "{ \"unitatUTG\": { \"idUnitat\": " + InfraestructuraFixtures.ID_UNITAT_UTGAC + " } }";
+        String actual = objectMapper.writeValueAsString(i);
+        System.out.println(actual);
+        JSONAssert.assertEquals(expected, actual, false);
+    }
+
+    @Test
     public void testSerializeNomAndNomDns() throws JsonProcessingException, JSONException {
         Infraestructura i = InfraestructuraFixtures.infraestructuraFixture();
         String expected = "{ \"nom\": \"nom exemple\", \"nomDns\": \"nom.example.com\" }";
