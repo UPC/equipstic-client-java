@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * tipus/categoria.
  */
 @JsonInclude(Include.NON_NULL)
-public class TipusInfraestructura implements Comparable<TipusInfraestructura> {
+public class TipusInfraestructura implements Comparable<TipusInfraestructura>, CampsObligatorisValidator {
 
     /*
      * Algunes constants que es fan servir a funcions auxiliars (no estan tots
@@ -80,10 +80,12 @@ public class TipusInfraestructura implements Comparable<TipusInfraestructura> {
         return codi;
     }
 
+    @Override
     public Boolean isRequereixCampsExtra() {
         return requereixCampsExtra;
     }
 
+    @Override
     public boolean calModelCpu() {
         String codiTipus = this.getCodi();
         return Arrays.asList(DISPOSITIU_EMMAGATZEMAMENT, EQUIP_COMPUTACIO).contains(getCodiCategoria())
@@ -91,22 +93,27 @@ public class TipusInfraestructura implements Comparable<TipusInfraestructura> {
                         && Arrays.asList(TIPUS_ESTACIO_DE_TREBALL, TIPUS_NETBOOK, TIPUS_PORTATIL).contains(codiTipus));
     }
 
+    @Override
     public boolean calNumeroCpus() {
         return calModelCpu();
     }
 
+    @Override
     public boolean calDiscs() {
         return calModelCpu();
     }
 
+    @Override
     public boolean calCapacitatTotalGb() {
         return Arrays.asList(DISPOSITIU_EMMAGATZEMAMENT, EQUIP_COMPUTACIO).contains(getCodiCategoria());
     }
 
+    @Override
     public boolean calUsuari() {
         return EQUIP_TREBALL.equals(getCodiCategoria());
     }
 
+    @Override
     public boolean calSistemaOperatiu() {
         String codiTipus = this.getCodi();
         return EQUIP_COMPUTACIO.equals(getCodiCategoria()) || (EQUIP_TREBALL.equals(getCodiCategoria())
