@@ -4,7 +4,7 @@ Un client Java per a la API d'Equips TIC de la UPC.
 
 ## Requeriments
 
-- Java >= 1.8
+- Java >= 11
 - Maven >= 3
 
 ## Quickstart
