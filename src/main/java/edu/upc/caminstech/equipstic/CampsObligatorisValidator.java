@@ -16,4 +16,6 @@ public interface CampsObligatorisValidator {
 
     boolean calSistemaOperatiu();
 
+    boolean calTipusXarxa();
+
 }

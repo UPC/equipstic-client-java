@@ -35,6 +35,7 @@ public class TipusInfraestructura implements Comparable<TipusInfraestructura>, C
     private static final String EQUIP_COMPUTACIO = "EQUIP_COMPUTACIO";
     private static final String EQUIP_TREBALL = "EQUIP_TREBALL";
     private static final String DISPOSITIU_EMMAGATZEMAMENT = "DISPOSITIU_EMMAGATZEMAMENT";
+    private static final String EQUIP_COMUNICACIO = "EQUIP_COMUNICACIO";
 
     private static final String TIPUS_ESTACIO_DE_TREBALL = "ESTACIO_TREBALL";
     private static final String TIPUS_NETBOOK = "'NETBOOK";
@@ -118,6 +119,11 @@ public class TipusInfraestructura implements Comparable<TipusInfraestructura>, C
         String codiTipus = this.getCodi();
         return EQUIP_COMPUTACIO.equals(getCodiCategoria()) || (EQUIP_TREBALL.equals(getCodiCategoria())
                 && Arrays.asList(TIPUS_ESTACIO_DE_TREBALL, TIPUS_NETBOOK, TIPUS_PORTATIL).contains(codiTipus));
+    }
+
+    @Override
+    public boolean calTipusXarxa() {
+        return EQUIP_COMUNICACIO.equals(getCodiCategoria());
     }
 
     @Override
