@@ -1,4 +1,10 @@
 
+5.4.0 / 2021-03-23
+==================
+
+  * Update to Spring Boot 2.3.9.RELEASE
+  * New method `TipusInfraestructura.calTipusXarxa()`
+
 5.3.0 / 2021-01-21
 ==================
 
