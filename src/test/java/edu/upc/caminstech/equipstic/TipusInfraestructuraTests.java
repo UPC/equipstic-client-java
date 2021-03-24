@@ -1,16 +1,16 @@
 package edu.upc.caminstech.equipstic;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.util.StringUtils;
 
-public class TipusInfraestructuraTests {
+class TipusInfraestructuraTests {
 
     private static final TipusInfraestructura PORTATIL = new TipusInfraestructura(0, "Portatil", "PORTATIL", true,
             new Categoria(0, "Equip treball", "EQUIP_TREBALL"));
@@ -23,7 +23,7 @@ public class TipusInfraestructuraTests {
 
     private Categoria cat;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         cat = new Categoria(1, "CAT1", "C1");
         tipus = new TipusInfraestructura(1, "TIPUS 1", "T1", true, cat);
@@ -31,63 +31,63 @@ public class TipusInfraestructuraTests {
     }
 
     @Test
-    public void testTipusInfraestructura() {
+    void testTipusInfraestructura() {
         assertNotNull(tipus);
     }
 
     @Test
-    public void testGetCategoriaInfraestructura() {
+    void testGetCategoriaInfraestructura() {
         assertEquals(cat, tipus.getCategoriaInfraestructura());
     }
 
     @Test
-    public void testGetIdTipus() {
+    void testGetIdTipus() {
         assertEquals(1, tipus.getIdTipus());
     }
 
     @Test
-    public void testGetNom() {
+    void testGetNom() {
         assertEquals("TIPUS 1", tipus.getNom());
     }
 
     @Test
-    public void testGetCodi() {
+    void testGetCodi() {
         assertEquals("T1", tipus.getCodi());
     }
 
     @Test
-    public void testIsRequereixCampsExtra() {
+    void testIsRequereixCampsExtra() {
         assertTrue(tipus.isRequereixCampsExtra());
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertTrue(StringUtils.substringMatch(tipus.toString(), 0, "[TipusInfraestructura "));
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertEquals(tipus, copia);
     }
 
     @Test
-    public void testEqualsFalse() {
+    void testEqualsFalse() {
         TipusInfraestructura tipus2 = new TipusInfraestructura(2, "TIPUS 2", "T2", true, cat);
         assertNotEquals(tipus, tipus2);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         assertEquals(tipus.hashCode(), copia.hashCode());
     }
 
     @Test
-    public void testCalModelCpuForPortatil() {
+    void testCalModelCpuForPortatil() {
         assertTrue(PORTATIL.calModelCpu());
     }
 
     @Test
-    public void testCalModelCpuForMonitor() {
+    void testCalModelCpuForMonitor() {
         assertFalse(MONITOR.calModelCpu());
     }
 

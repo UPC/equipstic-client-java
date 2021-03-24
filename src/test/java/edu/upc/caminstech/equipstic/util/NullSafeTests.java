@@ -7,18 +7,18 @@ import static org.hamcrest.Matchers.empty;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class NullSafeTests {
+class NullSafeTests {
 
     @Test
-    public void testSorted() {
+    void testSorted() {
         List<String> elems = Arrays.asList("ccc", "bbb", "aaa");
         assertThat(NullSafe.sorted(elems), contains("aaa", "bbb", "ccc"));
     }
 
     @Test
-    public void testSortedNullList() {
+    void testSortedNullList() {
         assertThat(NullSafe.sorted(null), empty());
     }
 

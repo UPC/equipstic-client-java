@@ -1,13 +1,14 @@
 package edu.upc.caminstech.equipstic;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Date;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class UsuariInfraestructuraTests {
+class UsuariInfraestructuraTests {
 
     private static final long idUsuariInfraestructura = 10L;
     private static final String nom = "Nom";
@@ -18,53 +19,53 @@ public class UsuariInfraestructuraTests {
 
     private UsuariInfraestructura usuariInfra;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         usuariInfra = new UsuariInfraestructura(idUsuariInfraestructura, nom, nomUsuari, cognom1, cognom2, dataCreacio);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         assertEquals(Long.hashCode(10L), usuariInfra.hashCode());
     }
 
     @Test
-    public void testUsuariInfraestructura() {
+    void testUsuariInfraestructura() {
         assertNotNull(usuariInfra);
     }
 
     @Test
-    public void testGetIdUsuariInfraestructura() {
+    void testGetIdUsuariInfraestructura() {
         assertEquals(idUsuariInfraestructura, usuariInfra.getIdUsuariInfraestructura());
     }
 
     @Test
-    public void testGetNom() {
+    void testGetNom() {
         assertEquals(nom, usuariInfra.getNom());
     }
 
     @Test
-    public void testGetNomUsuari() {
+    void testGetNomUsuari() {
         assertEquals(nomUsuari, usuariInfra.getNomUsuari());
     }
 
     @Test
-    public void testGetCognom1() {
+    void testGetCognom1() {
         assertEquals(cognom1, usuariInfra.getCognom1());
     }
 
     @Test
-    public void testGetCognom2() {
+    void testGetCognom2() {
         assertEquals(cognom2, usuariInfra.getCognom2());
     }
 
     @Test
-    public void testGetDataCreacio() {
+    void testGetDataCreacio() {
         assertEquals(dataCreacio, usuariInfra.getDataCreacio());
     }
 
     @Test
-    public void testEqualsObject() {
+    void testEqualsObject() {
         UsuariInfraestructura u = new UsuariInfraestructura(idUsuariInfraestructura, null, null, null, null, null);
         assertEquals(u, usuariInfra);
     }

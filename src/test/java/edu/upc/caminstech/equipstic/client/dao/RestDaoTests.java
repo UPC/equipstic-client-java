@@ -1,31 +1,32 @@
 package edu.upc.caminstech.equipstic.client.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestTemplate;
 
 import edu.upc.caminstech.equipstic.client.EquipsTicClientConfiguration;
 
-public class RestDaoTests {
+class RestDaoTests {
 
     private static final String BASE_URI_STR = "https://example.com/api";
 
     private RestDao restDao;
     private EquipsTicClientConfiguration cfg;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         cfg = createConfigurationFixture(BASE_URI_STR);
         restDao = new RestDao(cfg);
     }
 
     @Test
-    public void testGetBaseUri() {
+    void testGetBaseUri() {
         URI expected = URI.create("http://equipstic.com/api");
         EquipsTicClientConfiguration cfg = createConfigurationFixture(expected.toString());
         RestDao dao = new RestDao(cfg);
@@ -36,7 +37,7 @@ public class RestDaoTests {
     }
 
     @Test
-    public void testGetRestTemplate() {
+    void testGetRestTemplate() {
         RestTemplate rt = restDao.getRestTemplate();
 
         assertNotNull(rt);

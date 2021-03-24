@@ -1,21 +1,21 @@
 package edu.upc.caminstech.equipstic;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.util.StringUtils;
 
-public class TipusUsTests {
+class TipusUsTests {
 
     private TipusUs tipus;
     private TipusUs copia;
     private Unitat unitat;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         unitat = new Unitat(1, "1", "U1", "UNITAT1", new Estat(11L), false);
         tipus = new TipusUs(1, "TIPUS_US1", unitat);
@@ -23,43 +23,43 @@ public class TipusUsTests {
     }
 
     @Test
-    public void testTipusUs() {
+    void testTipusUs() {
         assertNotNull(tipus);
     }
 
     @Test
-    public void testGetIdTipusUs() {
+    void testGetIdTipusUs() {
         assertEquals(1, tipus.getIdTipusUs());
     }
 
     @Test
-    public void testGetNom() {
+    void testGetNom() {
         assertEquals("TIPUS_US1", tipus.getNom());
     }
 
     @Test
-    public void testGetUnitat() {
+    void testGetUnitat() {
         assertEquals(unitat, tipus.getUnitat());
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertTrue(StringUtils.substringMatch(tipus.toString(), 0, "[TipusUs "));
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertEquals(tipus, copia);
     }
 
     @Test
-    public void testEqualsFalse() {
+    void testEqualsFalse() {
         TipusUs tipus2 = new TipusUs(2, "DUMMY", null);
         assertNotEquals(tipus, tipus2);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         assertEquals(tipus.hashCode(), copia.hashCode());
     }
 

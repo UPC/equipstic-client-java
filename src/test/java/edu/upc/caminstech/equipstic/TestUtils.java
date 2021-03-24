@@ -1,9 +1,8 @@
 package edu.upc.caminstech.equipstic;
 
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.AssumptionViolatedException;
 
 /**
  * Algunes funcions genèriques per als tests.
@@ -32,6 +31,6 @@ public class TestUtils {
     private static void assumeDefined(String varName) {
         String message = "Cal definir la variable d'entorn " + varName;
         String value = System.getenv(varName);
-        assumeTrue(message, StringUtils.isNotEmpty(value));
+        assumeTrue(StringUtils.isNotEmpty(value), message);
     }
 }

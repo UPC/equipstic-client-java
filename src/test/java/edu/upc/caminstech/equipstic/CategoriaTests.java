@@ -1,59 +1,62 @@
 package edu.upc.caminstech.equipstic;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.util.StringUtils;
 
-public class CategoriaTests {
+class CategoriaTests {
 
     private Categoria categoria;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         categoria = new Categoria(1, "Categoria 1", "C1");
     }
 
     @Test
-    public void testCategoria() {
+    void testCategoria() {
         assertNotNull(categoria);
     }
 
     @Test
-    public void testGetIdCategoria() {
+    void testGetIdCategoria() {
         assertEquals(1, categoria.getIdCategoria());
     }
 
     @Test
-    public void testGetNom() {
+    void testGetNom() {
         assertEquals("Categoria 1", categoria.getNom());
     }
 
     @Test
-    public void testGetCodi() {
+    void testGetCodi() {
         assertEquals("C1", categoria.getCodi());
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertTrue(StringUtils.substringMatch(categoria.toString(), 0, "[Categoria "));
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         Categoria copy = new Categoria(1, "Categoria 1", "C1");
         assertEquals(categoria, copy);
     }
 
     @Test
-    public void testNotEquals() {
+    void testNotEquals() {
         Categoria c2 = new Categoria(2, "Categoria 2", "C2");
         assertNotEquals(categoria, c2);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         Categoria copy = new Categoria(1, "Categoria 1", "C1");
         assertEquals(copy.hashCode(), categoria.hashCode());
     }

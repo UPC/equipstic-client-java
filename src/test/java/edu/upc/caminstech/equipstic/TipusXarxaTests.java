@@ -1,60 +1,63 @@
 package edu.upc.caminstech.equipstic;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.util.StringUtils;
 
-public class TipusXarxaTests {
+class TipusXarxaTests {
 
     private TipusXarxa tipus;
     private TipusXarxa copia;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         tipus = new TipusXarxa(3, "Local", "LOCAL");
         copia = new TipusXarxa(3, "Local", "LOCAL");
     }
 
     @Test
-    public void testTipusXarxa() {
+    void testTipusXarxa() {
         assertNotNull(tipus);
     }
 
     @Test
-    public void testGetIdTipusXarxa() {
+    void testGetIdTipusXarxa() {
         assertEquals(3, tipus.getIdTipusXarxa());
     }
 
     @Test
-    public void testGetNom() {
+    void testGetNom() {
         assertEquals("Local", tipus.getNom());
     }
 
     @Test
-    public void testGetCodi() {
+    void testGetCodi() {
         assertEquals("LOCAL", tipus.getCodi());
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertTrue(StringUtils.substringMatch(tipus.toString(), 0, "[TipusXarxa "));
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertEquals(tipus, copia);
     }
 
     @Test
-    public void testEqualsFalse() {
+    void testEqualsFalse() {
         TipusXarxa tipus2 = new TipusXarxa(0, "Dummy", "DUMMY");
         assertNotEquals(tipus, tipus2);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         assertEquals(tipus.hashCode(), copia.hashCode());
     }
 

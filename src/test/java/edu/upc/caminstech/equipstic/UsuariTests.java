@@ -1,14 +1,17 @@
 package edu.upc.caminstech.equipstic;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.util.StringUtils;
 
-public class UsuariTests {
+class UsuariTests {
 
     private static final long ONE_HOUR = 3600 * 1000; // millis
     private static final Date DATA_CREACIO = new Date();
@@ -18,7 +21,7 @@ public class UsuariTests {
     private Usuari copia;
     private Usuari usuariDarreraModificacio;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         usuariDarreraModificacio = new Usuari(2, "x", "x", "x", "x", "x", "x", "x", "x", "carrec", DATA_CREACIO,
                 DATA_DARRERA_MODIFICACIO, "observacions", null);
@@ -32,97 +35,97 @@ public class UsuariTests {
     }
 
     @Test
-    public void testUsuari() {
+    void testUsuari() {
         assertNotNull(usuari);
     }
 
     @Test
-    public void testGetIdUsuari() {
+    void testGetIdUsuari() {
         assertEquals(1, usuari.getIdUsuari());
     }
 
     @Test
-    public void testGetAdreca() {
+    void testGetAdreca() {
         assertEquals("adreca", usuari.getAdreca());
     }
 
     @Test
-    public void testGetCarrec() {
+    void testGetCarrec() {
         assertEquals("carrec", usuari.getCarrec());
     }
 
     @Test
-    public void testGetCognom1() {
+    void testGetCognom1() {
         assertEquals("cognom1", usuari.getCognom1());
     }
 
     @Test
-    public void testGetCognom2() {
+    void testGetCognom2() {
         assertEquals("cognom2", usuari.getCognom2());
     }
 
     @Test
-    public void testGetDataCreacio() {
+    void testGetDataCreacio() {
         assertEquals(DATA_CREACIO, usuari.getDataCreacio());
     }
 
     @Test
-    public void testGetDataDarreraModificacio() {
+    void testGetDataDarreraModificacio() {
         assertEquals(DATA_DARRERA_MODIFICACIO, usuari.getDataDarreraModificacio());
     }
 
     @Test
-    public void testGetEmail() {
+    void testGetEmail() {
         assertEquals("email", usuari.getEmail());
     }
 
     @Test
-    public void testGetMobil() {
+    void testGetMobil() {
         assertEquals("mobil", usuari.getMobil());
     }
 
     @Test
-    public void testGetNom() {
+    void testGetNom() {
         assertEquals("nom", usuari.getNom());
     }
 
     @Test
-    public void testGetNomUsuari() {
+    void testGetNomUsuari() {
         assertEquals("nomUsuari", usuari.getNomUsuari());
     }
 
     @Test
-    public void testGetObservacions() {
+    void testGetObservacions() {
         assertEquals("observacions", usuari.getObservacions());
     }
 
     @Test
-    public void testGetTelefon() {
+    void testGetTelefon() {
         assertEquals("telefon", usuari.getTelefon());
     }
 
     @Test
-    public void testGetUsuariDarreraModificacio() {
+    void testGetUsuariDarreraModificacio() {
         assertEquals(usuariDarreraModificacio, usuari.getUsuariDarreraModificacio());
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertTrue(StringUtils.substringMatch(usuari.toString(), 0, "[Usuari "));
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertEquals(usuari, copia);
     }
 
     @Test
-    public void assertEqualsFalse() {
+    void assertEqualsFalse() {
         assertNotEquals(usuariDarreraModificacio, usuari);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         assertEquals(usuari.hashCode(), copia.hashCode());
     }
 

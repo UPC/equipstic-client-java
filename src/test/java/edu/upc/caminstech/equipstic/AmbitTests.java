@@ -1,24 +1,27 @@
 package edu.upc.caminstech.equipstic;
 
 import static edu.upc.caminstech.equipstic.fixtures.JsonFixtures.attr;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.json.JSONException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class AmbitTests {
+class AmbitTests {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private Ambit ambit;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         ambit = ambitFixture();
     }
@@ -29,46 +32,46 @@ public class AmbitTests {
     }
 
     @Test
-    public void testAmbit() {
+    void testAmbit() {
         assertNotNull(ambit);
     }
 
     @Test
-    public void testGetIdAmbit() {
+    void testGetIdAmbit() {
         assertEquals(1, ambit.getIdAmbit());
     }
 
     @Test
-    public void testGetNom() {
+    void testGetNom() {
         assertEquals("Ambit 1", ambit.getNom());
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         String s = ambit.toString();
         assertTrue(StringUtils.substringMatch(s, 0, "[Ambit "));
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         Ambit copy = new Ambit(1, "Ambit 1", "CODI_AMBIT_1", ambit.getCategoriaInfraestructura());
         assertEquals(copy, ambit);
     }
 
     @Test
-    public void testNotEquals() {
+    void testNotEquals() {
         Ambit a = new Ambit(2, "Ambit 2", "CODI_AMBIT_2", ambit.getCategoriaInfraestructura());
         assertNotEquals(ambit, a);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         Ambit copy = new Ambit(1, "Ambit 1", "CODI_AMBIT_1", ambit.getCategoriaInfraestructura());
         assertEquals(ambit.hashCode(), copy.hashCode());
     }
 
     @Test
-    public void testSerialize() throws JsonProcessingException, JSONException {
+    void testSerialize() throws JsonProcessingException, JSONException {
         String[] attrs = new String[] { attr("idAmbit", 1L), attr("nom", "Ambit 1"), attr("codi", "CODI_AMBIT_1"),
                 attr("categoriaInfraestructura", ambit.getCategoriaInfraestructura(), objectMapper) };
         String expected = String.format("{ %s }", String.join(", ", attrs));
@@ -77,7 +80,7 @@ public class AmbitTests {
     }
 
     @Test
-    public void testSerializeNullAttributes() throws JsonProcessingException, JSONException {
+    void testSerializeNullAttributes() throws JsonProcessingException, JSONException {
         Ambit a = new Ambit(23L);
         String expected = "{" + attr("idAmbit", 23) + "}";
         String actual = objectMapper.writeValueAsString(a);

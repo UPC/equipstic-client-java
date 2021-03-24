@@ -1,15 +1,17 @@
 package edu.upc.caminstech.equipstic;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class SistemaOperatiuTests {
+class SistemaOperatiuTests {
 
     private SistemaOperatiu so;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         so = new SistemaOperatiu(2L, "Linux", "LINUX", categoriaFixture());
     }
@@ -19,43 +21,43 @@ public class SistemaOperatiuTests {
     }
 
     @Test
-    public void testSistemaOperatiu() {
+    void testSistemaOperatiu() {
         assertNotNull(so);
     }
 
     @Test
-    public void testGetIdSistemaOperatiu() {
+    void testGetIdSistemaOperatiu() {
         assertEquals(2, so.getIdSistemaOperatiu());
     }
 
     @Test
-    public void testGetNom() {
+    void testGetNom() {
         assertEquals("Linux", so.getNom());
     }
 
     @Test
-    public void testGetCodi() {
+    void testGetCodi() {
         assertEquals("LINUX", so.getCodi());
     }
 
     @Test
-    public void testGetCategoriaInfraestructura() {
+    void testGetCategoriaInfraestructura() {
         assertEquals(categoriaFixture(), so.getCategoriaInfraestructura());
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertTrue(so.toString().startsWith("[SistemaOperatiu "));
     }
 
     @Test
-    public void testEqualsObject() {
+    void testEqualsObject() {
         SistemaOperatiu other = new SistemaOperatiu(2, "dummy", "DUMMY", categoriaFixture());
         assertEquals(other, so);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         assertEquals(Long.hashCode(2L), so.hashCode());
     }
 

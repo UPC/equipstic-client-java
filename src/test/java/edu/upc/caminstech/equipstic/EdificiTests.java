@@ -1,81 +1,84 @@
 package edu.upc.caminstech.equipstic;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.util.StringUtils;
 
-public class EdificiTests {
+class EdificiTests {
 
     private Edifici edifici;
     private Campus campus;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         campus = new Campus(1, "Campus", "C");
         edifici = edificiFixture();
     }
 
     @Test
-    public void testEdifici() {
+    void testEdifici() {
         assertNotNull(edifici);
     }
 
     @Test
-    public void testGetIdEdifici() {
+    void testGetIdEdifici() {
         assertEquals(1, edifici.getIdEdifici());
     }
 
     @Test
-    public void testGetNom() {
+    void testGetNom() {
         assertEquals("EDIFICI1", edifici.getNom());
     }
 
     @Test
-    public void testGetCodi() {
+    void testGetCodi() {
         assertEquals("E1", edifici.getCodi());
     }
 
     @Test
-    public void testGetAdreca() {
+    void testGetAdreca() {
         assertEquals("ADREÇA", edifici.getAdreca());
     }
 
     @Test
-    public void testGetCiutat() {
+    void testGetCiutat() {
         assertEquals("CIUTAT", edifici.getCiutat());
     }
 
     @Test
-    public void testGetCodiPostal() {
+    void testGetCodiPostal() {
         assertEquals("1234", edifici.getCodiPostal());
     }
 
     @Test
-    public void testGetCampus() {
+    void testGetCampus() {
         assertEquals(campus, edifici.getCampus());
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertTrue(StringUtils.substringMatch(edifici.toString(), 0, "[Edifici "));
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         Edifici copy = edificiFixture();
         assertEquals(copy, edifici);
     }
 
     @Test
-    public void testNotEquals() {
+    void testNotEquals() {
         Edifici e2 = new Edifici(2, "EDIFICI2", "E2", "ADREÇA", "CIUTAT", "1234", campus);
         assertNotEquals(e2, edifici);
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         Edifici copy = edificiFixture();
         assertEquals(copy.hashCode(), edifici.hashCode());
     }
@@ -83,6 +86,5 @@ public class EdificiTests {
     private Edifici edificiFixture() {
         return new Edifici(1, "EDIFICI1", "E1", "ADREÇA", "CIUTAT", "1234", campus);
     }
-
 
 }
