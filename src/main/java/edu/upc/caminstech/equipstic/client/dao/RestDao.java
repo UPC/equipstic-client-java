@@ -48,7 +48,15 @@ public class RestDao {
         try {
             ResponseEntity<Response<T>> entity = restTemplate.exchange(baseUri + url, HttpMethod.GET, null,
                     typeReference, urlParams);
-            return entity.getBody().getData();
+
+            Response<T> body = entity.getBody();
+
+            if (body == null) {
+                throw new EquipsTicClientException(entity,
+                        "Error en la crida GET: s'ha obtingut una resposta amb body null");
+            } else {
+                return body.getData();
+            }
         } catch (RestClientResponseException e) {
             String msg = String.format("Error en obtenir el recurs [%s]", getResourcePath(url, urlParams));
             if (e.getRawStatusCode() == HttpStatus.UNAUTHORIZED.value()) {

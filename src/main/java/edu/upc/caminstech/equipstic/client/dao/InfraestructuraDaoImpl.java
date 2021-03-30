@@ -37,15 +37,15 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
     private static final String GET_INFRAESTRUCTURA_BY_MARCA_AND_NUMERO_DE_SERIE = "getInfraestructuraByMarcaAndNumeroDeSerie";
 
     private static final ParameterizedTypeReference<Response<Infraestructura>> RESPONSE_INFRAESTRUCTURA_TYPEREF = //
-            new ParameterizedTypeReference<Response<Infraestructura>>() {
+            new ParameterizedTypeReference<>() {
             };
 
     private static final ParameterizedTypeReference<Response<List<Infraestructura>>> RESPONSE_LIST_INFRAESTRUCTURA_TYPEREF = //
-            new ParameterizedTypeReference<Response<List<Infraestructura>>>() {
+            new ParameterizedTypeReference<>() {
             };
 
     private static final ParameterizedTypeReference<Response<Object>> RESPONSE_OBJECT_TYPEREF = //
-            new ParameterizedTypeReference<Response<Object>>() {
+            new ParameterizedTypeReference<>() {
             };
 
     @Autowired
@@ -102,6 +102,11 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
                 HttpMethod.POST, req, RESPONSE_INFRAESTRUCTURA_TYPEREF);
 
         Response<Infraestructura> response = rp.getBody();
+
+        if (response == null) {
+            throw new EquipsTicClientException(rp, "Error en crear la infraestructura: el body de la resposta és null");
+        }
+
         if (response.isSuccess()) {
             return response.getData();
         }
@@ -139,6 +144,11 @@ public class InfraestructuraDaoImpl extends RestDao implements InfraestructuraDa
         }
 
         Response<Infraestructura> response = rp.getBody();
+
+        if (response == null) {
+            throw new EquipsTicClientException(rp,
+                    "Error en modificar la infraestructura: el body de la resposta és null");
+        }
         if (response.isSuccess()) {
             return response.getData();
         }

@@ -36,15 +36,14 @@ public class EquipsTicClientException extends RuntimeException {
     }
 
     public EquipsTicClientException(ResponseEntity<?> entity) {
-        super();
         Assert.notNull(entity, "Entity can not be null");
-        this.cause = null;
+        this.cause = Optional.empty();
     }
 
     public EquipsTicClientException(ResponseEntity<?> entity, String message) {
         super(message);
         Assert.notNull(entity, "Entity can not be null");
-        this.cause = null;
+        this.cause = Optional.empty();
     }
 
     /**
