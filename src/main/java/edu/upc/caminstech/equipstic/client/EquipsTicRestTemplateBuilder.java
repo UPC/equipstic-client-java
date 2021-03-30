@@ -112,7 +112,7 @@ public abstract class EquipsTicRestTemplateBuilder {
 
     private static MappingJackson2HttpMessageConverter getJacksonMessageConverterIfPresent(RestTemplate template) {
         Optional<HttpMessageConverter<?>> converter = template.getMessageConverters().stream()
-                .filter(c -> c instanceof MappingJackson2HttpMessageConverter).findFirst();
+                .filter(MappingJackson2HttpMessageConverter.class::isInstance).findFirst();
         if (converter.isPresent()) {
             return (MappingJackson2HttpMessageConverter) converter.get();
         }
