@@ -1,4 +1,11 @@
 
+5.5.0 / 2021-03-30
+==================
+
+  * Upgrade to Spring Boot 2.4.4
+  * Update tests to Junit 5 as per Spring Boot 2.4.x
+  * Enhances checks for several nullable values (SonarLint)
+
 5.4.0 / 2021-03-23
 ==================
 
