@@ -6,7 +6,7 @@
 
 	<groupId>edu.upc.caminstech</groupId>
 	<artifactId>equipstic-java</artifactId>
-	<version>5.6.0</version>
+	<version>5.7.0</version>
 	<packaging>jar</packaging>
 
 	<name>equipstic-client-java</name>
